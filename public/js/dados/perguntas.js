@@ -9,10 +9,12 @@
 // alternativas são embaralhadas na hora de jogar, então a ordem aqui não
 // aparece para ninguém.
 //
-// `area` separa o tema central do resto: 'bio' é biologia (evolução, fósseis,
-// medicina, genética, comportamento animal) e 'exatas' é tudo o mais — física,
-// química, astronomia e computação. Toda partida leva 10 de biologia e 2 de
-// exatas, e é `EXATAS_POR_PARTIDA`, lá embaixo, que manda nisso.
+// `area` é o assunto, e só existem três: 'bio' (biologia — evolução, fósseis,
+// medicina, genética, bicho, planta), 'quimica' e 'fisica'. Pergunta que não
+// cabe em nenhuma das três não entra no banco, e um teste cobra isso.
+//
+// Toda partida leva 10 de biologia e 2 de química ou física — quem manda nisso
+// é `EXATAS_POR_PARTIDA`, lá embaixo.
 //
 // `prancha` aponta para uma chave de `pranchas.js` — é a imagem que aparece
 // quando a pessoa responde.
@@ -136,7 +138,7 @@ export const PERGUNTAS = [
   // ——— Newton ———
   {
     id: 'newton-gravidade',
-    area: 'exatas',
+    area: 'fisica',
     nivel: 'facil',
     pergunta: 'Isaac Newton é lembrado sobretudo por explicar qual força?',
     alternativas: ['A gravidade', 'O magnetismo', 'A eletricidade', 'A força nuclear'],
@@ -147,7 +149,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'principia',
-    area: 'exatas',
+    area: 'fisica',
     nivel: 'media',
     pergunta: 'Qual obra de 1687 apresentou as três leis do movimento e a lei da gravitação universal?',
     alternativas: [
@@ -163,7 +165,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'newton-moeda',
-    area: 'exatas',
+    area: 'fisica',
     nivel: 'dificil',
     pergunta: 'Que cargo público Newton ocupou nos últimos trinta anos de vida?',
     alternativas: [
@@ -179,7 +181,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'prisma',
-    area: 'exatas',
+    area: 'fisica',
     nivel: 'facil',
     pergunta: 'O que Newton mostrou ao atravessar luz branca por um prisma?',
     alternativas: [
@@ -197,7 +199,7 @@ export const PERGUNTAS = [
   // ——— Faraday e Davy ———
   {
     id: 'faraday-inducao',
-    area: 'exatas',
+    area: 'fisica',
     nivel: 'media',
     pergunta: 'A indução eletromagnética, descoberta por Michael Faraday, é a base de qual invenção do dia a dia?',
     alternativas: [
@@ -212,24 +214,8 @@ export const PERGUNTAS = [
     prancha: 'faraday',
   },
   {
-    id: 'faraday-natal',
-    area: 'exatas',
-    nivel: 'dificil',
-    pergunta: 'Que tradição criada por Faraday na Royal Institution sobrevive até hoje?',
-    alternativas: [
-      'As Palestras de Natal para jovens',
-      'O Prêmio Nobel',
-      'A revista Nature',
-      'A feira de ciências escolar',
-    ],
-    correta: 0,
-    explicacao:
-      'Desde 1825, todo Natal, uma palestra de ciência feita para quem não é cientista. Só parou durante a Segunda Guerra. Hoje vai ao ar pela BBC.',
-    prancha: 'faraday',
-  },
-  {
     id: 'davy-lampada',
-    area: 'exatas',
+    area: 'quimica',
     nivel: 'media',
     pergunta: 'Humphry Davy inventou uma lâmpada que salvou milhares de vidas. Onde ela era usada?',
     alternativas: ['Nas minas de carvão', 'Nos faróis', 'Nos navios de guerra', 'Nos hospitais'],
@@ -240,54 +226,6 @@ export const PERGUNTAS = [
   },
 
   // ——— Lovelace e Babbage ———
-  {
-    id: 'lovelace-algoritmo',
-    area: 'exatas',
-    nivel: 'facil',
-    pergunta: 'Ada Lovelace é lembrada por ter escrito, em 1843, o primeiro...',
-    alternativas: [
-      'Algoritmo feito para ser executado por uma máquina',
-      'Computador eletrônico',
-      'Livro de matemática escrito por uma mulher',
-      'Manual de eletricidade',
-    ],
-    correta: 0,
-    explicacao:
-      'Era um roteiro para calcular números de Bernoulli na Máquina Analítica de Babbage. Nas notas, ela foi mais longe que todo mundo da época: escreveu que uma máquina assim poderia um dia compor música.',
-    prancha: 'lovelace',
-  },
-  {
-    id: 'lovelace-pai',
-    area: 'exatas',
-    nivel: 'media',
-    pergunta: 'Ada Lovelace era filha de qual figura famosa?',
-    alternativas: [
-      'Do poeta Lord Byron',
-      'De Charles Dickens',
-      'Do Duque de Wellington',
-      'De Charles Babbage',
-    ],
-    correta: 0,
-    explicacao:
-      'A mãe fez Ada estudar matemática pesada de propósito, com medo de que ela puxasse a "loucura poética" do pai. Deu no que deu: a poesia virou álgebra, e a álgebra virou programação.',
-    prancha: 'lovelace',
-  },
-  {
-    id: 'babbage',
-    area: 'exatas',
-    nivel: 'media',
-    pergunta: 'Qual máquina Charles Babbage projetou no século XIX e nunca conseguiu terminar de construir?',
-    alternativas: [
-      'A Máquina Analítica',
-      'O tear mecânico',
-      'A máquina a vapor',
-      'O telégrafo',
-    ],
-    correta: 0,
-    explicacao:
-      'No papel, ela tinha tudo o que um computador tem: memória, processador, entrada por cartão perfurado. Em 1991, o Museu de Ciências de Londres construiu uma versão anterior, a Máquina Diferencial, seguindo os planos originais — e ela funcionou.',
-    prancha: 'babbage',
-  },
 
   // ——— Hooke ———
   {
@@ -316,7 +254,7 @@ export const PERGUNTAS = [
   // ——— Halley e Herschel ———
   {
     id: 'halley',
-    area: 'exatas',
+    area: 'fisica',
     nivel: 'facil',
     pergunta: 'Edmond Halley ficou famoso por prever o retorno de quê?',
     alternativas: ['De um cometa', 'De um eclipse', 'De uma praga', 'De uma tempestade'],
@@ -327,7 +265,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'herschel-urano',
-    area: 'exatas',
+    area: 'fisica',
     nivel: 'media',
     pergunta: 'Quem descobriu o planeta Urano, em 1781, com um telescópio caseiro no quintal, em Bath?',
     alternativas: ['William Herschel', 'Edmond Halley', 'Isaac Newton', 'Robert Hooke'],
@@ -401,7 +339,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'dalton-atomos',
-    area: 'exatas',
+    area: 'quimica',
     nivel: 'media',
     pergunta: 'O que John Dalton propôs no início do século XIX?',
     alternativas: [
@@ -417,18 +355,18 @@ export const PERGUNTAS = [
   },
   {
     id: 'nightingale',
-    area: 'exatas',
-    nivel: 'dificil',
-    pergunta: 'Além de reformar a enfermagem, em que Florence Nightingale foi pioneira?',
+    area: 'bio',
+    nivel: 'media',
+    pergunta: 'O que Florence Nightingale descobriu que estava matando os soldados ingleses na Guerra da Crimeia?',
     alternativas: [
-      'Em usar gráficos e estatística para convencer o governo',
-      'Na anestesia com clorofórmio',
-      'No raio X',
-      'Na transfusão de sangue',
+      'A infecção dentro do próprio hospital, não os ferimentos de batalha',
+      'A água salgada da travessia de navio',
+      'O frio do inverno russo',
+      'A falta de médicos no front',
     ],
     correta: 0,
     explicacao:
-      'Ela inventou um diagrama circular colorido para mostrar que, na Guerra da Crimeia, a sujeira do hospital matava muito mais soldado do que os russos. Foi a primeira mulher eleita para a Sociedade Real de Estatística.',
+      'Ela contou as mortes uma a uma e inventou um diagrama circular colorido para provar: esgoto, superlotação e falta de ventilação matavam muito mais que os russos. Limpou o hospital e a mortalidade despencou — vinte anos antes de alguém aceitar a ideia de micróbio.',
     prancha: 'nightingale',
   },
 
@@ -462,7 +400,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'hodgkin',
-    area: 'exatas',
+    area: 'quimica',
     nivel: 'dificil',
     pergunta: 'Dorothy Hodgkin ganhou o Nobel de Química de 1964 por revelar a estrutura de quais substâncias?',
     alternativas: [
@@ -477,40 +415,8 @@ export const PERGUNTAS = [
     prancha: 'hodgkin',
   },
   {
-    id: 'turing-bletchley',
-    area: 'exatas',
-    nivel: 'facil',
-    pergunta: 'Onde Alan Turing trabalhou quebrando os códigos alemães durante a Segunda Guerra?',
-    alternativas: [
-      'Em Bletchley Park',
-      'Na Torre de Londres',
-      'Em Oxford',
-      'No Museu Britânico',
-    ],
-    correta: 0,
-    explicacao:
-      'Uma mansão no interior com milhares de pessoas trabalhando em segredo absoluto. Estima-se que o trabalho ali tenha encurtado a guerra em cerca de dois anos. O segredo só foi aberto nos anos 1970.',
-    prancha: 'enigma',
-  },
-  {
-    id: 'teste-turing',
-    area: 'exatas',
-    nivel: 'media',
-    pergunta: 'O que o "teste de Turing" tenta descobrir?',
-    alternativas: [
-      'Se uma máquina consegue conversar de um jeito indistinguível de uma pessoa',
-      'Se um código secreto pode ser quebrado',
-      'Quantas contas por segundo um computador faz',
-      'Se um número muito grande é primo',
-    ],
-    correta: 0,
-    explicacao:
-      'Turing propôs em 1950 trocar a pergunta "máquinas podem pensar?", que ele achava vaga demais, por um jogo de imitação: se você conversa às cegas e não sabe dizer quem é quem, a discussão perdeu a graça.',
-    prancha: 'enigma',
-  },
-  {
     id: 'hawking-catedra',
-    area: 'exatas',
+    area: 'fisica',
     nivel: 'dificil',
     pergunta: 'Em Cambridge, Stephen Hawking ocupou a mesma cátedra que já tinha sido de Isaac Newton. Qual?',
     alternativas: [
@@ -526,7 +432,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'hawking-livro',
-    area: 'exatas',
+    area: 'fisica',
     nivel: 'facil',
     pergunta: 'Qual livro de Stephen Hawking, de 1988, vendeu mais de dez milhões de exemplares?',
     alternativas: [
@@ -571,22 +477,6 @@ export const PERGUNTAS = [
     explicacao:
       'Ele voltou das férias e viu que, em volta do mofo, as bactérias tinham morrido. Fleming era escocês, não inglês — mas a descoberta e o Nobel saíram do St. Mary\'s Hospital, em Londres.',
     prancha: 'penicilina',
-  },
-  {
-    id: 'sociedade-real',
-    area: 'exatas',
-    nivel: 'dificil',
-    pergunta: 'Fundada em 1660, a Royal Society adotou um lema em latim que resume o espírito da ciência inglesa. O que ele quer dizer?',
-    alternativas: [
-      '"Não acredite na palavra de ninguém"',
-      '"O saber é poder"',
-      '"Pela razão e pela fé"',
-      '"A natureza não dá saltos"',
-    ],
-    correta: 0,
-    explicacao:
-      'O lema é "Nullius in verba". A ideia é justamente essa: não aceite porque alguém importante disse — vá lá e verifique. Newton, Darwin, Faraday, Franklin, Hodgkin e Hawking passaram todos por lá.',
-    prancha: 'royal-society',
   },
   // ——— Biologia: a teoria por dentro ———
   {
@@ -805,12 +695,230 @@ export const PERGUNTAS = [
     prancha: 'foto51',
   },
 
+  // ——— Biologia: como a vida funciona ———
+  {
+    id: 'fotossintese',
+    area: 'bio',
+    nivel: 'facil',
+    pergunta: 'O que a planta faz com a luz do sol, a água e o gás carbônico?',
+    alternativas: [
+      'Fabrica o próprio alimento e solta oxigênio',
+      'Só esquenta, para não morrer de frio',
+      'Fabrica água para as raízes',
+      'Nada: ela come pela raiz, igual a gente',
+    ],
+    correta: 0,
+    explicacao:
+      'Fotossíntese. O detalhe que quase ninguém percebe: a maior parte do peso de uma árvore não veio do chão, veio do ar. É carbono que estava flutuando como gás e virou tronco.',
+    prancha: 'drosera',
+  },
+  {
+    id: 'coracao-camaras',
+    area: 'bio',
+    nivel: 'facil',
+    pergunta: 'Quantas câmaras tem o coração humano?',
+    alternativas: ['Quatro', 'Duas', 'Seis', 'Uma só'],
+    correta: 0,
+    explicacao:
+      'Dois átrios em cima, dois ventrículos embaixo. Na prática são duas bombas coladas: a direita manda o sangue para o pulmão, a esquerda manda para o resto do corpo.',
+    prancha: 'coracao',
+  },
+  {
+    id: 'polinizacao',
+    area: 'bio',
+    nivel: 'facil',
+    pergunta: 'O que a abelha faz sem querer enquanto busca néctar numa flor?',
+    alternativas: [
+      'Carrega pólen de uma flor para outra',
+      'Aduba a planta',
+      'Come as sementes',
+      'Bebe a seiva do caule',
+    ],
+    correta: 0,
+    explicacao:
+      'O pólen gruda no corpo peludo dela e desce na próxima flor. Cerca de um terço do que a gente come depende disso. Darwin dizia que o trevo da Inglaterra dependia do mamangava, e o mamangava dependia de quantos gatos havia na região — porque gato come rato, e rato destrói ninho de abelha.',
+    prancha: 'abelha',
+  },
+  {
+    id: 'antibiotico-gripe',
+    area: 'bio',
+    nivel: 'media',
+    pergunta: 'Por que antibiótico não resolve nada quando você está gripado?',
+    alternativas: [
+      'Porque gripe é vírus, e antibiótico só age em bactéria',
+      'Porque a dose teria que ser muito maior',
+      'Porque o vírus da gripe é forte demais',
+      'Porque o antibiótico só funciona com febre alta',
+    ],
+    correta: 0,
+    explicacao:
+      'O antibiótico ataca coisas que só bactéria tem — parede celular, ribossomo próprio. Vírus não tem nada disso: ele sequestra a sua célula e usa a maquinaria dela. Tomar antibiótico à toa só ajuda a criar bactéria resistente.',
+    prancha: 'penicilina',
+  },
+  {
+    id: 'especie',
+    area: 'bio',
+    nivel: 'dificil',
+    pergunta: 'O que normalmente separa duas populações de animais em espécies diferentes?',
+    alternativas: [
+      'Elas não geram descendentes férteis entre si',
+      'Elas têm cores diferentes',
+      'Elas vivem em países diferentes',
+      'Elas têm tamanhos diferentes',
+    ],
+    correta: 0,
+    explicacao:
+      'Cavalo com jumento dá mula, e mula é estéril: por isso são espécies diferentes. A fronteira é mais borrada do que parece — existe bicho que cruza e dá filhote fértil de vez em quando, e é aí que a evolução fica interessante.',
+    prancha: 'tentilhoes',
+  },
+
+  // ——— Química ———
+  {
+    id: 'agua-formula',
+    area: 'quimica',
+    nivel: 'facil',
+    pergunta: 'De que é feita uma molécula de água?',
+    alternativas: [
+      'Dois átomos de hidrogênio e um de oxigênio',
+      'Dois de oxigênio e um de hidrogênio',
+      'Um de hidrogênio e um de carbono',
+      'Um átomo só, o de água',
+    ],
+    correta: 0,
+    explicacao:
+      'H₂O. Os dois hidrogênios não ficam em linha reta: formam um V de 104,5 graus, e é essa tortinha que faz a água grudar em si mesma, subir pelo caule das plantas e congelar boiando em vez de afundar.',
+    prancha: 'agua',
+  },
+  {
+    id: 'tabela-periodica',
+    area: 'quimica',
+    nivel: 'facil',
+    pergunta: 'O que a tabela periódica organiza?',
+    alternativas: [
+      'Os elementos químicos, em ordem de número de prótons',
+      'Todas as substâncias que existem no mundo',
+      'Os tipos de molécula conhecidos',
+      'Os minerais encontrados na Terra',
+    ],
+    correta: 0,
+    explicacao:
+      'Mendeleiev montou a dele em 1869 e fez a coisa mais ousada possível: deixou buracos onde a conta não fechava e descreveu o elemento que ia caber ali. Quando o gálio apareceu, anos depois, era quase exatamente o que ele tinha previsto.',
+    prancha: 'mendeleev',
+  },
+  {
+    id: 'priestley-oxigenio',
+    area: 'quimica',
+    nivel: 'media',
+    pergunta: 'O que aconteceu quando Joseph Priestley pôs um camundongo num vidro fechado com uma planta, em 1772?',
+    alternativas: [
+      'O camundongo sobreviveu, porque a planta repôs o ar',
+      'Os dois morreram em poucos minutos',
+      'A planta morreu e o camundongo viveu',
+      'Nada: o vidro estourou',
+    ],
+    correta: 0,
+    explicacao:
+      'Sozinho num vidro fechado, o camundongo morria. Com uma planta junto, aguentava. Priestley tinha acabado de flagrar o oxigênio — que ele chamou de "ar desflogisticado", porque a química ainda acreditava numa substância chamada flogisto.',
+    prancha: 'priestley',
+  },
+  {
+    id: 'ph-escala',
+    area: 'quimica',
+    nivel: 'media',
+    pergunta: 'O que a escala de pH mede?',
+    alternativas: [
+      'O quanto uma coisa é ácida ou básica',
+      'A temperatura de um líquido',
+      'A densidade de uma substância',
+      'A quantidade de sal na água',
+    ],
+    correta: 0,
+    explicacao:
+      'Vai de 0 a 14, com o 7 no meio, que é a água pura. E cada degrau vale dez vezes: pH 4 não é "um pouco" mais ácido que pH 6, é cem vezes mais. O seu estômago fica perto de 1,5 — ácido o bastante para dissolver metal.',
+    prancha: 'ph',
+  },
+  {
+    id: 'carbono-diamante',
+    area: 'quimica',
+    nivel: 'media',
+    pergunta: 'Diamante e grafite (a ponta do lápis) são feitos do mesmo elemento. Qual?',
+    alternativas: ['Carbono', 'Silício', 'Cálcio', 'Ferro'],
+    correta: 0,
+    explicacao:
+      'A diferença é só o arranjo: no diamante cada átomo se prende a quatro vizinhos numa pirâmide rígida; no grafite eles formam folhas que deslizam umas sobre as outras — por isso o lápis escreve. Mesmo átomo, mundos diferentes.',
+    prancha: 'carbono',
+  },
+  {
+    id: 'elemento-abundante',
+    area: 'quimica',
+    nivel: 'dificil',
+    pergunta: 'Qual é o elemento mais abundante do universo?',
+    alternativas: ['Hidrogênio', 'Oxigênio', 'Ferro', 'Carbono'],
+    correta: 0,
+    explicacao:
+      'Hidrogênio, disparado — cerca de três quartos de toda a matéria comum. É o átomo mais simples que existe: um próton e um elétron. Todo o resto da tabela foi fabricado dentro de estrelas, a partir dele.',
+    prancha: 'mendeleev',
+  },
+
+  // ——— Física ———
+  {
+    id: 'faraday-bobina',
+    area: 'fisica',
+    nivel: 'media',
+    pergunta: 'O que acontece quando você enfia um ímã dentro de uma bobina de fio?',
+    alternativas: [
+      'Aparece corrente elétrica no fio, enquanto o ímã se move',
+      'O fio esquenta e derrete',
+      'O ímã perde a força',
+      'Nada: ímã e fio não conversam',
+    ],
+    correta: 0,
+    explicacao:
+      'É a indução, de Faraday, em 1831 — e o detalhe é que só funciona com o ímã em movimento. Parou, acabou. Toda usina elétrica do mundo é uma versão grande disso: algo girando um ímã perto de uma bobina.',
+    prancha: 'bobina',
+  },
+  {
+    id: 'ceu-azul',
+    area: 'fisica',
+    nivel: 'media',
+    pergunta: 'Por que o céu é azul?',
+    alternativas: [
+      'O ar espalha a luz azul muito mais do que a vermelha',
+      'O céu reflete a cor do mar',
+      'O oxigênio do ar é azul',
+      'A camada de ozônio é azul',
+    ],
+    correta: 0,
+    explicacao:
+      'As moléculas do ar espalham a luz de onda curta (azul) com muito mais força que a de onda longa (vermelha), então o azul chega de todos os lados. No fim da tarde a luz atravessa mais ar, o azul se dispersa pelo caminho, e sobra o vermelho.',
+    prancha: 'prisma',
+  },
+  {
+    id: 'queda-livre',
+    area: 'fisica',
+    nivel: 'media',
+    pergunta: 'Se você soltar uma pena e um martelo ao mesmo tempo dentro do vácuo, o que acontece?',
+    alternativas: [
+      'Os dois caem juntos e batem no chão ao mesmo tempo',
+      'O martelo cai bem mais rápido',
+      'A pena cai mais rápido, por ser leve',
+      'Nenhum dos dois cai, porque no vácuo não há gravidade',
+    ],
+    correta: 0,
+    explicacao:
+      'No ar a pena perde porque o ar a segura, não porque é leve. Sem ar, a gravidade acelera tudo igual. Um astronauta da Apollo 15 fez exatamente esse teste na Lua, ao vivo, na frente das câmeras — e funcionou.',
+    prancha: 'newton',
+  },
+
 ];
 
 // Quantas perguntas de cada nível entram numa partida.
 // Soma = 12, que é o que cabe em 3 a 5 minutos com as explicações.
 export const MISTURA = { facil: 5, media: 5, dificil: 2 };
 
-// Quantas das 12 são de fora da biologia. Duas em doze = 17%, ou seja,
+// Quantas das 12 são de química ou física. Duas em doze = 17%, ou seja,
 // 83% de biologia — que é o tema central do quiz.
 export const EXATAS_POR_PARTIDA = 2;
+
+// As três áreas que existem. Serve de contrato para o teste.
+export const AREAS = ['bio', 'quimica', 'fisica'];

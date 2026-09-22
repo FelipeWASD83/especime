@@ -28,8 +28,8 @@ export function embaralharAlternativas(pergunta, aleatorio = Math.random) {
 /**
  * Sorteia as perguntas de uma partida com duas garantias ao mesmo tempo:
  *
- *   1. o assunto — exatamente `EXATAS_POR_PARTIDA` perguntas de física,
- *      química e afins; todo o resto é biologia (10 de 12 = 83%);
+ *   1. o assunto — exatamente `EXATAS_POR_PARTIDA` perguntas de química ou
+ *      física; todo o resto é biologia (10 de 12 = 83%);
  *   2. a dificuldade — a contagem de níveis da `mistura` (5 fáceis, 5 médias,
  *      2 difíceis).
  *
@@ -45,7 +45,7 @@ export function sortearPerguntas(
 ) {
   const total = Object.values(mistura).reduce((soma, n) => soma + n, 0);
   const escolhidas = embaralhar(
-    banco.filter((p) => p.area === 'exatas'),
+    banco.filter((p) => p.area !== 'bio'),
     aleatorio,
   ).slice(0, Math.min(exatas, total));
 

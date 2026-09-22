@@ -8,7 +8,7 @@ import {
   embaralhar, embaralharAlternativas, sortearPerguntas, criarPartida,
   perguntaAtual, responder, avancar, acabou, acertos, postoPara, POSTOS,
 } from '../public/js/quiz.js';
-import { PERGUNTAS, MISTURA, EXATAS_POR_PARTIDA } from '../public/js/dados/perguntas.js';
+import { PERGUNTAS, MISTURA, EXATAS_POR_PARTIDA, AREAS } from '../public/js/dados/perguntas.js';
 import { PRANCHAS } from '../public/js/dados/pranchas.js';
 
 const RAIZ = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -32,13 +32,30 @@ test('o banco de biologia aguenta a mistura pedida sozinho', () => {
       `só existem ${disponiveis} perguntas de biologia de nível ${nivel}, e a partida pode pedir ${quantidade}`,
     );
   }
-  const exatas = PERGUNTAS.filter((p) => p.area === 'exatas').length;
-  assert.ok(exatas >= EXATAS_POR_PARTIDA, `só existem ${exatas} perguntas de exatas`);
+  const exatas = PERGUNTAS.filter((p) => p.area !== 'bio').length;
+  assert.ok(exatas >= EXATAS_POR_PARTIDA, `só existem ${exatas} perguntas de química e física`);
 });
 
 test('a biologia é a maioria do banco', () => {
   const bio = PERGUNTAS.filter((p) => p.area === 'bio').length;
   assert.ok(bio / PERGUNTAS.length >= 0.6, `só ${bio} de ${PERGUNTAS.length} são de biologia`);
+});
+
+test('o quiz só trata de biologia, química e física', () => {
+  // Regra dele, de 22/09/2026: pode entrar qualquer coisa, desde que tenha a
+  // ver com uma dessas três. Foi por isso que as perguntas de computação
+  // (Lovelace, Babbage, Turing) saíram do banco.
+  assert.deepEqual(AREAS, ['bio', 'quimica', 'fisica']);
+  for (const pergunta of PERGUNTAS) {
+    assert.ok(
+      AREAS.includes(pergunta.area),
+      `"${pergunta.id}" não é de biologia, química nem física`,
+    );
+  }
+  for (const area of AREAS) {
+    const quantas = PERGUNTAS.filter((p) => p.area === area).length;
+    assert.ok(quantas >= 5, `só ${quantas} perguntas de ${area} — pouco para variar`);
+  }
 });
 
 test('toda pergunta está bem formada', () => {
@@ -48,7 +65,7 @@ test('toda pergunta está bem formada', () => {
     vistos.add(pergunta.id);
 
     assert.ok(['facil', 'media', 'dificil'].includes(pergunta.nivel), `nível inválido em ${pergunta.id}`);
-    assert.ok(['bio', 'exatas'].includes(pergunta.area), `área inválida em ${pergunta.id}`);
+    assert.ok(AREAS.includes(pergunta.area), `área inválida em ${pergunta.id}: "${pergunta.area}"`);
     assert.equal(pergunta.alternativas.length, 4, `${pergunta.id} não tem 4 alternativas`);
     assert.ok(
       pergunta.correta >= 0 && pergunta.correta < pergunta.alternativas.length,
@@ -135,20 +152,20 @@ test('toda partida é 10 de biologia e 2 de fora — o 80/20 do projeto', () => 
   for (let rodada = 0; rodada < 60; rodada += 1) {
     const sorteadas = sortearPerguntas();
     const bio = sorteadas.filter((p) => p.area === 'bio').length;
-    const exatas = sorteadas.filter((p) => p.area === 'exatas').length;
+    const exatas = sorteadas.filter((p) => p.area !== 'bio').length;
     assert.equal(exatas, EXATAS_POR_PARTIDA, `veio ${exatas} de exatas em vez de ${EXATAS_POR_PARTIDA}`);
     assert.equal(bio, TOTAL - EXATAS_POR_PARTIDA);
     assert.ok(bio / TOTAL >= 0.8, `biologia caiu para ${Math.round((bio / TOTAL) * 100)}%`);
   }
 });
 
-test('as perguntas difíceis de exatas conseguem sair no sorteio', () => {
+test('as perguntas difíceis de química e física conseguem sair no sorteio', () => {
   // A biologia é sorteada depois justamente para não trancar o nível difícil
   // das outras áreas. Se isso quebrar, metade do banco vira enfeite.
   const vistas = new Set();
   for (let rodada = 0; rodada < 400; rodada += 1) {
     for (const p of sortearPerguntas()) {
-      if (p.area === 'exatas') vistas.add(p.nivel);
+      if (p.area !== 'bio') vistas.add(p.nivel);
     }
   }
   assert.deepEqual([...vistas].sort(), ['dificil', 'facil', 'media']);

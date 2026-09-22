@@ -15,8 +15,13 @@ para um Worker da Cloudflare.
 
 **O tema central é biologia**, e isso é decisão dele, de 22/09/2026: "o tema
 central do quiz é a biologia e não a ciência como um todo, você pode incluir
-física e química também, mas deve ser 80% biologia e 20% química e física".
-Quem cumpre isso é a seção 2. **É projeto pessoal do Felipe e leva a marca do
+física e química também, mas deve ser 80% biologia e 20% química e física", e
+logo depois: "você pode colocar qualquer coisa desde que tenha a ver com
+biologia, química ou física". Quem cumpre isso é a seção 2.
+
+A segunda frase é o que solta o escopo: **não precisa ser sobre cientista
+inglês.** Pode ser a ciência em si — o que a fotossíntese faz, do que é feita a
+água, por que o céu é azul. O que não pode é sair das três áreas. **É projeto pessoal do Felipe e leva a marca do
 Felipe Sites de propósito** — o site é vitrine de trabalho, não só brincadeira.
 Por isso a assinatura no canto e o bloco de oferta no rodapé não são enfeite:
 tirar qualquer um dos dois tira a razão comercial do projeto.
@@ -33,14 +38,15 @@ export const MISTURA = { facil: 5, media: 5, dificil: 2 };  // dificuldade
 export const EXATAS_POR_PARTIDA = 2;                        // tema
 ```
 
-**Tema.** Toda pergunta tem `area`: `bio` é biologia (evolução, fósseis,
-medicina, genética, comportamento animal) e `exatas` é tudo o mais — física,
-química, astronomia e computação. Cada partida leva exatamente 2 de `exatas` e
-10 de `bio`, ou seja 83% de biologia.
+**Tema.** Toda pergunta tem `area`, e **só existem três**: `bio` (biologia em
+sentido largo — evolução, fósseis, medicina, genética, bicho, planta),
+`quimica` e `fisica`. Astronomia entra em `fisica`. Cada partida leva 10 de
+`bio` e 2 das outras duas somadas: 83% de biologia.
 
-Computação (Ada Lovelace, Babbage, Turing) entrou em `exatas` por eliminação:
-não é biologia, e são nomes bons demais para leigo para sair do banco. Se um
-dia ele quiser só física e química ali, é mudar a área dessas perguntas.
+**Pergunta que não cabe em nenhuma das três não entra no banco**, e um teste
+cobra isso. Foi por essa regra que as perguntas de computação — Ada Lovelace,
+Babbage, o teste de Turing, Bletchley Park — saíram em 22/09/2026, junto com a
+do lema da Royal Society. Estão no histórico do git, se ele mudar de ideia.
 
 **Dificuldade.** O pedido original foi *"dificuldade mediana, para pessoas que
 não sabem de absolutamente nada sobre o assunto conseguirem acertar algumas"*.
@@ -66,9 +72,9 @@ O nível de cada pergunta segue esta régua:
 - **difícil** — detalhe de quem já leu sobre o assunto (o buldogue de Darwin,
   as oito anos de craca, o lema da Royal Society).
 
-Pergunta nova de biologia é sempre bem-vinda; pergunta nova de exatas só vale
-se for melhor que alguma que já está lá, porque o banco de exatas já dá muito
-mais do que as duas por partida.
+Pergunta nova de biologia é sempre bem-vinda. De química ou física também,
+mas lembrando que só duas por partida saem dali — o banco dessas duas rende
+muito mais do que aparece.
 
 Cada pergunta tem **exatamente quatro** alternativas, todas diferentes, e a
 explicação é obrigatória — é ela que faz o leigo sair sabendo mais do que
@@ -142,10 +148,11 @@ qualquer arquivo sem licença livre declarada** e escreve o `CREDITOS.md`
 sozinho — o arquivo é gerado, não se edita à mão. As imagens são guardadas em
 tons de cinza; o tom de tinta sobre papel é do CSS.
 
-Seis das pranchas são **diagramas em SVG desenhados aqui** (prisma, Foto 51,
-penicilina, molécula, rotor da Enigma, buraco negro). Existem porque de gente
-do século XX — Turing, Rosalind Franklin, Dorothy Hodgkin, Hawking — **não há
-retrato em domínio público confiável**. Não trocar por foto encontrada solta na
+Dez das pranchas são **diagramas em SVG desenhados aqui**. Existem por dois
+motivos: de gente do século XX — Rosalind Franklin, Dorothy Hodgkin, Hawking —
+**não há retrato em domínio público confiável**; e conceito puro (a molécula de
+água, a régua do pH, o carbono em dois arranjos, a bobina de Faraday) fica
+melhor desenhado que fotografado. Não trocar por foto encontrada solta na
 internet: ou é livre e verificada, ou é desenho.
 
 Teto de peso por prancha: 110 KB. O script aperta a qualidade sozinho até caber.

@@ -69,6 +69,10 @@ BUSCAS: dict[str, str] = {
     "colera": 'intitle:"Snow" cholera map Broad Street 1854',
     "lister": 'intitle:"Joseph Lister" portrait surgeon',
     "drosera": 'intitle:Drosera rotundifolia botanical plate',
+    "mendeleev": 'intitle:"Dmitri Mendeleev" portrait',
+    "priestley": 'intitle:"Joseph Priestley" portrait chemist',
+    "coracao": 'intitle:Gray heart anatomy 1858 plate',
+    "abelha": 'intitle:Bombus plate',
     "chimpanze": 'intitle:chimpanzee Darwin expression emotions',
     "royal-society": 'intitle:Sprat History Royal Society frontispiece Hollar',
 }
