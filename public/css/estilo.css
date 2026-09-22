@@ -25,7 +25,7 @@
   --carmim-claro:   #d4796e;  /* o mesmo carmim, legível no escuro    */
   --verde-selo:     #2d6349;  /* acerto                               */
   --verde-claro:    #7fb99a;  /* acerto, legível no escuro            */
-  --ouro:           #a8832f;  /* detalhe raro: filete, número         */
+  --ouro:           #c09a45;  /* detalhe raro: número da etapa        */
 
   /* ── Tipografia ────────────────────────────────────────────────── */
   --serifa: 'Cormorant Garamond', 'Times New Roman', serif;
@@ -878,7 +878,8 @@ img, svg { display: block; max-width: 100%; }
   .titulo-secao { max-width: none; }
   .alternativa { padding: var(--e4); gap: var(--e3); }
   .diploma__acoes .botao { flex: 1 1 100%; justify-content: center; }
-  .marca-canto { font-size: 0.625rem; padding: 6px 10px; }
+  /* no celular o alvo de toque tem que ter 44 px de altura */
+  .marca-canto { font-size: 0.625rem; padding: 6px 12px; min-height: 44px; }
   .marca-canto__risco { display: none; }
 }
 

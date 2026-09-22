@@ -56,6 +56,10 @@ function mostrarTela(nome) {
 
 /* ── Capa: a fita do acervo ────────────────────────────────────── */
 
+// A fita do acervo tem 22 imagens. Se elas entrarem com `src` desde o começo,
+// a capa abre carregando mais de 1 MB — e `loading="lazy"` não resolve, porque
+// numa fita horizontal o navegador considera tudo "perto da tela". Então o
+// endereço fica guardado e só vira `src` quando a seção chega perto.
 function montarFita() {
   const fita = $('#galeria-fita');
   const fotos = Object.entries(PRANCHAS).filter(([, p]) => p.tipo === 'foto');
@@ -68,7 +72,7 @@ function montarFita() {
       const peca = document.createElement('div');
       peca.className = 'galeria__peca';
       const img = document.createElement('img');
-      img.src = `img/pranchas/${prancha.arquivo}`;
+      img.dataset.src = `img/pranchas/${prancha.arquivo}`;
       img.alt = volta === 0 ? prancha.nome : '';
       img.loading = 'lazy';
       img.decoding = 'async';
@@ -78,6 +82,25 @@ function montarFita() {
     }
   }
   fita.append(trilho);
+
+  const acender = () => {
+    for (const img of trilho.querySelectorAll('img[data-src]')) {
+      img.src = img.dataset.src;
+      delete img.dataset.src;
+    }
+  };
+
+  if (!('IntersectionObserver' in window)) {
+    acender();
+    return;
+  }
+  const observador = new IntersectionObserver((entradas) => {
+    if (entradas.some((e) => e.isIntersecting)) {
+      acender();
+      observador.disconnect();
+    }
+  }, { rootMargin: '300px' });
+  observador.observe(fita);
 }
 
 // Os números de capa saem dos dados, não da cabeça de quem escreveu o HTML:
