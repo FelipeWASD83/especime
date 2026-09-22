@@ -1,0 +1,16 @@
+{
+  "name": "sociedade-real",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Quiz sobre Darwin e os cientistas da Inglaterra, servido por um Worker da Cloudflare.",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "conferir": "wrangler deploy --dry-run",
+    "test": "node --test testes/*.test.js"
+  },
+  "devDependencies": {
+    "wrangler": "^4.36.0"
+  }
+}

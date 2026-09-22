@@ -1,0 +1,12 @@
+{
+  // Worker só de arquivos estáticos: não existe script de servidor, a
+  // Cloudflare serve a pasta `public/` direto da borda.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "sociedade-real",
+  "compatibility_date": "2026-09-22",
+  "assets": {
+    "directory": "./public",
+    // rota que não bate com arquivo nenhum cai no 404.html da pasta
+    "not_found_handling": "404-page"
+  }
+}

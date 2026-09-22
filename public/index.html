@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sociedade Real — quiz sobre Darwin e os cientistas da Inglaterra</title>
+<meta name="description" content="Doze perguntas sobre Darwin, Newton, Faraday, Ada Lovelace, Mary Anning e os outros ingleses que descobriram como o mundo funciona. Leva quatro minutos.">
+<meta name="theme-color" content="#f2ece0">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Sociedade Real — quiz sobre os cientistas da Inglaterra">
+<meta property="og:description" content="Doze perguntas, quatro minutos, uma prancha de museu a cada resposta. Até onde você sobe na Royal Society?">
+<meta property="og:locale" content="pt_BR">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;0,600;1,300;1,500&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap">
+<link rel="stylesheet" href="css/estilo.css">
+</head>
+
+<body>
+
+<!-- Assinatura discreta, presente em todas as telas -->
+<a class="marca-canto" href="https://felipesites.com.br" target="_blank" rel="noopener">
+  <span class="marca-canto__risco" aria-hidden="true"></span>
+  Feito por Felipe&nbsp;Sites
+</a>
+
+<main id="palco">
+
+<!-- ═══════════════════ TELA 1 · CAPA ═══════════════════ -->
+<div class="tela tela--ativa" id="tela-capa">
+
+  <section class="bloco bloco--papel hero">
+    <div class="hero__grade">
+
+      <div class="hero__selo" aria-hidden="true">
+        <svg viewBox="0 0 200 200">
+          <defs>
+            <path id="arco-cima" d="M100,100 m-72,0 a72,72 0 1,1 144,0" fill="none"/>
+            <path id="arco-baixo" d="M100,100 m-72,0 a72,72 0 0,0 144,0" fill="none"/>
+          </defs>
+          <circle cx="100" cy="100" r="92" class="selo__anel"/>
+          <circle cx="100" cy="100" r="84" class="selo__anel selo__anel--fino"/>
+          <text class="selo__texto"><textPath href="#arco-cima" startOffset="50%">NULLIUS · IN · VERBA</textPath></text>
+          <text class="selo__texto"><textPath href="#arco-baixo" startOffset="50%">LONDRES · MDCLX</textPath></text>
+          <path class="selo__pena" d="M100 62 C126 76 132 106 118 132 C110 146 96 142 92 130
+                                      C86 112 90 84 100 62 Z"/>
+          <path class="selo__pena selo__pena--haste" d="M100 66 C96 96 92 118 84 140"/>
+        </svg>
+      </div>
+
+      <p class="rotulo hero__rotulo">Quiz · 12 perguntas · 4 minutos</p>
+
+      <h1 class="hero__titulo">
+        <span class="hero__linha">Sociedade</span>
+        <span class="hero__linha hero__linha--italico">Real</span>
+      </h1>
+
+      <p class="hero__chamada">
+        Darwin, Newton, Faraday, Ada Lovelace, Mary Anning — os ingleses que
+        descobriram como o mundo funciona, e as histórias que ninguém conta na escola.
+      </p>
+
+      <div class="hero__acao">
+        <button class="botao botao--principal" type="button" data-acao="comecar">
+          Começar o quiz
+          <span class="botao__seta" aria-hidden="true">→</span>
+        </button>
+        <p class="hero__aviso">Sem cadastro, sem conta, sem anúncio. Dá para jogar de novo.</p>
+      </div>
+
+      <p class="rotulo hero__pe">38 perguntas · 28 pranchas</p>
+      <p class="rotulo hero__rolar"><span aria-hidden="true">↓</span> Como funciona</p>
+    </div>
+  </section>
+
+  <section class="bloco bloco--tinta metodo">
+    <div class="limite">
+      <p class="rotulo revelar">O método</p>
+      <h2 class="titulo-secao revelar">Uma pergunta, uma resposta,<br><em>uma prancha de museu.</em></h2>
+      <ol class="metodo__lista">
+        <li class="metodo__item revelar">
+          <span class="metodo__numero">01</span>
+          <h3>Doze perguntas sorteadas</h3>
+          <p>Cinco fáceis, cinco medianas e duas de quem já leu alguma coisa. Quem nunca ouviu falar do assunto acerta um punhado — e aprende o resto no caminho.</p>
+        </li>
+        <li class="metodo__item revelar">
+          <span class="metodo__numero">02</span>
+          <h3>A resposta vem com a história</h3>
+          <p>Cada acerto e cada erro abre uma explicação curta: por que Newton caçava falsificadores, por que Mary Anning nunca entrou na Sociedade Geológica.</p>
+        </li>
+        <li class="metodo__item revelar">
+          <span class="metodo__numero">03</span>
+          <h3>Você sobe de posto</h3>
+          <p>No fim, um lugar na Sociedade Real — de visitante de domingo a presidente. E a lista inteira para rever o que você errou.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="bloco bloco--papel galeria">
+    <div class="limite">
+      <p class="rotulo revelar">O acervo</p>
+      <h2 class="titulo-secao revelar"><span id="conta-pranchas">28</span> pranchas,<br><em>todas de verdade.</em></h2>
+      <p class="galeria__texto revelar">
+        Os retratos, as folhas de rosto e as gravuras vêm do acervo público do
+        Wikimedia Commons — a mesma pulga que Robert Hooke desenhou em 1665, a
+        mesma folha de rosto que saiu da gráfica em 1859. O que não existe em
+        domínio público virou diagrama desenhado à mão aqui mesmo.
+      </p>
+      <div class="galeria__fita" id="galeria-fita" aria-hidden="true"></div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ═══════════════════ TELA 2 · QUIZ ═══════════════════ -->
+<div class="tela" id="tela-quiz" hidden>
+  <section class="bloco bloco--papel partida">
+    <div class="limite limite--estreito">
+
+      <header class="partida__topo">
+        <p class="rotulo" id="contador">Pergunta 01 <span aria-hidden="true">/</span> 12</p>
+        <button class="botao botao--texto" type="button" data-acao="desistir">Sair</button>
+      </header>
+
+      <div class="progresso" role="progressbar" aria-valuemin="0" aria-valuemax="12" aria-valuenow="0" aria-label="Progresso do quiz">
+        <span class="progresso__tinta" id="progresso-tinta"></span>
+      </div>
+
+      <div class="carta" id="carta">
+        <h2 class="pergunta" id="pergunta">—</h2>
+
+        <ul class="alternativas" id="alternativas"></ul>
+
+        <div class="veredito" id="veredito" hidden>
+          <figure class="prancha" id="prancha">
+            <div class="prancha__moldura" id="prancha-moldura"></div>
+            <figcaption class="prancha__legenda">
+              <span class="rotulo" id="prancha-etiqueta">Prancha</span>
+              <strong id="prancha-nome">—</strong>
+              <span id="prancha-nota">—</span>
+            </figcaption>
+          </figure>
+
+          <div class="veredito__texto">
+            <p class="veredito__titulo" id="veredito-titulo">—</p>
+            <p class="explicacao" id="explicacao">—</p>
+            <button class="botao botao--principal" type="button" data-acao="proxima">
+              <span id="rotulo-proxima">Próxima</span>
+              <span class="botao__seta" aria-hidden="true">→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════════════ TELA 3 · RESULTADO ═══════════════════ -->
+<div class="tela" id="tela-resultado" hidden>
+
+  <section class="bloco bloco--tinta diploma">
+    <div class="limite limite--estreito">
+      <p class="rotulo">Resultado</p>
+      <p class="diploma__placar">
+        <strong id="placar-certas">0</strong><span class="diploma__de">de</span><span id="placar-total">12</span>
+      </p>
+      <h2 class="diploma__posto" id="posto-titulo">—</h2>
+      <p class="diploma__texto" id="posto-texto">—</p>
+      <div class="diploma__acoes">
+        <button class="botao botao--claro" type="button" data-acao="denovo">
+          Jogar de novo
+          <span class="botao__seta" aria-hidden="true">→</span>
+        </button>
+        <button class="botao botao--contorno-claro" type="button" data-acao="copiar">
+          <span id="rotulo-copiar">Copiar meu resultado</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloco bloco--papel revisao">
+    <div class="limite limite--estreito">
+      <p class="rotulo">A correção</p>
+      <h2 class="titulo-secao">O que você acertou<br><em>e o que passou batido.</em></h2>
+      <ol class="revisao__lista" id="revisao-lista"></ol>
+    </div>
+  </section>
+
+</div>
+
+</main>
+
+<!-- ═══════════════════ RODAPÉ · FELIPE SITES ═══════════════════ -->
+<footer class="bloco bloco--tinta rodape" id="rodape">
+  <div class="limite">
+    <div class="rodape__oferta">
+      <p class="rotulo">Quem fez este site</p>
+      <h2 class="rodape__titulo">Gostou? Eu faço sites assim <em>para o seu negócio.</em></h2>
+      <p class="rodape__texto">
+        Sites rápidos, bonitos e feitos à mão — sem modelo pronto, sem mensalidade
+        de plataforma. Do jeito que este aqui foi feito.
+      </p>
+      <a class="botao botao--claro" href="https://felipesites.com.br" target="_blank" rel="noopener">
+        Ver o Felipe Sites
+        <span class="botao__seta" aria-hidden="true">→</span>
+      </a>
+    </div>
+    <div class="rodape__creditos">
+      <p class="rotulo">Acervo</p>
+      <p>
+        Retratos e gravuras do <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia&nbsp;Commons</a>,
+        em domínio público ou sob licença livre. Diagramas desenhados para este projeto.
+      </p>
+      <p class="rodape__assinatura">Sociedade Real · um quiz de <a href="https://felipesites.com.br" target="_blank" rel="noopener">Felipe Sites</a></p>
+    </div>
+  </div>
+</footer>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

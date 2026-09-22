@@ -1,0 +1,918 @@
+/* ════════════════════════════════════════════════════════════════════
+   SOCIEDADE REAL — folha de estilo única
+
+   Direção visual: gabinete de história natural. Papel creme, tinta
+   verde-escura no lugar do preto, um carmim só para ação e erro.
+   Serifa alta e fina nos títulos, letra de máquina só nas etiquetas.
+
+   Para mexer nas cores, mexa só no bloco :root logo abaixo — o resto
+   do arquivo puxa tudo de lá.
+   ════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Cores ─────────────────────────────────────────────────────── */
+  --papel:          #f2ece0;  /* fundo claro (o papel)                */
+  --papel-alto:     #f8f3e9;  /* cartão e caixa sobre o papel         */
+  --papel-fundo:    #e7dfcf;  /* papel um tom abaixo, para relevo     */
+  --tinta:          #16261f;  /* fundo escuro e texto forte no claro  */
+  --tinta-media:    #1d3229;  /* fundo escuro, um passo acima         */
+  --tinta-fraca:    #5c6b62;  /* texto secundário sobre papel         */
+  --linha:          #d5cab4;  /* borda e filete sobre papel           */
+  --creme:          #ece5d6;  /* texto forte sobre a tinta            */
+  --creme-fraco:    #9fac9f;  /* texto secundário sobre a tinta       */
+  --linha-clara:    #33463c;  /* borda sobre a tinta                  */
+  --carmim:         #99312b;  /* ação, erro, lacre                    */
+  --carmim-claro:   #d4796e;  /* o mesmo carmim, legível no escuro    */
+  --verde-selo:     #2d6349;  /* acerto                               */
+  --verde-claro:    #7fb99a;  /* acerto, legível no escuro            */
+  --ouro:           #a8832f;  /* detalhe raro: filete, número         */
+
+  /* ── Tipografia ────────────────────────────────────────────────── */
+  --serifa: 'Cormorant Garamond', 'Times New Roman', serif;
+  --corpo:  'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --maquina:'IBM Plex Mono', ui-monospace, 'Consolas', monospace;
+
+  --t-rotulo:  0.72rem;                          /* etiqueta em maiúscula */
+  --t-corpo:   1rem;
+  --t-medio:   1.1875rem;
+  --t-titulo3: clamp(1.25rem, 1.6vw, 1.5rem);
+  --t-titulo2: clamp(2rem, 4.2vw, 3.5rem);
+  --t-titulo1: clamp(3.4rem, 13vw, 12rem);
+
+  /* ── Espaçamento ───────────────────────────────────────────────── */
+  --e1: 4px;   --e2: 8px;   --e3: 12px;  --e4: 16px;
+  --e5: 24px;  --e6: 32px;  --e7: 48px;  --e8: 64px;
+  --e9: 96px;  --e10: 128px;
+
+  --limite: 1180px;
+  --limite-largo: 1560px;
+  --gutter: clamp(20px, 5vw, 72px);
+
+  /* ── Forma e tempo ─────────────────────────────────────────────── */
+  --raio: 2px;
+  --sombra: 0 18px 40px -28px rgba(22, 38, 31, 0.55);
+  --rapida: 150ms;
+  --normal: 320ms;
+  --revelacao: 720ms;
+  --curva: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Fibra do papel: ruído em SVG, sem imagem baixada. */
+:root {
+  --fibra: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23f)' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   Base
+   ════════════════════════════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--papel);
+  color: var(--tinta);
+  font-family: var(--corpo);
+  font-size: var(--t-corpo);
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3 { margin: 0; font-weight: 400; }
+p { margin: 0; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+img, svg { display: block; max-width: 100%; }
+
+::selection { background: var(--carmim); color: var(--papel); }
+
+:focus-visible {
+  outline: 2px solid var(--carmim);
+  outline-offset: 3px;
+}
+
+/* ── Blocos e seus fundos ───────────────────────────────────────────
+   Regra da casa: dois blocos seguidos nunca têm o mesmo tom.
+   A ordem em cada tela alterna papel → tinta → papel → tinta.        */
+
+.bloco {
+  position: relative;
+  padding: clamp(var(--e8), 9vw, var(--e10)) 0;
+}
+
+.bloco--papel { background: var(--papel); color: var(--tinta); }
+.bloco--tinta { background: var(--tinta); color: var(--creme); }
+
+/* a fibra do papel, e um grão mais fino sobre a tinta */
+.bloco--papel::before,
+.bloco--tinta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--fibra);
+  pointer-events: none;
+}
+.bloco--papel::before { opacity: 0.045; mix-blend-mode: multiply; }
+.bloco--tinta::before { opacity: 0.05; mix-blend-mode: screen; }
+
+.bloco > * { position: relative; z-index: 1; }
+
+.limite {
+  width: min(var(--limite-largo), 100% - var(--gutter) * 2);
+  margin-inline: auto;
+}
+.limite--estreito { width: min(var(--limite), 100% - var(--gutter) * 2); }
+
+/* ── Etiqueta em letra de máquina ──────────────────────────────────
+   Do print do State of AI in Design: letra de máquina APENAS em
+   metadado e crédito, nunca no corpo do texto.                       */
+
+.rotulo {
+  font-family: var(--maquina);
+  font-size: var(--t-rotulo);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--tinta-fraca);
+}
+.bloco--tinta .rotulo { color: var(--creme-fraco); }
+
+.rotulo::before {
+  content: '[ ';
+  opacity: 0.45;
+}
+.rotulo::after {
+  content: ' ]';
+  opacity: 0.45;
+}
+
+/* ── Títulos de seção ──────────────────────────────────────────────
+   Do print do Produx: tamanho gigante em peso leve, não em negrito.  */
+
+.titulo-secao {
+  font-family: var(--serifa);
+  font-size: var(--t-titulo2);
+  font-weight: 300;
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+  margin-top: var(--e4);
+  max-width: 18ch;
+}
+.titulo-secao em { font-style: italic; color: var(--tinta-fraca); }
+.bloco--tinta .titulo-secao em { color: var(--creme-fraco); }
+
+/* ── Botões ─────────────────────────────────────────────────────── */
+
+.botao {
+  --cor-fundo: var(--carmim);
+  --cor-texto: var(--papel);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--e3);
+  padding: 15px var(--e5);
+  border: 1px solid var(--cor-fundo);
+  border-radius: var(--raio);
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+  font-family: var(--corpo);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background var(--rapida) ease, color var(--rapida) ease,
+              border-color var(--rapida) ease, transform var(--rapida) ease;
+}
+.botao__seta {
+  transition: transform var(--normal) var(--curva);
+}
+.botao:hover .botao__seta { transform: translateX(5px); }
+.botao:active { transform: translateY(1px); }
+
+.botao--principal:hover { --cor-fundo: #7d2621; }
+
+.botao--claro { --cor-fundo: var(--creme); --cor-texto: var(--tinta); }
+.botao--claro:hover { --cor-fundo: #fff8ea; }
+
+.botao--contorno-claro {
+  --cor-fundo: transparent;
+  --cor-texto: var(--creme);
+  border-color: var(--linha-clara);
+}
+.botao--contorno-claro:hover { border-color: var(--creme-fraco); }
+
+.botao--texto {
+  padding: var(--e2) 0;
+  border-color: transparent;
+  background: none;
+  color: var(--tinta-fraca);
+  font-family: var(--maquina);
+  font-size: var(--t-rotulo);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.botao--texto:hover { color: var(--carmim); }
+
+/* ── A marca no canto ──────────────────────────────────────────── */
+
+.marca-canto {
+  position: fixed;
+  top: clamp(14px, 2vw, 26px);
+  right: clamp(14px, 2vw, 26px);
+  z-index: 50;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--e2);
+  padding: 7px 13px;
+  border: 1px solid var(--linha);
+  border-radius: 100px;
+  background: rgba(248, 243, 233, 0.82);
+  backdrop-filter: blur(6px);
+  color: var(--tinta-fraca);
+  font-family: var(--maquina);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color var(--rapida) ease, border-color var(--rapida) ease;
+}
+.marca-canto:hover { color: var(--carmim); border-color: var(--carmim); }
+.marca-canto__risco {
+  width: 16px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   Telas
+   ════════════════════════════════════════════════════════════════════ */
+
+.tela { display: none; }
+.tela--ativa { display: block; }
+
+/* Regra desta folha: nenhuma animação de entrada usa `both`. Se ela não
+   rodar — aba em segundo plano, navegador antigo —, o conteúdo tem que
+   aparecer do mesmo jeito, e não ficar preso no quadro inicial. */
+.tela--entrando { animation: tela-entra 420ms var(--curva); }
+.tela--saindo   { animation: tela-sai 200ms ease forwards; }
+
+@keyframes tela-entra {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes tela-sai {
+  from { opacity: 1; }
+  to   { opacity: 0; transform: translateY(-10px); }
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   Capa
+   ════════════════════════════════════════════════════════════════════ */
+
+.hero {
+  min-height: min(92vh, 1100px);
+  display: flex;
+  align-items: center;
+  padding-block: clamp(var(--e9), 12vh, 180px) var(--e8);
+}
+
+/* Assimetria deliberada, do print do State of AI in Design:
+   metadado pequeno à esquerda, título gigante puxado à direita.      */
+.hero__grade {
+  width: min(var(--limite-largo), 100% - var(--gutter) * 2);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: minmax(150px, 0.8fr) minmax(0, 2.6fr);
+  grid-template-areas:
+    'selo   rotulo'
+    'selo   titulo'
+    '.      chamada'
+    '.      acao'
+    'pe     rolar';
+  column-gap: clamp(var(--e5), 4vw, var(--e8));
+  align-items: start;
+}
+
+.hero__selo { grid-area: selo; width: clamp(86px, 9vw, 132px); color: var(--tinta); opacity: 0.85; }
+.hero__selo svg { width: 100%; height: auto; animation: gira 64s linear infinite; }
+@keyframes gira { to { transform: rotate(360deg); } }
+
+.selo__anel { fill: none; stroke: currentColor; stroke-width: 1.5; }
+.selo__anel--fino { stroke-width: 0.7; stroke-dasharray: 2 5; opacity: 0.7; }
+.selo__texto {
+  font-family: var(--maquina);
+  font-size: 12.5px;
+  letter-spacing: 0.24em;
+  fill: currentColor;
+  text-anchor: middle;
+}
+.selo__pena { fill: none; stroke: currentColor; stroke-width: 1.6; }
+.selo__pena--haste { stroke-width: 1.1; opacity: 0.8; }
+
+.hero__rotulo { grid-area: rotulo; }
+
+.hero__titulo {
+  grid-area: titulo;
+  font-family: var(--serifa);
+  font-size: var(--t-titulo1);
+  font-weight: 300;
+  line-height: 0.86;
+  letter-spacing: -0.03em;
+  margin-top: var(--e4);
+}
+.hero__linha { display: block; }
+.hero__linha--italico {
+  font-style: italic;
+  font-weight: 500;
+  padding-left: 0.14em;
+  color: var(--carmim);
+}
+
+.hero__chamada {
+  grid-area: chamada;
+  max-width: 46ch;
+  margin-top: var(--e6);
+  font-size: var(--t-medio);
+  line-height: 1.55;
+  color: var(--tinta-fraca);
+}
+
+.hero__acao { grid-area: acao; margin-top: var(--e6); }
+.hero__aviso {
+  margin-top: var(--e3);
+  font-size: 0.8125rem;
+  color: var(--tinta-fraca);
+}
+
+.hero__pe   { grid-area: pe; align-self: end; padding-top: var(--e8); }
+.hero__rolar{ grid-area: rolar; align-self: end; padding-top: var(--e8); }
+.hero__rolar span { margin-right: var(--e2); display: inline-block; animation: pisca-seta 2.6s ease-in-out infinite; }
+@keyframes pisca-seta {
+  0%, 100% { transform: translateY(0); opacity: 0.5; }
+  50%      { transform: translateY(4px); opacity: 1; }
+}
+
+/* ── O método ──────────────────────────────────────────────────── */
+
+.metodo__lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: clamp(var(--e6), 4vw, var(--e8));
+  margin-top: var(--e9);
+}
+.metodo__item {
+  padding-top: var(--e5);
+  border-top: 1px solid var(--linha-clara);
+}
+.metodo__numero {
+  display: block;
+  font-family: var(--maquina);
+  font-size: var(--t-rotulo);
+  letter-spacing: 0.18em;
+  color: var(--ouro);
+}
+.metodo__item h3 {
+  margin-top: var(--e4);
+  font-family: var(--serifa);
+  font-size: var(--t-titulo3);
+  font-weight: 500;
+  line-height: 1.2;
+}
+.metodo__item p {
+  margin-top: var(--e3);
+  color: var(--creme-fraco);
+  font-size: 0.9375rem;
+}
+
+/* ── A fita do acervo ─────────────────────────────────────────── */
+
+.galeria__texto {
+  max-width: 62ch;
+  margin-top: var(--e5);
+  font-size: var(--t-medio);
+  color: var(--tinta-fraca);
+}
+
+.galeria__fita {
+  display: flex;
+  gap: var(--e5);
+  margin-top: var(--e8);
+  padding-bottom: var(--e4);
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+.galeria__trilho {
+  display: flex;
+  gap: var(--e5);
+  animation: desfila 72s linear infinite;
+}
+@keyframes desfila { to { transform: translateX(-50%); } }
+.galeria__fita:hover .galeria__trilho { animation-play-state: paused; }
+
+.galeria__peca {
+  flex: 0 0 auto;
+  width: clamp(120px, 12vw, 168px);
+  aspect-ratio: 3 / 4;
+  padding: var(--e2);
+  border: 1px solid var(--linha);
+  background: var(--papel-alto);
+  filter: sepia(0.22) contrast(1.04);
+}
+.galeria__peca img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  mix-blend-mode: multiply;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   Partida
+   ════════════════════════════════════════════════════════════════════ */
+
+.partida {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-block: clamp(var(--e8), 10vh, 120px);
+}
+
+.partida__topo {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--e4);
+}
+
+.progresso {
+  position: relative;
+  height: 2px;
+  margin-top: var(--e4);
+  background: var(--linha);
+}
+.progresso__tinta {
+  position: relative; /* a ponta da pena é ancorada AQUI, não na trilha */
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--tinta);
+  transition: width var(--revelacao) var(--curva);
+}
+.progresso__tinta::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--carmim);
+  transform: translate(50%, -50%);
+}
+
+/* A carta vira como página, ao trocar de pergunta. */
+.carta {
+  margin-top: clamp(var(--e7), 7vh, var(--e9));
+  transform-origin: left center;
+}
+.carta--vira { animation: vira-pagina 520ms var(--curva); }
+@keyframes vira-pagina {
+  0%   { opacity: 0; transform: perspective(1400px) rotateY(9deg) translateX(34px); }
+  100% { opacity: 1; transform: none; }
+}
+
+.pergunta {
+  font-family: var(--serifa);
+  font-size: clamp(1.9rem, 4.1vw, 3.05rem);
+  font-weight: 300;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  max-width: 24ch;
+}
+
+/* ── Alternativas ───────────────────────────────────────────────── */
+
+.alternativas {
+  display: grid;
+  gap: var(--e3);
+  margin-top: clamp(var(--e6), 5vh, var(--e7));
+}
+
+.alternativa {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--e4);
+  width: 100%;
+  padding: var(--e4) var(--e5);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  background: var(--papel-alto);
+  color: inherit;
+  font-family: var(--corpo);
+  font-size: var(--t-corpo);
+  line-height: 1.5;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color var(--rapida) ease, background var(--rapida) ease,
+              transform var(--rapida) ease;
+}
+.alternativa:hover:not(:disabled) {
+  border-color: var(--tinta);
+  transform: translateX(4px);
+}
+.alternativa:disabled { cursor: default; }
+
+.alternativa__letra {
+  flex: 0 0 auto;
+  font-family: var(--maquina);
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  color: var(--tinta-fraca);
+  padding-top: 2px;
+}
+
+/* a mancha de tinta que abre a partir do clique */
+.alternativa__mancha {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--x, 50%) var(--y, 50%),
+              currentColor 0%, currentColor 60%, transparent 62%);
+  opacity: 0;
+  transform: scale(0.1);
+  pointer-events: none;
+}
+.alternativa--pingando .alternativa__mancha {
+  animation: pinga-tinta 620ms var(--curva);
+}
+@keyframes pinga-tinta {
+  0%   { opacity: 0.16; transform: scale(0.05); }
+  100% { opacity: 0;    transform: scale(2.6); }
+}
+
+.alternativa--certa,
+.alternativa--errada {
+  padding-left: calc(var(--e5) - 3px);
+  border-left-width: 4px;
+}
+.alternativa--certa {
+  border-color: var(--verde-selo);
+  background: color-mix(in srgb, var(--verde-selo) 15%, var(--papel-alto));
+  box-shadow: inset 0 0 0 1px var(--verde-selo);
+}
+.alternativa--errada {
+  border-color: var(--carmim);
+  background: color-mix(in srgb, var(--carmim) 12%, var(--papel-alto));
+  box-shadow: inset 0 0 0 1px var(--carmim);
+  animation: tremida 380ms ease;
+}
+@keyframes tremida {
+  0%, 100% { transform: translateX(0); }
+  22%      { transform: translateX(-5px); }
+  55%      { transform: translateX(4px); }
+  80%      { transform: translateX(-2px); }
+}
+
+/* o risco de tinta que corta a alternativa errada */
+.alternativa--errada .alternativa__texto {
+  background-image: linear-gradient(var(--carmim), var(--carmim));
+  background-repeat: no-repeat;
+  background-position: 0 58%;
+  background-size: 100% 1.5px;
+  animation: risca 460ms 120ms var(--curva) backwards;
+}
+@keyframes risca { from { background-size: 0 1.5px; } }
+
+/* o lacre que carimba no acerto */
+.alternativa__lacre {
+  position: absolute;
+  top: 50%;
+  right: var(--e5);
+  width: 30px;
+  height: 30px;
+  margin-top: -15px;
+  border-radius: 50%;
+  background: var(--verde-selo);
+  color: var(--papel-alto);
+  font-family: var(--serifa);
+  font-size: 17px;
+  line-height: 30px;
+  text-align: center;
+  opacity: 0;
+}
+.alternativa--certa .alternativa__lacre {
+  opacity: 1;
+  transform: rotate(-6deg);
+  animation: carimba 420ms 90ms var(--curva) backwards;
+}
+@keyframes carimba {
+  0%   { opacity: 0; transform: scale(2.1) rotate(-22deg); }
+  60%  { opacity: 1; transform: scale(0.94) rotate(3deg); }
+  100% { opacity: 1; transform: scale(1) rotate(-6deg); }
+}
+
+/* ── O veredito: prancha + explicação ──────────────────────────── */
+
+.veredito {
+  display: grid;
+  grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+  gap: clamp(var(--e5), 4vw, var(--e7));
+  align-items: start;
+  margin-top: clamp(var(--e6), 5vh, var(--e7));
+  padding-top: clamp(var(--e6), 5vh, var(--e7));
+  border-top: 1px solid var(--linha);
+}
+.veredito[hidden] { display: none; }
+
+.prancha { margin: 0; }
+.prancha__moldura {
+  position: relative;
+  padding: var(--e4);
+  border: 1px solid var(--linha);
+  background: var(--papel-alto);
+  box-shadow: var(--sombra);
+}
+.prancha__moldura::after {
+  content: '';
+  position: absolute;
+  inset: 7px;
+  border: 1px solid var(--linha);
+  opacity: 0.6;
+  pointer-events: none;
+}
+.prancha__moldura img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: top center;
+  filter: sepia(0.26) contrast(1.06);
+  mix-blend-mode: multiply;
+}
+/* a prancha desenhada é quadrada; a fotográfica, retrato */
+.prancha__moldura svg {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  color: var(--tinta);
+}
+
+/* a revelação: a prancha aparece como foto saindo do banho químico */
+.prancha--revela .prancha__moldura > :first-child {
+  animation: revela-prancha var(--revelacao) var(--curva);
+}
+@keyframes revela-prancha {
+  0%   { opacity: 0; filter: blur(9px) sepia(0.26) contrast(1.06); clip-path: inset(100% 0 0 0); transform: scale(1.035); }
+  100% { opacity: 1; filter: blur(0)   sepia(0.26) contrast(1.06); clip-path: inset(0 0 0 0);    transform: none; }
+}
+
+.prancha__legenda {
+  display: grid;
+  gap: var(--e1);
+  margin-top: var(--e4);
+}
+.prancha__legenda strong {
+  font-family: var(--serifa);
+  font-size: 1.375rem;
+  font-weight: 500;
+  line-height: 1.15;
+}
+.prancha__legenda > span:last-child {
+  font-size: 0.8125rem;
+  color: var(--tinta-fraca);
+  line-height: 1.45;
+}
+
+.veredito__titulo {
+  font-family: var(--serifa);
+  font-size: clamp(1.6rem, 2.6vw, 2.125rem);
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.1;
+}
+.veredito--acertou .veredito__titulo { color: var(--verde-selo); }
+.veredito--errou   .veredito__titulo { color: var(--carmim); }
+
+.explicacao {
+  margin-top: var(--e4);
+  font-size: var(--t-medio);
+  line-height: 1.6;
+  color: var(--tinta-fraca);
+  max-width: 52ch;
+}
+.veredito__texto .botao { margin-top: var(--e6); }
+
+/* ════════════════════════════════════════════════════════════════════
+   Resultado
+   ════════════════════════════════════════════════════════════════════ */
+
+.diploma { text-align: center; }
+.diploma .rotulo { display: inline-block; }
+
+.diploma__placar {
+  font-variant-numeric: lining-nums; /* a serifa usa algarismo antigo por padrão */
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: var(--e4);
+  margin-top: var(--e6);
+  font-family: var(--serifa);
+  font-weight: 300;
+  line-height: 0.9;
+}
+.diploma__placar strong {
+  font-size: clamp(5rem, 17vw, 11rem);
+  font-weight: 300;
+  color: var(--creme);
+}
+.diploma__placar span { font-size: clamp(1.5rem, 3vw, 2.25rem); color: var(--creme-fraco); }
+.diploma__de {
+  font-family: var(--maquina);
+  font-size: var(--t-rotulo) !important;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.diploma__posto {
+  margin-top: var(--e5);
+  font-family: var(--serifa);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.05;
+  color: var(--carmim-claro);
+}
+.diploma__texto {
+  max-width: 54ch;
+  margin: var(--e5) auto 0;
+  font-size: var(--t-medio);
+  color: var(--creme-fraco);
+}
+.diploma__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--e3);
+  margin-top: var(--e7);
+}
+
+/* ── A correção ────────────────────────────────────────────────── */
+
+.revisao__lista {
+  display: grid;
+  gap: var(--e4);
+  margin-top: var(--e8);
+}
+.revisao__item {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: var(--e4);
+  padding: var(--e5);
+  border: 1px solid var(--linha);
+  border-left: 3px solid var(--linha);
+  border-radius: var(--raio);
+  background: var(--papel-alto);
+}
+.revisao__item--certa { border-left-color: var(--verde-selo); }
+.revisao__item--errada { border-left-color: var(--carmim); }
+
+.revisao__marca {
+  font-family: var(--serifa);
+  font-size: 1.375rem;
+  line-height: 1.2;
+  text-align: center;
+}
+.revisao__item--certa .revisao__marca { color: var(--verde-selo); }
+.revisao__item--errada .revisao__marca { color: var(--carmim); }
+
+.revisao__pergunta {
+  font-family: var(--serifa);
+  font-size: var(--t-titulo3);
+  font-weight: 500;
+  line-height: 1.22;
+}
+.revisao__resposta {
+  margin-top: var(--e3);
+  font-size: 0.9375rem;
+  color: var(--tinta-fraca);
+}
+.revisao__resposta b { color: var(--tinta); font-weight: 500; }
+.revisao__sua { color: var(--carmim); }
+
+/* ════════════════════════════════════════════════════════════════════
+   Rodapé — a oferta do Felipe Sites
+   ════════════════════════════════════════════════════════════════════ */
+
+.rodape .limite {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: clamp(var(--e6), 6vw, var(--e9));
+  align-items: start;
+}
+
+.rodape__titulo {
+  margin-top: var(--e4);
+  font-family: var(--serifa);
+  font-size: clamp(1.75rem, 3.6vw, 3rem);
+  font-weight: 300;
+  line-height: 1.04;
+  letter-spacing: -0.015em;
+}
+.rodape__titulo em { font-style: italic; color: var(--carmim-claro); }
+.rodape__texto {
+  max-width: 44ch;
+  margin-top: var(--e4);
+  color: var(--creme-fraco);
+}
+.rodape__oferta .botao { margin-top: var(--e6); }
+
+.rodape__creditos {
+  padding-top: var(--e5);
+  border-top: 1px solid var(--linha-clara);
+  font-size: 0.8125rem;
+  color: var(--creme-fraco);
+}
+.rodape__creditos p + p { margin-top: var(--e4); }
+.rodape__creditos .rotulo { margin-bottom: var(--e4); display: block; }
+.rodape__assinatura { color: var(--creme); }
+
+/* ════════════════════════════════════════════════════════════════════
+   Revelação no scroll
+   ════════════════════════════════════════════════════════════════════ */
+
+.revelar {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 620ms var(--curva), transform 620ms var(--curva);
+}
+.revelar--visivel { opacity: 1; transform: none; }
+
+/* ════════════════════════════════════════════════════════════════════
+   Telas estreitas e telas enormes
+   ════════════════════════════════════════════════════════════════════ */
+
+/* monitor em pé e tablet: a prancha vai para cima da explicação */
+@media (max-width: 900px) {
+  .veredito { grid-template-columns: minmax(0, 1fr); }
+  .prancha { max-width: 340px; }
+  .rodape .limite { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 720px) {
+  .hero {
+    min-height: auto;
+    padding-block: 132px var(--e8);
+  }
+  .hero__grade {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'selo' 'rotulo' 'titulo' 'chamada' 'acao' 'pe' 'rolar';
+    row-gap: 0;
+  }
+  .hero__selo { margin-bottom: var(--e5); }
+  .hero__pe, .hero__rolar { padding-top: var(--e7); }
+  .hero__rolar { padding-top: var(--e3); }
+  .titulo-secao { max-width: none; }
+  .alternativa { padding: var(--e4); gap: var(--e3); }
+  .diploma__acoes .botao { flex: 1 1 100%; justify-content: center; }
+  .marca-canto { font-size: 0.625rem; padding: 6px 10px; }
+  .marca-canto__risco { display: none; }
+}
+
+/* Ultrawide (o monitor de 3440 dele): largura máxima fixa deixa um buraco
+   enorme nas laterais, então aqui sobem juntos o limite e a escala inteira —
+   o texto continua com linha curta porque quem segura é o `max-width` em ch. */
+@media (min-width: 2000px) {
+  :root {
+    --limite: 1460px;
+    --limite-largo: 2200px;
+    --t-rotulo: 0.8rem;
+    --t-corpo: 1.125rem;
+    --t-medio: 1.375rem;
+    --t-titulo3: 1.75rem;
+    --t-titulo2: clamp(3rem, 3.6vw, 5rem);
+    --t-titulo1: clamp(9rem, 10.5vw, 20rem);
+  }
+  .hero__grade { grid-template-columns: minmax(240px, 1fr) minmax(0, 2.4fr); }
+  .hero__selo { width: 160px; }
+  .galeria__peca { width: 230px; }
+  .pergunta { font-size: clamp(3rem, 3.4vw, 4.25rem); }
+  .alternativa { padding: var(--e5) var(--e6); }
+  .botao { padding: 18px var(--e6); font-size: 1.0625rem; }
+  .veredito { grid-template-columns: minmax(0, 380px) minmax(0, 1fr); }
+  .revisao__item { padding: var(--e6); }
+}
+
+/* quem pediu menos movimento, recebe menos movimento */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .revelar { opacity: 1; transform: none; }
+}
