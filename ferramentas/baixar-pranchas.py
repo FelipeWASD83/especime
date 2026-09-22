@@ -64,6 +64,11 @@ BUSCAS: dict[str, str] = {
     "jenner": 'intitle:"Edward Jenner" portrait',
     "dalton": 'intitle:"John Dalton" portrait chemist',
     "nightingale": 'intitle:"Florence Nightingale" portrait',
+    "pombos": 'intitle:pigeons Darwin variation animals plants',
+    "owen": 'intitle:"Richard Owen" portrait naturalist',
+    "colera": 'intitle:"Snow" cholera map Broad Street 1854',
+    "lister": 'intitle:"Joseph Lister" portrait surgeon',
+    "drosera": 'intitle:Drosera rotundifolia botanical plate',
     "chimpanze": 'intitle:chimpanzee Darwin expression emotions',
     "royal-society": 'intitle:Sprat History Royal Society frontispiece Hollar',
 }

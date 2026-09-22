@@ -164,6 +164,11 @@ export const PRANCHAS = {
   penicilina: { tipo: 'desenho', svg: PENICILINA, nome: 'A placa esquecida', legenda: '1928', nota: 'Em volta do mofo, um círculo limpo: ali nenhuma bactéria cresceu.' },
   enigma: { tipo: 'desenho', svg: ENIGMA, nome: 'O rotor da Enigma', legenda: '1939 – 1945', nota: 'Vinte e seis contatos e uma fiação embaralhada por dentro.' },
   'buraco-negro': { tipo: 'desenho', svg: BURACO_NEGRO, nome: 'O horizonte de eventos', legenda: '1974', nota: 'Onde o espaço entorta tanto que nem a luz volta.' },
+  pombos: { tipo: 'foto', arquivo: 'pombos.webp', nome: 'Os crânios dos pombos', legenda: '1868', nota: 'Prancha de "A Variação": quatro raças criadas pelo homem, cada uma com outra cabeça.' },
+  owen: { tipo: 'foto', arquivo: 'owen.webp', nome: 'Richard Owen', legenda: '1804 – 1892', nota: 'Inventou a palavra dinossauro, fundou o Museu de História Natural e odiava Darwin.' },
+  colera: { tipo: 'foto', arquivo: 'colera.webp', nome: 'O mapa da cólera', legenda: '1854', nota: 'Cada tracinho é uma morte. O aglomerado cerca a bomba de água da Broad Street.' },
+  lister: { tipo: 'foto', arquivo: 'lister.webp', nome: 'Joseph Lister', legenda: '1827 – 1912', nota: 'Convenceu a cirurgia de que o inimigo era invisível — e lavável.' },
+  drosera: { tipo: 'foto', arquivo: 'drosera.webp', nome: 'A drósera', legenda: '1875', nota: 'A planta de folha pegajosa que Darwin dizia amar mais que todas as espécies do mundo.' },
   chimpanze: { tipo: 'foto', arquivo: 'chimpanze.webp', nome: 'O chimpanzé de Darwin', legenda: '1872', nota: 'Prancha de "A Expressão das Emoções no Homem e nos Animais".' },
   'royal-society': { tipo: 'foto', arquivo: 'royal-society.webp', nome: 'A Royal Society', legenda: '1660', nota: 'Frontispício da história da Sociedade, escrita por Thomas Sprat.' },
 };

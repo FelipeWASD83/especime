@@ -8,7 +8,7 @@ import {
   embaralhar, embaralharAlternativas, sortearPerguntas, criarPartida,
   perguntaAtual, responder, avancar, acabou, acertos, postoPara, POSTOS,
 } from '../public/js/quiz.js';
-import { PERGUNTAS, MISTURA } from '../public/js/dados/perguntas.js';
+import { PERGUNTAS, MISTURA, EXATAS_POR_PARTIDA } from '../public/js/dados/perguntas.js';
 import { PRANCHAS } from '../public/js/dados/pranchas.js';
 
 const RAIZ = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -22,14 +22,23 @@ const dadoViciado = (valores) => {
 
 /* ───────────────────────── Banco de perguntas ───────────────────────── */
 
-test('o banco tem perguntas suficientes para a mistura pedida', () => {
+test('o banco de biologia aguenta a mistura pedida sozinho', () => {
+  // Pior caso: nenhuma das perguntas de exatas cai naquele nível, e a
+  // biologia precisa preencher a cota inteira dele.
   for (const [nivel, quantidade] of Object.entries(MISTURA)) {
-    const disponiveis = PERGUNTAS.filter((p) => p.nivel === nivel).length;
+    const disponiveis = PERGUNTAS.filter((p) => p.area === 'bio' && p.nivel === nivel).length;
     assert.ok(
       disponiveis >= quantidade,
-      `só existem ${disponiveis} perguntas de nível ${nivel}, e a partida pede ${quantidade}`,
+      `só existem ${disponiveis} perguntas de biologia de nível ${nivel}, e a partida pode pedir ${quantidade}`,
     );
   }
+  const exatas = PERGUNTAS.filter((p) => p.area === 'exatas').length;
+  assert.ok(exatas >= EXATAS_POR_PARTIDA, `só existem ${exatas} perguntas de exatas`);
+});
+
+test('a biologia é a maioria do banco', () => {
+  const bio = PERGUNTAS.filter((p) => p.area === 'bio').length;
+  assert.ok(bio / PERGUNTAS.length >= 0.6, `só ${bio} de ${PERGUNTAS.length} são de biologia`);
 });
 
 test('toda pergunta está bem formada', () => {
@@ -39,6 +48,7 @@ test('toda pergunta está bem formada', () => {
     vistos.add(pergunta.id);
 
     assert.ok(['facil', 'media', 'dificil'].includes(pergunta.nivel), `nível inválido em ${pergunta.id}`);
+    assert.ok(['bio', 'exatas'].includes(pergunta.area), `área inválida em ${pergunta.id}`);
     assert.equal(pergunta.alternativas.length, 4, `${pergunta.id} não tem 4 alternativas`);
     assert.ok(
       pergunta.correta >= 0 && pergunta.correta < pergunta.alternativas.length,
@@ -119,6 +129,29 @@ test('a partida respeita a mistura de níveis', () => {
       assert.equal(contagem, quantidade, `esperava ${quantidade} de nível ${nivel}, veio ${contagem}`);
     }
   }
+});
+
+test('toda partida é 10 de biologia e 2 de fora — o 80/20 do projeto', () => {
+  for (let rodada = 0; rodada < 60; rodada += 1) {
+    const sorteadas = sortearPerguntas();
+    const bio = sorteadas.filter((p) => p.area === 'bio').length;
+    const exatas = sorteadas.filter((p) => p.area === 'exatas').length;
+    assert.equal(exatas, EXATAS_POR_PARTIDA, `veio ${exatas} de exatas em vez de ${EXATAS_POR_PARTIDA}`);
+    assert.equal(bio, TOTAL - EXATAS_POR_PARTIDA);
+    assert.ok(bio / TOTAL >= 0.8, `biologia caiu para ${Math.round((bio / TOTAL) * 100)}%`);
+  }
+});
+
+test('as perguntas difíceis de exatas conseguem sair no sorteio', () => {
+  // A biologia é sorteada depois justamente para não trancar o nível difícil
+  // das outras áreas. Se isso quebrar, metade do banco vira enfeite.
+  const vistas = new Set();
+  for (let rodada = 0; rodada < 400; rodada += 1) {
+    for (const p of sortearPerguntas()) {
+      if (p.area === 'exatas') vistas.add(p.nivel);
+    }
+  }
+  assert.deepEqual([...vistas].sort(), ['dificil', 'facil', 'media']);
 });
 
 test('mistura maior que o banco não quebra a partida', () => {

@@ -11,7 +11,12 @@ contradito aqui.
 ## 1. O que é
 
 Quiz sobre Darwin e outros cientistas da **Inglaterra**, feito para leigo. Vai
-para um Worker da Cloudflare. **É projeto pessoal do Felipe e leva a marca do
+para um Worker da Cloudflare.
+
+**O tema central é biologia**, e isso é decisão dele, de 22/09/2026: "o tema
+central do quiz é a biologia e não a ciência como um todo, você pode incluir
+física e química também, mas deve ser 80% biologia e 20% química e física".
+Quem cumpre isso é a seção 2. **É projeto pessoal do Felipe e leva a marca do
 Felipe Sites de propósito** — o site é vitrine de trabalho, não só brincadeira.
 Por isso a assinatura no canto e o bloco de oferta no rodapé não são enfeite:
 tirar qualquer um dos dois tira a razão comercial do projeto.
@@ -19,19 +24,38 @@ tirar qualquer um dos dois tira a razão comercial do projeto.
 Mesmo levando a marca, **não é projeto de cliente**: não vive em conta de
 cliente e não segue identidade de terceiro.
 
-## 2. Dificuldade — a decisão central
+## 2. Tema e dificuldade — as duas decisões centrais
 
-O pedido foi: *"dificuldade mediana, para pessoas que não sabem de absolutamente
-nada sobre o assunto conseguirem acertar algumas"*. Quem cumpre isso é a
-`MISTURA` em `public/js/dados/perguntas.js`:
+Duas garantias valem ao mesmo tempo em toda partida, e as duas têm teste:
 
 ```js
-export const MISTURA = { facil: 5, media: 5, dificil: 2 };
+export const MISTURA = { facil: 5, media: 5, dificil: 2 };  // dificuldade
+export const EXATAS_POR_PARTIDA = 2;                        // tema
 ```
 
-Cada partida sorteia exatamente cinco fáceis, cinco medianas e duas difíceis, e
-um teste garante isso. **Não trocar por sorteio uniforme do banco** — banco
-maior de perguntas difíceis passaria a derrubar a média sozinho.
+**Tema.** Toda pergunta tem `area`: `bio` é biologia (evolução, fósseis,
+medicina, genética, comportamento animal) e `exatas` é tudo o mais — física,
+química, astronomia e computação. Cada partida leva exatamente 2 de `exatas` e
+10 de `bio`, ou seja 83% de biologia.
+
+Computação (Ada Lovelace, Babbage, Turing) entrou em `exatas` por eliminação:
+não é biologia, e são nomes bons demais para leigo para sair do banco. Se um
+dia ele quiser só física e química ali, é mudar a área dessas perguntas.
+
+**Dificuldade.** O pedido original foi *"dificuldade mediana, para pessoas que
+não sabem de absolutamente nada sobre o assunto conseguirem acertar algumas"*.
+Daí cinco fáceis, cinco medianas e duas difíceis. **Não trocar por sorteio
+uniforme do banco** — banco maior de perguntas difíceis passaria a derrubar a
+média sozinho.
+
+**A ordem do sorteio não é detalhe:** as de `exatas` são sorteadas primeiro, de
+qualquer nível, e a biologia preenche o que falta em cada nível. Ao contrário,
+as perguntas difíceis de exatas nunca sairiam — o nível difícil já estaria
+cheio de biologia. Tem teste em cima disso.
+
+Por isso o banco de biologia precisa aguentar sozinho a cota de cada nível no
+pior caso (5 fáceis, 5 médias, 2 difíceis), mesmo que nenhuma de exatas caia
+naquele nível. Hoje ele tem folga: 11, 14 e 8.
 
 O nível de cada pergunta segue esta régua:
 
@@ -41,6 +65,10 @@ O nível de cada pergunta segue esta régua:
   1859, quem descobriu Urano).
 - **difícil** — detalhe de quem já leu sobre o assunto (o buldogue de Darwin,
   as oito anos de craca, o lema da Royal Society).
+
+Pergunta nova de biologia é sempre bem-vinda; pergunta nova de exatas só vale
+se for melhor que alguma que já está lá, porque o banco de exatas já dá muito
+mais do que as duas por partida.
 
 Cada pergunta tem **exatamente quatro** alternativas, todas diferentes, e a
 explicação é obrigatória — é ela que faz o leigo sair sabendo mais do que
@@ -114,7 +142,7 @@ qualquer arquivo sem licença livre declarada** e escreve o `CREDITOS.md`
 sozinho — o arquivo é gerado, não se edita à mão. As imagens são guardadas em
 tons de cinza; o tom de tinta sobre papel é do CSS.
 
-Seis pranchas são **diagramas em SVG desenhados aqui** (prisma, Foto 51,
+Seis das pranchas são **diagramas em SVG desenhados aqui** (prisma, Foto 51,
 penicilina, molécula, rotor da Enigma, buraco negro). Existem porque de gente
 do século XX — Turing, Rosalind Franklin, Dorothy Hodgkin, Hawking — **não há
 retrato em domínio público confiável**. Não trocar por foto encontrada solta na

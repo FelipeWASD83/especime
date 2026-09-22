@@ -3,7 +3,7 @@
 // Tudo aqui é função pura ou objeto simples — é por isso que dá para testar
 // com `node --test` sem abrir navegador. Quem mexe no DOM é o `app.js`.
 
-import { PERGUNTAS, MISTURA } from './dados/perguntas.js';
+import { PERGUNTAS, MISTURA, EXATAS_POR_PARTIDA } from './dados/perguntas.js';
 
 /** Embaralha uma cópia da lista (Fisher–Yates). */
 export function embaralhar(lista, aleatorio = Math.random) {
@@ -26,28 +26,52 @@ export function embaralharAlternativas(pergunta, aleatorio = Math.random) {
 }
 
 /**
- * Sorteia as perguntas de uma partida respeitando a mistura de níveis.
- * Se faltar pergunta de algum nível, completa com o que sobrou do banco —
- * assim acrescentar ou tirar pergunta do banco nunca quebra a partida.
+ * Sorteia as perguntas de uma partida com duas garantias ao mesmo tempo:
+ *
+ *   1. o assunto — exatamente `EXATAS_POR_PARTIDA` perguntas de física,
+ *      química e afins; todo o resto é biologia (10 de 12 = 83%);
+ *   2. a dificuldade — a contagem de níveis da `mistura` (5 fáceis, 5 médias,
+ *      2 difíceis).
+ *
+ * A ordem importa: as de exatas são sorteadas primeiro, de qualquer nível, e
+ * a biologia preenche o que falta para fechar a cota de cada nível. Fosse ao
+ * contrário, as perguntas difíceis de exatas nunca sairiam.
  */
-export function sortearPerguntas(banco = PERGUNTAS, mistura = MISTURA, aleatorio = Math.random) {
-  const escolhidas = [];
-  for (const [nivel, quantidade] of Object.entries(mistura)) {
+export function sortearPerguntas(
+  banco = PERGUNTAS,
+  mistura = MISTURA,
+  aleatorio = Math.random,
+  exatas = EXATAS_POR_PARTIDA,
+) {
+  const total = Object.values(mistura).reduce((soma, n) => soma + n, 0);
+  const escolhidas = embaralhar(
+    banco.filter((p) => p.area === 'exatas'),
+    aleatorio,
+  ).slice(0, Math.min(exatas, total));
+
+  // o que a biologia ainda precisa entregar em cada nível
+  const cota = { ...mistura };
+  for (const p of escolhidas) cota[p.nivel] = Math.max(0, (cota[p.nivel] ?? 0) - 1);
+
+  for (const [nivel, quantidade] of Object.entries(cota)) {
+    if (quantidade <= 0) continue;
     const doNivel = embaralhar(
-      banco.filter((p) => p.nivel === nivel),
+      banco.filter((p) => p.area === 'bio' && p.nivel === nivel),
       aleatorio,
     );
     escolhidas.push(...doNivel.slice(0, quantidade));
   }
 
-  const total = Object.values(mistura).reduce((soma, n) => soma + n, 0);
+  // Banco pequeno demais para a mistura pedida: completa com o que sobrou,
+  // biologia primeiro. Serve para não quebrar a partida, não para o uso normal.
   if (escolhidas.length < total) {
     const jaEscolhidas = new Set(escolhidas.map((p) => p.id));
-    const resto = embaralhar(
-      banco.filter((p) => !jaEscolhidas.has(p.id)),
-      aleatorio,
-    );
-    escolhidas.push(...resto.slice(0, total - escolhidas.length));
+    const resto = banco.filter((p) => !jaEscolhidas.has(p.id));
+    const sobra = [
+      ...embaralhar(resto.filter((p) => p.area === 'bio'), aleatorio),
+      ...embaralhar(resto.filter((p) => p.area !== 'bio'), aleatorio),
+    ];
+    escolhidas.push(...sobra.slice(0, total - escolhidas.length));
   }
 
   return embaralhar(escolhidas, aleatorio).map((p) => embaralharAlternativas(p, aleatorio));

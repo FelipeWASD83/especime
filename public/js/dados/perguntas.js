@@ -9,6 +9,11 @@
 // alternativas são embaralhadas na hora de jogar, então a ordem aqui não
 // aparece para ninguém.
 //
+// `area` separa o tema central do resto: 'bio' é biologia (evolução, fósseis,
+// medicina, genética, comportamento animal) e 'exatas' é tudo o mais — física,
+// química, astronomia e computação. Toda partida leva 10 de biologia e 2 de
+// exatas, e é `EXATAS_POR_PARTIDA`, lá embaixo, que manda nisso.
+//
 // `prancha` aponta para uma chave de `pranchas.js` — é a imagem que aparece
 // quando a pessoa responde.
 
@@ -16,6 +21,7 @@ export const PERGUNTAS = [
   // ——— Darwin ———
   {
     id: 'beagle',
+    area: 'bio',
     nivel: 'facil',
     pergunta: 'Em que navio Charles Darwin deu a volta ao mundo?',
     alternativas: ['HMS Beagle', 'HMS Endeavour', 'HMS Victory', 'HMS Challenger'],
@@ -26,6 +32,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'galapagos',
+    area: 'bio',
     nivel: 'facil',
     pergunta: 'Em qual arquipélago Darwin observou os pássaros que ficariam famosos como "os tentilhões de Darwin"?',
     alternativas: ['Galápagos', 'Ilhas Canárias', 'Açores', 'Ilhas Malvinas'],
@@ -36,6 +43,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'origem',
+    area: 'bio',
     nivel: 'facil',
     pergunta: 'Qual livro de Darwin, publicado em 1859, apresentou a seleção natural ao mundo?',
     alternativas: [
@@ -51,6 +59,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'wallace-carta',
+    area: 'bio',
     nivel: 'media',
     pergunta: 'Darwin guardou sua teoria por mais de vinte anos. O que o fez publicar às pressas em 1859?',
     alternativas: [
@@ -66,6 +75,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'wallace-onde',
+    area: 'bio',
     nivel: 'dificil',
     pergunta: 'Onde Wallace estava quando teve a mesma intuição de Darwin sobre a seleção natural?',
     alternativas: [
@@ -81,6 +91,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'cracas',
+    area: 'bio',
     nivel: 'dificil',
     pergunta: 'Antes de publicar sobre evolução, Darwin passou oito anos dissecando um único grupo de bichos. Quais?',
     alternativas: ['Cracas', 'Borboletas', 'Aranhas', 'Morcegos'],
@@ -91,6 +102,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'huxley',
+    area: 'bio',
     nivel: 'dificil',
     pergunta: 'Quem ficou conhecido como "o buldogue de Darwin" por brigar em público pela teoria?',
     alternativas: [
@@ -106,6 +118,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'darwin-tumulo',
+    area: 'bio',
     nivel: 'media',
     pergunta: 'Onde Darwin foi enterrado, em 1882?',
     alternativas: [
@@ -123,6 +136,7 @@ export const PERGUNTAS = [
   // ——— Newton ———
   {
     id: 'newton-gravidade',
+    area: 'exatas',
     nivel: 'facil',
     pergunta: 'Isaac Newton é lembrado sobretudo por explicar qual força?',
     alternativas: ['A gravidade', 'O magnetismo', 'A eletricidade', 'A força nuclear'],
@@ -133,6 +147,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'principia',
+    area: 'exatas',
     nivel: 'media',
     pergunta: 'Qual obra de 1687 apresentou as três leis do movimento e a lei da gravitação universal?',
     alternativas: [
@@ -148,6 +163,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'newton-moeda',
+    area: 'exatas',
     nivel: 'dificil',
     pergunta: 'Que cargo público Newton ocupou nos últimos trinta anos de vida?',
     alternativas: [
@@ -163,6 +179,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'prisma',
+    area: 'exatas',
     nivel: 'facil',
     pergunta: 'O que Newton mostrou ao atravessar luz branca por um prisma?',
     alternativas: [
@@ -180,6 +197,7 @@ export const PERGUNTAS = [
   // ——— Faraday e Davy ———
   {
     id: 'faraday-inducao',
+    area: 'exatas',
     nivel: 'media',
     pergunta: 'A indução eletromagnética, descoberta por Michael Faraday, é a base de qual invenção do dia a dia?',
     alternativas: [
@@ -195,6 +213,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'faraday-natal',
+    area: 'exatas',
     nivel: 'dificil',
     pergunta: 'Que tradição criada por Faraday na Royal Institution sobrevive até hoje?',
     alternativas: [
@@ -210,6 +229,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'davy-lampada',
+    area: 'exatas',
     nivel: 'media',
     pergunta: 'Humphry Davy inventou uma lâmpada que salvou milhares de vidas. Onde ela era usada?',
     alternativas: ['Nas minas de carvão', 'Nos faróis', 'Nos navios de guerra', 'Nos hospitais'],
@@ -222,6 +242,7 @@ export const PERGUNTAS = [
   // ——— Lovelace e Babbage ———
   {
     id: 'lovelace-algoritmo',
+    area: 'exatas',
     nivel: 'facil',
     pergunta: 'Ada Lovelace é lembrada por ter escrito, em 1843, o primeiro...',
     alternativas: [
@@ -237,6 +258,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'lovelace-pai',
+    area: 'exatas',
     nivel: 'media',
     pergunta: 'Ada Lovelace era filha de qual figura famosa?',
     alternativas: [
@@ -252,6 +274,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'babbage',
+    area: 'exatas',
     nivel: 'media',
     pergunta: 'Qual máquina Charles Babbage projetou no século XIX e nunca conseguiu terminar de construir?',
     alternativas: [
@@ -269,6 +292,7 @@ export const PERGUNTAS = [
   // ——— Hooke ———
   {
     id: 'hooke-celula',
+    area: 'bio',
     nivel: 'facil',
     pergunta: 'Ao olhar uma fatia de cortiça no microscópio, Robert Hooke batizou o que viu com um nome que usamos até hoje. Qual?',
     alternativas: ['Célula', 'Átomo', 'Micróbio', 'Tecido'],
@@ -279,6 +303,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'micrographia',
+    area: 'bio',
     nivel: 'dificil',
     pergunta: 'Qual livro de 1665 virou best-seller ao mostrar desenhos gigantes de pulgas e olhos de mosca vistos no microscópio?',
     alternativas: ['Micrographia', 'Principia', 'Historia Naturalis', 'Micromégas'],
@@ -291,6 +316,7 @@ export const PERGUNTAS = [
   // ——— Halley e Herschel ———
   {
     id: 'halley',
+    area: 'exatas',
     nivel: 'facil',
     pergunta: 'Edmond Halley ficou famoso por prever o retorno de quê?',
     alternativas: ['De um cometa', 'De um eclipse', 'De uma praga', 'De uma tempestade'],
@@ -301,6 +327,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'herschel-urano',
+    area: 'exatas',
     nivel: 'media',
     pergunta: 'Quem descobriu o planeta Urano, em 1781, com um telescópio caseiro no quintal, em Bath?',
     alternativas: ['William Herschel', 'Edmond Halley', 'Isaac Newton', 'Robert Hooke'],
@@ -313,6 +340,7 @@ export const PERGUNTAS = [
   // ——— Mary Anning ———
   {
     id: 'anning-fosseis',
+    area: 'bio',
     nivel: 'media',
     pergunta: 'Mary Anning ficou famosa ainda adolescente por desenterrar o quê nas falésias de Lyme Regis?',
     alternativas: [
@@ -328,6 +356,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'anning-sociedade',
+    area: 'bio',
     nivel: 'media',
     pergunta: 'Por que Mary Anning nunca entrou para a Sociedade Geológica de Londres, mesmo com todas as descobertas?',
     alternativas: [
@@ -345,6 +374,7 @@ export const PERGUNTAS = [
   // ——— Medicina e química ———
   {
     id: 'harvey-sangue',
+    area: 'bio',
     nivel: 'media',
     pergunta: 'O que William Harvey provou em 1628, contrariando mil e quinhentos anos de medicina?',
     alternativas: [
@@ -360,6 +390,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'jenner-vacina',
+    area: 'bio',
     nivel: 'facil',
     pergunta: 'Edward Jenner criou a primeira vacina da história. Contra qual doença?',
     alternativas: ['Varíola', 'Raiva', 'Peste negra', 'Tuberculose'],
@@ -370,6 +401,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'dalton-atomos',
+    area: 'exatas',
     nivel: 'media',
     pergunta: 'O que John Dalton propôs no início do século XIX?',
     alternativas: [
@@ -385,6 +417,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'nightingale',
+    area: 'exatas',
     nivel: 'dificil',
     pergunta: 'Além de reformar a enfermagem, em que Florence Nightingale foi pioneira?',
     alternativas: [
@@ -402,6 +435,7 @@ export const PERGUNTAS = [
   // ——— Século XX ———
   {
     id: 'foto51',
+    area: 'bio',
     nivel: 'media',
     pergunta: 'A "Foto 51", imagem de raios X que revelou o formato do DNA, saiu do laboratório de quem?',
     alternativas: [
@@ -417,6 +451,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'dupla-helice',
+    area: 'bio',
     nivel: 'facil',
     pergunta: 'Que formato do DNA foi anunciado em Cambridge, em 1953?',
     alternativas: ['Dupla hélice', 'Anel fechado', 'Espiral simples', 'Rede triangular'],
@@ -427,6 +462,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'hodgkin',
+    area: 'exatas',
     nivel: 'dificil',
     pergunta: 'Dorothy Hodgkin ganhou o Nobel de Química de 1964 por revelar a estrutura de quais substâncias?',
     alternativas: [
@@ -442,6 +478,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'turing-bletchley',
+    area: 'exatas',
     nivel: 'facil',
     pergunta: 'Onde Alan Turing trabalhou quebrando os códigos alemães durante a Segunda Guerra?',
     alternativas: [
@@ -457,6 +494,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'teste-turing',
+    area: 'exatas',
     nivel: 'media',
     pergunta: 'O que o "teste de Turing" tenta descobrir?',
     alternativas: [
@@ -472,6 +510,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'hawking-catedra',
+    area: 'exatas',
     nivel: 'dificil',
     pergunta: 'Em Cambridge, Stephen Hawking ocupou a mesma cátedra que já tinha sido de Isaac Newton. Qual?',
     alternativas: [
@@ -487,6 +526,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'hawking-livro',
+    area: 'exatas',
     nivel: 'facil',
     pergunta: 'Qual livro de Stephen Hawking, de 1988, vendeu mais de dez milhões de exemplares?',
     alternativas: [
@@ -502,6 +542,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'goodall',
+    area: 'bio',
     nivel: 'media',
     pergunta: 'O que Jane Goodall observou nos chimpanzés e obrigou a ciência a repensar o que separa humano de bicho?',
     alternativas: [
@@ -517,6 +558,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'fleming',
+    area: 'bio',
     nivel: 'facil',
     pergunta: 'Alexander Fleming descobriu a penicilina por causa de quê, em 1928?',
     alternativas: [
@@ -532,6 +574,7 @@ export const PERGUNTAS = [
   },
   {
     id: 'sociedade-real',
+    area: 'exatas',
     nivel: 'dificil',
     pergunta: 'Fundada em 1660, a Royal Society adotou um lema em latim que resume o espírito da ciência inglesa. O que ele quer dizer?',
     alternativas: [
@@ -545,8 +588,229 @@ export const PERGUNTAS = [
       'O lema é "Nullius in verba". A ideia é justamente essa: não aceite porque alguém importante disse — vá lá e verifique. Newton, Darwin, Faraday, Franklin, Hodgkin e Hawking passaram todos por lá.',
     prancha: 'royal-society',
   },
+  // ——— Biologia: a teoria por dentro ———
+  {
+    id: 'selecao-natural',
+    area: 'bio',
+    nivel: 'facil',
+    pergunta: 'Segundo a seleção natural, o que decide quais características passam para a geração seguinte?',
+    alternativas: [
+      'Quem deixa mais descendentes no ambiente em que vive',
+      'O esforço que o bicho faz durante a própria vida',
+      'A vontade da espécie de melhorar',
+      'O tamanho e a força do animal, sempre',
+    ],
+    correta: 0,
+    explicacao:
+      'É uma ideia de contabilidade, não de heroísmo: nasce mais bicho do que cabe, os que se dão melhor naquele lugar deixam mais filhos, e o que eles tinham vai junto. Nenhuma espécie "quer" nada.',
+    prancha: 'tentilhoes',
+  },
+  {
+    id: 'beagle-anos',
+    area: 'bio',
+    nivel: 'facil',
+    pergunta: 'Quanto tempo Darwin passou fora de casa na viagem do Beagle?',
+    alternativas: ['Quase cinco anos', 'Seis meses', 'Doze anos', 'Trinta dias'],
+    correta: 0,
+    explicacao:
+      'A viagem era para durar dois anos e durou quase cinco (1831–1836). Darwin enjoava no mar o tempo todo e passou a maior parte desses anos em terra firme, coletando.',
+    prancha: 'beagle',
+  },
+  {
+    id: 'descendencia-homem',
+    area: 'bio',
+    nivel: 'facil',
+    pergunta: 'O que Darwin defendeu em "A Descendência do Homem", de 1871?',
+    alternativas: [
+      'Que o ser humano também vem de um ancestral comum com outros animais',
+      'Que o ser humano é a única espécie que não evoluiu',
+      'Que a vida chegou à Terra num meteoro',
+      'Que as espécies nunca mudam',
+    ],
+    correta: 0,
+    explicacao:
+      'Em 1859 ele tinha desviado do assunto com uma frase só. Doze anos depois encarou de frente — e a imprensa da época respondeu desenhando Darwin com corpo de macaco.',
+    prancha: 'chimpanze',
+  },
+  {
+    id: 'goodall-onde',
+    area: 'bio',
+    nivel: 'facil',
+    pergunta: 'Em que país Jane Goodall passou décadas observando chimpanzés selvagens?',
+    alternativas: ['Tanzânia', 'Brasil', 'Índia', 'Austrália'],
+    correta: 0,
+    explicacao:
+      'No parque de Gombe, na beira do lago Tanganica. Ela chegou lá em 1960, aos 26 anos, sem diploma universitário — e deu nome aos chimpanzés em vez de número, o que na época foi considerado pouco científico.',
+    prancha: 'chimpanze',
+  },
+  {
+    id: 'darwin-teologia',
+    area: 'bio',
+    nivel: 'media',
+    pergunta: 'Qual curso Charles Darwin chegou a concluir antes de embarcar no Beagle?',
+    alternativas: ['Teologia, para virar pastor', 'Medicina', 'Direito', 'Biologia'],
+    correta: 0,
+    explicacao:
+      'Ele tinha começado medicina em Edimburgo e largou: não suportava assistir a cirurgia sem anestesia. O pai então o mandou estudar para pastor — carreira tranquila, com tempo de sobra para caçar besouro.',
+    prancha: 'darwin',
+  },
+  {
+    id: 'darwin-pombos',
+    area: 'bio',
+    nivel: 'media',
+    pergunta: 'Que animal Darwin passou a criar no próprio quintal para entender como as espécies mudam?',
+    alternativas: ['Pombos', 'Cavalos', 'Abelhas', 'Peixes'],
+    correta: 0,
+    explicacao:
+      'Ele virou criador de pombos e frequentava os clubes de columbófilos de Londres. O argumento é esperto: se em poucas décadas o homem cria raças tão diferentes escolhendo quem cruza com quem, imagine o que a natureza faz em milhões de anos.',
+    prancha: 'pombos',
+  },
+  {
+    id: 'owen-dinossauro',
+    area: 'bio',
+    nivel: 'media',
+    pergunta: 'Quem inventou a palavra "dinossauro", em 1842?',
+    alternativas: [
+      'Richard Owen',
+      'Charles Darwin',
+      'Mary Anning',
+      'Thomas Henry Huxley',
+    ],
+    correta: 0,
+    explicacao:
+      'Owen juntou duas palavras gregas: "lagarto terrível". Foi ele quem fundou o Museu de História Natural de Londres — e foi também o maior inimigo público de Darwin, o que rende as melhores brigas da ciência vitoriana.',
+    prancha: 'owen',
+  },
+  {
+    id: 'snow-colera',
+    area: 'bio',
+    nivel: 'media',
+    pergunta: 'Ao mapear as mortes por cólera em Londres, em 1854, John Snow descobriu que a doença vinha de onde?',
+    alternativas: [
+      'Da água de uma bomba pública da rua',
+      'Do ar podre dos becos',
+      'Dos ratos dos porões',
+      'Da carne estragada do mercado',
+    ],
+    correta: 0,
+    explicacao:
+      'Ele desenhou cada morte no mapa do bairro e viu que as marcas cercavam uma bomba de água da Broad Street. Mandou tirar a manivela, e o surto parou. É o nascimento da epidemiologia — trinta anos antes de alguém enxergar a bactéria.',
+    prancha: 'colera',
+  },
+  {
+    id: 'lister-antissepsia',
+    area: 'bio',
+    nivel: 'media',
+    pergunta: 'O que Joseph Lister introduziu nas cirurgias, derrubando a mortalidade nos hospitais?',
+    alternativas: [
+      'A antissepsia: matar o micróbio antes que ele infecte',
+      'A anestesia com clorofórmio',
+      'A transfusão de sangue',
+      'O raio X',
+    ],
+    correta: 0,
+    explicacao:
+      'Ele leu Pasteur, concluiu que a infecção era coisa viva e passou a borrifar ácido carbólico em tudo — mão, instrumento, ferida. Os colegas riram por anos. Hoje o nome dele está no antisséptico bucal Listerine.',
+    prancha: 'lister',
+  },
+  {
+    id: 'jenner-origem',
+    area: 'bio',
+    nivel: 'media',
+    pergunta: 'De onde Edward Jenner tirou o material da primeira vacina, em 1796?',
+    alternativas: [
+      'De uma ferida de varíola bovina na mão de uma ordenhadora',
+      'Do sangue de uma vaca doente',
+      'De uma planta trazida da Índia',
+      'De um doente que já tinha se curado',
+    ],
+    correta: 0,
+    explicacao:
+      'A ordenhadora se chamava Sarah Nelmes. Jenner passou o material para o menino James Phipps, de oito anos, e depois o expôs à varíola humana de propósito — coisa que nenhum comitê de ética de hoje deixaria passar.',
+    prancha: 'jenner',
+  },
+  {
+    id: 'darwin-plantas',
+    area: 'bio',
+    nivel: 'media',
+    pergunta: 'Darwin dedicou um livro inteiro, em 1875, a plantas que fazem o quê?',
+    alternativas: [
+      'Comem insetos',
+      'Brilham no escuro',
+      'Crescem sem nenhuma luz',
+      'Mudam de cor conforme a estação',
+    ],
+    correta: 0,
+    explicacao:
+      'Ele ficou obcecado pela drósera, de folha pegajosa, e escreveu numa carta que se importava mais com ela do que com a origem de todas as espécies do mundo. Testou até com clara de ovo e urina para ver o que a planta digeria.',
+    prancha: 'drosera',
+  },
+  {
+    id: 'darwin-minhocas',
+    area: 'bio',
+    nivel: 'dificil',
+    pergunta: 'O último livro de Darwin, publicado em 1881, é sobre qual bicho?',
+    alternativas: ['A minhoca', 'A abelha', 'A formiga', 'O morcego'],
+    correta: 0,
+    explicacao:
+      'Quarenta anos observando minhoca. Ele mostrou que elas reviram a terra inteira da Inglaterra e enterram ruínas romanas devagarinho, e ainda testou se elas ouviam piano. Vendeu mais que "A Origem das Espécies" no primeiro ano.',
+    prancha: 'darwin',
+  },
+  {
+    id: 'malthus',
+    area: 'bio',
+    nivel: 'dificil',
+    pergunta: 'Que ideia de um economista inglês deu a Darwin a peça que faltava na teoria?',
+    alternativas: [
+      'Que nasce muito mais gente e bicho do que o alimento sustenta',
+      'Que o comércio livre enriquece todas as nações',
+      'Que o valor de tudo vem do trabalho empregado',
+      'Que a moeda perde valor quando se imprime demais',
+    ],
+    correta: 0,
+    explicacao:
+      'Darwin leu Thomas Malthus em 1838 e caiu a ficha: se quase todos morrem antes de se reproduzir, quem sobra não é escolhido por acaso. A mesma leitura, anos depois, deu a mesma ideia a Wallace.',
+    prancha: 'origem',
+  },
+  {
+    id: 'lamarck',
+    area: 'bio',
+    nivel: 'dificil',
+    pergunta: 'O que Lamarck propunha, e que a seleção natural veio contradizer?',
+    alternativas: [
+      'Que o que o bicho usa ou deixa de usar na vida passa para os filhos',
+      'Que as espécies foram criadas todas de uma vez e nunca mudam',
+      'Que a vida surgiu no fundo do mar',
+      'Que os fósseis são pedras sem relação com bicho nenhum',
+    ],
+    correta: 0,
+    explicacao:
+      'Na versão de Lamarck, a girafa estica o pescoço a vida inteira e o filhote já nasce de pescoço comprido. Darwin não achava a ideia absurda — só insuficiente. Quem a enterrou de vez foi a genética, décadas depois.',
+    prancha: 'origem',
+  },
+  {
+    id: 'franklin-virus',
+    area: 'bio',
+    nivel: 'dificil',
+    pergunta: 'Depois do DNA, Rosalind Franklin dedicou os últimos anos a estudar o quê?',
+    alternativas: [
+      'A estrutura de vírus',
+      'A estrutura do osso humano',
+      'O câncer de pulmão',
+      'A fotossíntese',
+    ],
+    correta: 0,
+    explicacao:
+      'Ela montou em Londres um grupo que revelou a estrutura do vírus do mosaico do tabaco e chegou a trabalhar no vírus da pólio. Morreu em 1958, aos 37 anos, de câncer de ovário — provavelmente por causa da própria exposição aos raios X.',
+    prancha: 'foto51',
+  },
+
 ];
 
 // Quantas perguntas de cada nível entram numa partida.
 // Soma = 12, que é o que cabe em 3 a 5 minutos com as explicações.
 export const MISTURA = { facil: 5, media: 5, dificil: 2 };
+
+// Quantas das 12 são de fora da biologia. Duas em doze = 17%, ou seja,
+// 83% de biologia — que é o tema central do quiz.
+export const EXATAS_POR_PARTIDA = 2;

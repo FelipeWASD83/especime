@@ -1,9 +1,10 @@
 # Sociedade Real
 
-Quiz sobre Darwin e os outros cientistas da Inglaterra. Doze perguntas
-sorteadas de um banco de 38, uma explicação e uma prancha de museu a cada
-resposta, e um posto na Royal Society no fim — de "visitante de domingo" a
-"presidente".
+Quiz sobre Darwin e os outros naturalistas da Inglaterra. **O tema central é
+biologia** — evolução, fósseis, medicina, DNA, comportamento animal —, com
+física e química como tempero. Doze perguntas sorteadas de um banco de 53, uma
+explicação e uma prancha de museu a cada resposta, e um posto na Royal Society
+no fim — de "visitante de domingo" a "presidente".
 
 Leva de três a cinco minutos. Roda inteiro no navegador: não tem servidor, não
 tem cadastro, não guarda nada de ninguém.
@@ -65,6 +66,7 @@ Abrir `public/js/dados/perguntas.js` e copiar o formato de qualquer uma:
 ```js
 {
   id: 'nome-curto-e-unico',
+  area: 'bio',               // bio | exatas
   nivel: 'facil',            // facil | media | dificil
   pergunta: 'A pergunta?',
   alternativas: ['certa', 'errada', 'errada', 'errada'],
@@ -74,21 +76,31 @@ Abrir `public/js/dados/perguntas.js` e copiar o formato de qualquer uma:
 },
 ```
 
-As alternativas são embaralhadas na hora de jogar — a ordem escrita aqui nunca
-aparece na tela. Os números da capa ("38 perguntas · 28 pranchas") saem dos
-dados sozinhos.
+`area` é o que segura o tema: **`bio` é biologia** (evolução, fósseis,
+medicina, genética, bicho) e **`exatas` é todo o resto** — física, química,
+astronomia e computação. As alternativas são embaralhadas na hora de jogar — a
+ordem escrita aqui nunca aparece na tela. Os números da capa saem dos dados
+sozinhos.
 
-### Mudar o tamanho da partida
+### Mudar a dificuldade ou a dose de biologia
 
-No fim do mesmo arquivo:
+No fim do mesmo arquivo, dois números mandam em tudo:
 
 ```js
 export const MISTURA = { facil: 5, media: 5, dificil: 2 };
+export const EXATAS_POR_PARTIDA = 2;
 ```
 
-Cinco fáceis, cinco medianas e duas difíceis = doze perguntas. É essa mistura
-que segura a dificuldade no meio: quem não sabe nada do assunto acerta as
+O primeiro é a **dificuldade**: cinco fáceis, cinco medianas e duas difíceis =
+doze perguntas. É o que segura o quiz no meio — quem não sabe nada acerta as
 fáceis e aprende o resto nas explicações.
+
+O segundo é o **tema**: quantas das doze são de fora da biologia. Com `2`, dá
+dez de biologia contra duas de física ou química — 83%. Pôr `0` faz um quiz só
+de biologia; pôr `6` divide meio a meio.
+
+Os dois testes correspondentes falham na hora se o banco não aguentar o que
+você pediu.
 
 ### Mudar as cores
 
@@ -115,7 +127,7 @@ wrangler.jsonc     a configuração do Worker
 CREDITOS.md        autoria e licença de cada imagem (gerado, não editar à mão)
 ```
 
-As 22 pranchas fotográficas vêm do Wikimedia Commons, em domínio público ou sob
+As 27 pranchas fotográficas vêm do Wikimedia Commons, em domínio público ou sob
 licença livre, baixadas por `ferramentas/baixar-pranchas.py` — que só aceita
 arquivo com licença clara e escreve o `CREDITOS.md` sozinho. As outras seis são
 diagramas em SVG desenhados para o projeto, porque não existe retrato livre de
