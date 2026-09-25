@@ -1,4 +1,4 @@
-// Banco de perguntas da Sociedade Real.
+// Banco de perguntas do Espécime.
 //
 // Cada partida sorteia 12 perguntas deste banco, respeitando a mistura de
 // níveis definida em `js/quiz.js` — é isso que segura a dificuldade no meio:
@@ -736,7 +736,7 @@ export const PERGUNTAS = [
     ],
     correta: 0,
     explicacao:
-      'O pólen gruda no corpo peludo dela e desce na próxima flor. Cerca de um terço do que a gente come depende disso. Darwin dizia que o trevo da Inglaterra dependia do mamangava, e o mamangava dependia de quantos gatos havia na região — porque gato come rato, e rato destrói ninho de abelha.',
+      'O pólen gruda no corpo peludo dela e desce na próxima flor. Cerca de um terço do que a gente come depende disso. Darwin dizia que o trevo da Inglaterra dependia da mamangava, e a mamangava dependia de quantos gatos havia na região — porque gato come rato, e rato destrói ninho de abelha.',
     prancha: 'abelha',
   },
   {

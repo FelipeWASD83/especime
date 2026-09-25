@@ -1,8 +1,8 @@
 {
-  "name": "sociedade-real",
+  "name": "especime",
   "version": "1.0.0",
   "private": true,
-  "description": "Quiz sobre Darwin e os cientistas da Inglaterra, servido por um Worker da Cloudflare.",
+  "description": "Espécime: quiz de biologia, química e física, servido por um Worker da Cloudflare.",
   "type": "module",
   "scripts": {
     "dev": "wrangler dev",

@@ -6,7 +6,8 @@ depois, pelo CSS, então a imagem guardada aqui é a original em cinza.
 
 Uso:
     python ferramentas\\baixar-pranchas.py            # baixa o que falta
-    python ferramentas\\baixar-pranchas.py --refazer  # baixa tudo de novo
+    python ferramentas\\baixar-pranchas.py --refazer     # baixa tudo de novo
+    python ferramentas\\baixar-pranchas.py --miniaturas  # só refaz as miniaturas da capa
 """
 
 from __future__ import annotations
@@ -24,6 +25,7 @@ from PIL import Image
 
 RAIZ = Path(__file__).resolve().parent.parent
 DESTINO = RAIZ / "public" / "img" / "pranchas"
+MINIATURAS = RAIZ / "public" / "img" / "miniaturas"
 CREDITOS = RAIZ / "CREDITOS.md"
 
 API = "https://commons.wikimedia.org/w/api.php"
@@ -31,6 +33,12 @@ AGENTE = "SociedadeRealQuiz/1.0 (projeto pessoal; felipe.melo9178@gmail.com)"
 
 LARGURA = 640  # largura final da prancha, em pixels
 TETO_BYTES = 110 * 1024  # peso maximo de cada prancha
+
+# Miniatura da fita da capa: já recortada em 3:4 e já tingida de tinta sobre
+# papel. Assim o navegador não precisa de filtro nem de modo de mistura para
+# desenhar 60 imagens andando — é isso que pesa num celular fraco.
+MINIATURA = (240, 320)
+PAPEL = (248, 243, 233)  # o --papel-alto do CSS
 
 # Licenças aceitas. Qualquer coisa fora disso é descartada, mesmo que a imagem
 # seja a ideal — imagem sem licença clara não entra no projeto.
@@ -54,8 +62,6 @@ BUSCAS: dict[str, str] = {
     "principia": 'intitle:Principia Newton title page',
     "faraday": 'intitle:"Michael Faraday" Phillips oil painting',
     "davy": 'intitle:"Humphry Davy" portrait',
-    "lovelace": 'intitle:"Ada Lovelace" portrait',
-    "babbage": 'intitle:"Charles Babbage" portrait',
     "micrographia": 'intitle:Micrographia flea Hooke',
     "halley": 'intitle:"Edmond Halley" portrait',
     "herschel": 'intitle:"William Herschel" astronomer engraving',
@@ -74,7 +80,6 @@ BUSCAS: dict[str, str] = {
     "coracao": 'intitle:Gray heart anatomy 1858 plate',
     "abelha": 'intitle:Bombus plate',
     "chimpanze": 'intitle:chimpanzee Darwin expression emotions',
-    "royal-society": 'intitle:Sprat History Royal Society frontispiece Hollar',
 }
 
 
@@ -154,10 +159,45 @@ def salvar(imagem: Image.Image, caminho: Path) -> int:
     return caminho.stat().st_size
 
 
+def gerar_miniatura(origem: Path, destino: Path) -> int:
+    imagem = Image.open(origem).convert("L")
+    largura, altura = MINIATURA
+    # recorte 3:4 ancorado em cima, como o `object-position: top` fazia no CSS
+    escala = max(largura / imagem.width, altura / imagem.height)
+    imagem = imagem.resize(
+        (round(imagem.width * escala), round(imagem.height * escala)), Image.LANCZOS
+    )
+    esquerda = (imagem.width - largura) // 2
+    imagem = imagem.crop((esquerda, 0, esquerda + largura, altura))
+    # contraste leve e "multiplicar" sobre o papel: o mesmo efeito do CSS antigo
+    imagem = imagem.point(lambda v: max(0, min(255, round((v - 128) * 1.06 + 128))))
+    canais = [imagem.point(lambda v, c=c: round(c * v / 255)) for c in PAPEL]
+    Image.merge("RGB", canais).save(destino, "WEBP", quality=72, method=6)
+    return destino.stat().st_size
+
+
+def gerar_miniaturas() -> None:
+    MINIATURAS.mkdir(parents=True, exist_ok=True)
+    total = 0
+    for origem in sorted(DESTINO.glob("*.webp")):
+        total += gerar_miniatura(origem, MINIATURAS / origem.name)
+    sobras = {m.name for m in MINIATURAS.glob("*.webp")} - {o.name for o in DESTINO.glob("*.webp")}
+    for nome in sobras:
+        (MINIATURAS / nome).unlink()
+    print(f"miniaturas: {len(list(MINIATURAS.glob('*.webp')))} arquivos, {total // 1024} KB")
+
+
 def main() -> int:
     analisador = argparse.ArgumentParser(description=__doc__)
     analisador.add_argument("--refazer", action="store_true", help="baixa tudo de novo")
+    analisador.add_argument(
+        "--miniaturas", action="store_true", help="só refaz as miniaturas da capa, sem baixar"
+    )
     argumentos = analisador.parse_args()
+
+    if argumentos.miniaturas:
+        gerar_miniaturas()
+        return 0
 
     DESTINO.mkdir(parents=True, exist_ok=True)
     creditos: list[dict] = []
@@ -204,6 +244,7 @@ def main() -> int:
 
     if creditos:
         escrever_creditos(creditos)
+    gerar_miniaturas()
 
     if falhas:
         print("\nFaltou: " + ", ".join(falhas))

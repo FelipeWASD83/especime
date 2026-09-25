@@ -50,35 +50,6 @@ const FOTO51 = (() => {
   `);
 })();
 
-// Rotor da Enigma: o anel de 26 letras e a fiação embaralhada por dentro.
-const ENIGMA = (() => {
-  const marcas = [];
-  for (let i = 0; i < 26; i += 1) {
-    const angulo = (i / 26) * Math.PI * 2 - Math.PI / 2;
-    const [cos, sen] = [Math.cos(angulo), Math.sin(angulo)];
-    marcas.push(
-      `<path d="M${160 + cos * 118} ${160 + sen * 118} L${160 + cos * 130} ${160 + sen * 130}"/>`,
-    );
-  }
-  const fios = [
-    [0, 9], [3, 17], [6, 22], [11, 1], [14, 20], [19, 5], [24, 13],
-  ].map(([a, b]) => {
-    const p = (i) => {
-      const angulo = (i / 26) * Math.PI * 2 - Math.PI / 2;
-      return `${160 + Math.cos(angulo) * 92} ${160 + Math.sin(angulo) * 92}`;
-    };
-    return `<path d="M${p(a)} Q160 160 ${p(b)}" opacity="0.55"/>`;
-  });
-  return desenho(`
-    <circle cx="160" cy="160" r="132" stroke-width="1.8"/>
-    <circle cx="160" cy="160" r="118"/>
-    <circle cx="160" cy="160" r="92" stroke-dasharray="3 6" opacity="0.6"/>
-    <circle cx="160" cy="160" r="26"/>
-    ${marcas.join('')}
-    ${fios.join('')}
-  `);
-})();
-
 // Buraco negro: o disco, o anel de luz e a malha do espaço entortando.
 const BURACO_NEGRO = (() => {
   const malha = [];
@@ -254,19 +225,17 @@ const BOBINA = (() => {
 
 
 export const PRANCHAS = {
-  darwin: { tipo: 'foto', arquivo: 'darwin.webp', nome: 'Charles Darwin', legenda: '1809 – 1882', nota: 'Fotografia de Leonard Darwin, por volta de 1874.' },
+  darwin: { tipo: 'foto', arquivo: 'darwin.webp', nome: 'Charles Darwin', legenda: '1809 – 1882', nota: 'Fotografia de Julia Margaret Cameron, por volta de 1868.' },
   beagle: { tipo: 'foto', arquivo: 'beagle.webp', nome: 'HMS Beagle', legenda: '1831 – 1836', nota: 'O Beagle no estreito de Magalhães, com o monte Sarmiento ao fundo.' },
   tentilhoes: { tipo: 'foto', arquivo: 'tentilhoes.webp', nome: 'Os bicos de Galápagos', legenda: '1845', nota: 'Gravura de John Gould para o diário de viagem de Darwin.' },
   origem: { tipo: 'foto', arquivo: 'origem.webp', nome: 'A Origem das Espécies', legenda: '1859', nota: 'Folha de rosto da primeira edição, John Murray, Londres.' },
   wallace: { tipo: 'foto', arquivo: 'wallace.webp', nome: 'Alfred Russel Wallace', legenda: '1823 – 1913', nota: 'Colecionador de insetos, chegou à seleção natural sozinho.' },
   huxley: { tipo: 'foto', arquivo: 'huxley.webp', nome: 'Thomas Henry Huxley', legenda: '1825 – 1895', nota: 'O homem que brigava em público pelas ideias de Darwin.' },
-  newton: { tipo: 'foto', arquivo: 'newton.webp', nome: 'Isaac Newton', legenda: '1643 – 1727', nota: 'Retrato de Godfrey Kneller, pintado em 1689.' },
+  newton: { tipo: 'foto', arquivo: 'newton.webp', nome: 'Isaac Newton', legenda: '1643 – 1727', nota: 'Retrato pintado por Godfrey Kneller.' },
   principia: { tipo: 'foto', arquivo: 'principia.webp', nome: 'Principia', legenda: '1687', nota: 'Folha de rosto da primeira edição, impressa em Londres.' },
   prisma: { tipo: 'desenho', svg: PRISMA, nome: 'O experimento do prisma', legenda: '1666', nota: 'A luz branca entra inteira e sai repartida em cores.' },
   faraday: { tipo: 'foto', arquivo: 'faraday.webp', nome: 'Michael Faraday', legenda: '1791 – 1867', nota: 'Filho de ferreiro, aprendiz de encadernador, gênio do laboratório.' },
   davy: { tipo: 'foto', arquivo: 'davy.webp', nome: 'Humphry Davy', legenda: '1778 – 1829', nota: 'Químico, poeta e chefe de Faraday na Royal Institution.' },
-  lovelace: { tipo: 'foto', arquivo: 'lovelace.webp', nome: 'Ada Lovelace', legenda: '1815 – 1852', nota: 'Aquarela de Alfred Edward Chalon, por volta de 1840.' },
-  babbage: { tipo: 'foto', arquivo: 'babbage.webp', nome: 'Charles Babbage', legenda: '1791 – 1871', nota: 'Projetou um computador cem anos antes de existir eletrônica.' },
   micrographia: { tipo: 'foto', arquivo: 'micrographia.webp', nome: 'A pulga da Micrographia', legenda: '1665', nota: 'Robert Hooke desenhou o que via na lente — e assustou Londres.' },
   halley: { tipo: 'foto', arquivo: 'halley.webp', nome: 'Edmond Halley', legenda: '1656 – 1742', nota: 'Pagou do próprio bolso a impressão do Principia.' },
   herschel: { tipo: 'foto', arquivo: 'herschel.webp', nome: 'William Herschel', legenda: '1738 – 1822', nota: 'Músico de profissão, polia os próprios espelhos de telescópio.' },
@@ -278,7 +247,6 @@ export const PRANCHAS = {
   foto51: { tipo: 'desenho', svg: FOTO51, nome: 'Foto 51', legenda: '1952', nota: 'O X que o DNA desenha quando atravessado por raios X.' },
   hodgkin: { tipo: 'desenho', svg: MOLECULA, nome: 'A penicilina, por dentro', legenda: '1945', nota: 'Os dois anéis colados que Dorothy Hodgkin mapeou com raios X.' },
   penicilina: { tipo: 'desenho', svg: PENICILINA, nome: 'A placa esquecida', legenda: '1928', nota: 'Em volta do mofo, um círculo limpo: ali nenhuma bactéria cresceu.' },
-  enigma: { tipo: 'desenho', svg: ENIGMA, nome: 'O rotor da Enigma', legenda: '1939 – 1945', nota: 'Vinte e seis contatos e uma fiação embaralhada por dentro.' },
   'buraco-negro': { tipo: 'desenho', svg: BURACO_NEGRO, nome: 'O horizonte de eventos', legenda: '1974', nota: 'Onde o espaço entorta tanto que nem a luz volta.' },
   pombos: { tipo: 'foto', arquivo: 'pombos.webp', nome: 'Os crânios dos pombos', legenda: '1868', nota: 'Prancha de "A Variação": quatro raças criadas pelo homem, cada uma com outra cabeça.' },
   owen: { tipo: 'foto', arquivo: 'owen.webp', nome: 'Richard Owen', legenda: '1804 – 1892', nota: 'Inventou a palavra dinossauro, fundou o Museu de História Natural e odiava Darwin.' },
@@ -287,12 +255,11 @@ export const PRANCHAS = {
   drosera: { tipo: 'foto', arquivo: 'drosera.webp', nome: 'A drósera', legenda: '1875', nota: 'A planta de folha pegajosa que Darwin dizia amar mais que todas as espécies do mundo.' },
   mendeleev: { tipo: 'foto', arquivo: 'mendeleev.webp', nome: 'Dmitri Mendeleiev', legenda: '1834 – 1907', nota: 'Deixou buracos na tabela e disse o que ia caber neles. Coube.' },
   priestley: { tipo: 'foto', arquivo: 'priestley.webp', nome: 'Joseph Priestley', legenda: '1733 – 1804', nota: 'Pastor, químico e encrenqueiro: teve a casa incendiada por uma multidão e fugiu para os Estados Unidos.' },
-  coracao: { tipo: 'foto', arquivo: 'coracao.webp', nome: 'O coração por dentro', legenda: '1858', nota: 'Prancha da primeira edição da Anatomia de Gray, desenhada por Henry Vandyke Carter.' },
-  abelha: { tipo: 'foto', arquivo: 'abelha.webp', nome: 'O mamangava', legenda: 'Bombus', nota: 'Darwin passou anos atrás de abelha e de trevo para entender quem poliniza o quê.' },
+  coracao: { tipo: 'foto', arquivo: 'coracao.webp', nome: 'O coração por dentro', legenda: 'Anatomia de Gray', nota: 'Prancha da Anatomia de Gray, o livro de anatomia mais famoso da Inglaterra, com desenho de Henry Vandyke Carter.' },
+  abelha: { tipo: 'foto', arquivo: 'abelha.webp', nome: 'A mamangava', legenda: 'Bombus', nota: 'Darwin passou anos atrás de abelha e de trevo para entender quem poliniza o quê.' },
   agua: { tipo: 'desenho', svg: AGUA, nome: 'A molécula de água', legenda: 'H₂O', nota: 'Dois hidrogênios presos a um oxigênio, num V aberto em 104,5 graus.' },
   ph: { tipo: 'desenho', svg: PH, nome: 'A régua do pH', legenda: '0 a 14', nota: 'Cada degrau é dez vezes: pH 4 é cem vezes mais ácido que pH 6.' },
   carbono: { tipo: 'desenho', svg: CARBONO, nome: 'O mesmo átomo, dois arranjos', legenda: 'C', nota: 'Carbono em pirâmide dá diamante; em folhas empilhadas, dá grafite.' },
   bobina: { tipo: 'desenho', svg: BOBINA, nome: 'A indução, em desenho', legenda: '1831', nota: 'O ímã entra, a agulha se mexe. O ímã para, a agulha volta ao lugar.' },
   chimpanze: { tipo: 'foto', arquivo: 'chimpanze.webp', nome: 'O chimpanzé de Darwin', legenda: '1872', nota: 'Prancha de "A Expressão das Emoções no Homem e nos Animais".' },
-  'royal-society': { tipo: 'foto', arquivo: 'royal-society.webp', nome: 'A Royal Society', legenda: '1660', nota: 'Frontispício da história da Sociedade, escrita por Thomas Sprat.' },
 };

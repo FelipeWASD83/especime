@@ -3,20 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sociedade Real — quiz sobre Darwin e os naturalistas da Inglaterra</title>
+<title>Espécime — quiz de biologia, química e física</title>
 <meta name="description" content="Doze perguntas de ciência com a biologia no centro: evolução, fósseis, vacina e DNA, mais um pouco de química e física. Leva quatro minutos.">
 <meta name="theme-color" content="#f2ece0">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="Sociedade Real — quiz sobre os naturalistas da Inglaterra">
+<meta property="og:site_name" content="Espécime">
+<meta property="og:title" content="Espécime — um quiz de ciência">
 <meta property="og:description" content="Evolução, fósseis, vacina e DNA em doze perguntas. Quatro minutos, uma prancha de museu a cada resposta. Até onde você sobe na Royal Society?">
 <meta property="og:locale" content="pt_BR">
+<!-- endereco:inicio — sem endereço definido ainda; rode ferramentas/gerar-paginas.py --endereco <url> -->
+<!-- endereco:fim -->
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;0,600;1,300;1,500&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap">
-<link rel="stylesheet" href="css/estilo.css">
+<!-- Tudo vem daqui mesmo: nenhuma fonte ou script de outro servidor. -->
+<link rel="preload" href="/fontes/cormorant-garamond.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/estilo.css">
 </head>
 
 <body>
@@ -43,8 +45,8 @@
           </defs>
           <circle cx="100" cy="100" r="92" class="selo__anel"/>
           <circle cx="100" cy="100" r="84" class="selo__anel selo__anel--fino"/>
-          <text class="selo__texto"><textPath href="#arco-cima" startOffset="50%">NULLIUS · IN · VERBA</textPath></text>
-          <text class="selo__texto"><textPath href="#arco-baixo" startOffset="50%">LONDRES · MDCLX</textPath></text>
+          <text class="selo__texto"><textPath href="#arco-cima" startOffset="50%">ESPÉCIME · MMXXVI</textPath></text>
+          <text class="selo__texto"><textPath href="#arco-baixo" startOffset="50%">VIDA · MATÉRIA · LUZ</textPath></text>
           <path class="selo__pena" d="M100 62 C126 76 132 106 118 132 C110 146 96 142 92 130
                                       C86 112 90 84 100 62 Z"/>
           <path class="selo__pena selo__pena--haste" d="M100 66 C96 96 92 118 84 140"/>
@@ -54,8 +56,8 @@
       <p class="rotulo hero__rotulo">Quiz · 12 perguntas · 4 minutos</p>
 
       <h1 class="hero__titulo">
-        <span class="hero__linha">Sociedade</span>
-        <span class="hero__linha hero__linha--italico">Real</span>
+        <span class="hero__linha">Espécime</span>
+        <span class="hero__linha hero__linha--italico">um quiz de ciência</span>
       </h1>
 
       <p class="hero__chamada">
@@ -69,10 +71,9 @@
           Começar o quiz
           <span class="botao__seta" aria-hidden="true">→</span>
         </button>
-        <p class="hero__aviso">Sem cadastro, sem conta, sem anúncio. Dá para jogar de novo.</p>
       </div>
 
-      <p class="rotulo hero__pe">38 perguntas · 28 pranchas</p>
+      <p class="rotulo hero__pe">60 perguntas · 37 pranchas</p>
       <p class="rotulo hero__rolar"><span aria-hidden="true">↓</span> Como funciona</p>
     </div>
   </section>
@@ -95,7 +96,7 @@
         <li class="metodo__item revelar">
           <span class="metodo__numero">03</span>
           <h3>Você sobe de posto</h3>
-          <p>No fim, um lugar na Sociedade Real — de visitante de domingo a presidente. E a lista inteira para rever o que você errou.</p>
+          <p>No fim, um posto na Royal Society — de visitante de domingo a presidente. E a lista inteira para rever o que você errou.</p>
         </li>
       </ol>
     </div>
@@ -104,7 +105,7 @@
   <section class="bloco bloco--papel galeria">
     <div class="limite">
       <p class="rotulo revelar">O acervo</p>
-      <h2 class="titulo-secao revelar"><span id="conta-pranchas">28</span> pranchas,<br><em>todas de verdade.</em></h2>
+      <h2 class="titulo-secao revelar"><span id="conta-pranchas">37</span> pranchas,<br><em>todas de verdade.</em></h2>
       <p class="galeria__texto revelar">
         Os retratos, as gravuras e os mapas vêm do acervo público do Wikimedia
         Commons — a mesma pulga que Robert Hooke desenhou em 1665, o mesmo mapa
@@ -197,9 +198,9 @@
 
 </main>
 
-<!-- ═══════════════════ RODAPÉ · FELIPE SITES ═══════════════════ -->
+<!-- rodape:inicio — gerado por ferramentas/gerar-paginas.py; não editar à mão -->
 <footer class="bloco bloco--tinta rodape" id="rodape">
-  <div class="limite">
+  <div class="limite rodape__grade">
     <div class="rodape__oferta">
       <p class="rotulo">Quem fez este site</p>
       <h2 class="rodape__titulo">Gostou? Eu faço sites assim <em>para o seu negócio.</em></h2>
@@ -207,22 +208,40 @@
         Sites rápidos, bonitos e feitos à mão — sem modelo pronto, sem mensalidade
         de plataforma. Do jeito que este aqui foi feito.
       </p>
-      <a class="botao botao--claro" href="https://felipesites.com.br" target="_blank" rel="noopener">
-        Ver o Felipe Sites
-        <span class="botao__seta" aria-hidden="true">→</span>
-      </a>
+      <div class="rodape__acoes">
+        <a class="botao botao--claro" href="https://wa.me/5531984465713?text=Ol%C3%A1!%20Vi%20o%20Esp%C3%A9cime%20e%20quero%20um%20site." target="_blank" rel="noopener">
+          Chamar no WhatsApp
+          <span class="botao__seta" aria-hidden="true">→</span>
+        </a>
+        <a class="botao botao--contorno-claro" href="https://felipesites.com.br" target="_blank" rel="noopener">Ver o Felipe Sites</a>
+      </div>
     </div>
-    <div class="rodape__creditos">
-      <p class="rotulo">Acervo</p>
-      <p>
-        Retratos e gravuras do <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia&nbsp;Commons</a>,
-        em domínio público ou sob licença livre. Diagramas desenhados para este projeto.
-      </p>
-      <p class="rodape__assinatura">Sociedade Real · um quiz de <a href="https://felipesites.com.br" target="_blank" rel="noopener">Felipe Sites</a></p>
+
+    <div class="rodape__contato">
+      <p class="rotulo">Felipe Sites</p>
+      <ul class="rodape__lista">
+        <li><span class="rodape__tipo">E-mail</span><a href="mailto:felipe.sites0@gmail.com">felipe.sites0@gmail.com</a></li>
+        <li><span class="rodape__tipo">WhatsApp</span><a href="https://wa.me/5531984465713?text=Ol%C3%A1!%20Vi%20o%20Esp%C3%A9cime%20e%20quero%20um%20site." target="_blank" rel="noopener">(31) 98446-5713</a></li>
+        <li><span class="rodape__tipo">Instagram</span><a href="https://www.instagram.com/felipesites/" target="_blank" rel="noopener">@felipesites</a></li>
+      </ul>
+      <p class="rotulo">Quem escreveu o quiz</p>
+      <ul class="rodape__lista">
+        <li><span class="rodape__tipo">Felipe</span><a href="https://www.instagram.com/felipe.wasd/" target="_blank" rel="noopener">@felipe.wasd</a></li>
+      </ul>
     </div>
   </div>
-</footer>
 
-<script type="module" src="js/app.js"></script>
+  <div class="limite rodape__base">
+    <p>Espécime · um quiz de ciência · feito por <a href="https://felipesites.com.br" target="_blank" rel="noopener">Felipe Sites</a></p>
+    <nav class="rodape__legal" aria-label="Informações legais">
+      <a href="/privacidade/">Privacidade</a>
+      <a href="/termos/">Termos de uso</a>
+      <a href="/creditos/">Créditos das imagens</a>
+    </nav>
+  </div>
+</footer>
+<!-- rodape:fim -->
+
+<script type="module" src="/js/app.js"></script>
 </body>
 </html>

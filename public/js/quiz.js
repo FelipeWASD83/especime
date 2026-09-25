@@ -120,7 +120,7 @@ export function avancar(partida) {
   return !acabou(partida);
 }
 
-// Os postos da Sociedade Real, do mais baixo para o mais alto.
+// Os postos do fim da partida, do mais baixo para o mais alto.
 // `minimo` é a fração de acertos necessária.
 export const POSTOS = [
   {

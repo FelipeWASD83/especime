@@ -57,6 +57,39 @@
   --curva: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* ── Fontes, todas servidas daqui ─────────────────────────────────
+   Nenhum pedido vai ao Google: é mais rápido no 4G (dois servidores a
+   menos para conectar) e deixa a política de privacidade verdadeira.
+   São arquivos variáveis — um arquivo cobre todos os pesos.
+   `swap` na serifa (é a marca, vale esperar um pouco por ela);
+   `optional` no corpo: em rede lenta a página usa a fonte do sistema
+   e não pisca quando a Inter chega — ela fica guardada para a próxima. */
+
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('/fontes/cormorant-garamond.woff2') format('woff2');
+  font-weight: 300 700; font-style: normal; font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('/fontes/cormorant-garamond-italico.woff2') format('woff2');
+  font-weight: 300 700; font-style: italic; font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/fontes/inter.woff2') format('woff2');
+  font-weight: 100 900; font-style: normal; font-display: optional;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  src: url('/fontes/ibm-plex-mono-500.woff2') format('woff2');
+  font-weight: 500; font-style: normal; font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 /* Fibra do papel: ruído em SVG, sem imagem baixada. */
 :root {
   --fibra: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23f)' opacity='0.5'/%3E%3C/svg%3E");
@@ -117,8 +150,8 @@ img, svg { display: block; max-width: 100%; }
   background-image: var(--fibra);
   pointer-events: none;
 }
-.bloco--papel::before { opacity: 0.045; mix-blend-mode: multiply; }
-.bloco--tinta::before { opacity: 0.05; mix-blend-mode: screen; }
+.bloco--papel::before { opacity: 0.04; }
+.bloco--tinta::before { opacity: 0.035; }
 
 .bloco > * { position: relative; z-index: 1; }
 
@@ -183,6 +216,7 @@ img, svg { display: block; max-width: 100%; }
   font-size: 0.9375rem;
   font-weight: 500;
   letter-spacing: 0.01em;
+  text-decoration: none; /* botão que é link não ganha sublinhado */
   cursor: pointer;
   transition: background var(--rapida) ease, color var(--rapida) ease,
               border-color var(--rapida) ease, transform var(--rapida) ease;
@@ -230,8 +264,7 @@ img, svg { display: block; max-width: 100%; }
   padding: 7px 13px;
   border: 1px solid var(--linha);
   border-radius: 100px;
-  background: rgba(248, 243, 233, 0.82);
-  backdrop-filter: blur(6px);
+  background: var(--papel-alto);
   color: var(--tinta-fraca);
   font-family: var(--maquina);
   font-size: 0.6875rem;
@@ -301,6 +334,7 @@ img, svg { display: block; max-width: 100%; }
 .hero__selo { grid-area: selo; width: clamp(86px, 9vw, 132px); color: var(--tinta); opacity: 0.85; }
 .hero__selo svg { width: 100%; height: auto; animation: gira 64s linear infinite; }
 @keyframes gira { to { transform: rotate(360deg); } }
+.pausado { animation-play-state: paused !important; }
 
 .selo__anel { fill: none; stroke: currentColor; stroke-width: 1.5; }
 .selo__anel--fino { stroke-width: 0.7; stroke-dasharray: 2 5; opacity: 0.7; }
@@ -329,7 +363,11 @@ img, svg { display: block; max-width: 100%; }
 .hero__linha--italico {
   font-style: italic;
   font-weight: 500;
-  padding-left: 0.14em;
+  font-size: max(0.3em, 1.5rem); /* no celular, 30% do título seria miúdo */
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  padding-left: 0.2em;
+  margin-top: 0.35em;
   color: var(--carmim);
 }
 
@@ -343,12 +381,6 @@ img, svg { display: block; max-width: 100%; }
 }
 
 .hero__acao { grid-area: acao; margin-top: var(--e6); }
-.hero__aviso {
-  margin-top: var(--e3);
-  font-size: 0.8125rem;
-  color: var(--tinta-fraca);
-}
-
 .hero__pe   { grid-area: pe; align-self: end; padding-top: var(--e8); }
 .hero__rolar{ grid-area: rolar; align-self: end; padding-top: var(--e8); }
 .hero__rolar span { margin-right: var(--e2); display: inline-block; animation: pisca-seta 2.6s ease-in-out infinite; }
@@ -421,14 +453,11 @@ img, svg { display: block; max-width: 100%; }
   padding: var(--e2);
   border: 1px solid var(--linha);
   background: var(--papel-alto);
-  filter: sepia(0.22) contrast(1.04);
 }
 .galeria__peca img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: top center;
-  mix-blend-mode: multiply;
 }
 
 /* ════════════════════════════════════════════════════════════════════
@@ -665,6 +694,10 @@ img, svg { display: block; max-width: 100%; }
 .prancha--revela .prancha__moldura > :first-child {
   animation: revela-prancha var(--revelacao) var(--curva);
 }
+@keyframes revela-prancha-leve {
+  0%   { opacity: 0; clip-path: inset(100% 0 0 0); }
+  100% { opacity: 1; clip-path: inset(0 0 0 0); }
+}
 @keyframes revela-prancha {
   0%   { opacity: 0; filter: blur(9px) sepia(0.26) contrast(1.06); clip-path: inset(100% 0 0 0); transform: scale(1.035); }
   100% { opacity: 1; filter: blur(0)   sepia(0.26) contrast(1.06); clip-path: inset(0 0 0 0);    transform: none; }
@@ -807,7 +840,7 @@ img, svg { display: block; max-width: 100%; }
    Rodapé — a oferta do Felipe Sites
    ════════════════════════════════════════════════════════════════════ */
 
-.rodape .limite {
+.rodape__grade {
   display: grid;
   grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
   gap: clamp(var(--e6), 6vw, var(--e9));
@@ -828,17 +861,125 @@ img, svg { display: block; max-width: 100%; }
   margin-top: var(--e4);
   color: var(--creme-fraco);
 }
-.rodape__oferta .botao { margin-top: var(--e6); }
+.rodape__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e3);
+  margin-top: var(--e6);
+}
 
-.rodape__creditos {
+.rodape__contato {
+  padding-top: var(--e5);
+  border-top: 1px solid var(--linha-clara);
+}
+.rodape__contato .rotulo { display: block; }
+.rodape__lista { margin: var(--e4) 0 var(--e6); }
+.rodape__lista li {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  gap: var(--e3);
+  align-items: baseline;
+  border-bottom: 1px solid var(--linha-clara);
+}
+.rodape__tipo { font-size: 0.8125rem; color: var(--creme-fraco); }
+.rodape__lista a {
+  display: inline-block;
+  padding: 11px 0; /* alvo de toque de 44 px sem mudar o desenho */
+  color: var(--creme);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+.rodape__lista a:hover { color: var(--carmim-claro); text-decoration: underline; }
+
+.rodape__base {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--e4);
+  margin-top: var(--e8);
   padding-top: var(--e5);
   border-top: 1px solid var(--linha-clara);
   font-size: 0.8125rem;
   color: var(--creme-fraco);
 }
-.rodape__creditos p + p { margin-top: var(--e4); }
-.rodape__creditos .rotulo { margin-bottom: var(--e4); display: block; }
-.rodape__assinatura { color: var(--creme); }
+.rodape__base a { color: var(--creme); }
+.rodape__legal { display: flex; flex-wrap: wrap; gap: 0 var(--e5); }
+.rodape__legal a { display: inline-block; padding: 11px 0; }
+
+/* ════════════════════════════════════════════════════════════════════
+   Páginas de texto — privacidade, termos, créditos
+   ════════════════════════════════════════════════════════════════════ */
+
+.limite--texto { width: min(46rem, 100% - var(--gutter) * 2); margin-inline: auto; }
+
+.documento { padding-top: clamp(96px, 12vh, 150px); }
+.documento__voltar {
+  display: inline-flex;
+  gap: var(--e2);
+  margin-bottom: var(--e7);
+  padding: var(--e2) 0;
+  font-family: var(--serifa);
+  font-size: 1.375rem;
+  font-style: italic;
+  font-weight: 500;
+  color: var(--carmim);
+  text-decoration: none;
+}
+.documento__voltar:hover { text-decoration: underline; }
+.documento__titulo {
+  margin-top: var(--e4);
+  font-family: var(--serifa);
+  font-size: var(--t-titulo2);
+  font-weight: 300;
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+}
+.documento__data { margin-top: var(--e3); font-size: 0.875rem; color: var(--tinta-fraca); }
+.documento__lide {
+  margin-top: var(--e7);
+  font-size: var(--t-medio);
+  line-height: 1.6;
+}
+.documento h2 {
+  margin-top: var(--e8);
+  font-family: var(--serifa);
+  font-size: var(--t-titulo3);
+  font-weight: 500;
+  line-height: 1.2;
+}
+.documento p { margin-top: var(--e4); line-height: 1.7; }
+.documento h2 + p { margin-top: var(--e3); }
+.documento a { color: var(--carmim); }
+
+.creditos { margin-top: var(--e5); }
+.credito {
+  display: grid;
+  grid-template-columns: 60px minmax(0, 1fr);
+  gap: var(--e4);
+  align-items: start;
+  padding: var(--e4) 0;
+  border-bottom: 1px solid var(--linha);
+}
+.credito__miniatura { width: 60px; height: 80px; border: 1px solid var(--linha); }
+.credito div { display: grid; gap: 2px; font-size: 0.875rem; line-height: 1.45; }
+.credito strong { font-family: var(--serifa); font-size: 1.25rem; font-weight: 500; }
+.credito span { color: var(--tinta-fraca); }
+.credito div > a { font-size: 0.8125rem; overflow-wrap: anywhere; }
+
+/* ── Página de erro ─────────────────────────────────────────────── */
+
+.hero--erro .hero__grade {
+  grid-template-areas: ". rotulo" ". titulo" ". chamada" ". acao";
+}
+.hero--erro .hero__titulo { font-size: clamp(3rem, 9vw, 8rem); }
+
+/* Num processador fraco, desenhar a página inteira na abertura atrasa o
+   que está na tela. Estas seções só são montadas quando chegam perto. */
+.metodo, .galeria {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
 
 /* ════════════════════════════════════════════════════════════════════
    Revelação no scroll
@@ -859,10 +1000,11 @@ img, svg { display: block; max-width: 100%; }
 @media (max-width: 900px) {
   .veredito { grid-template-columns: minmax(0, 1fr); }
   .prancha { max-width: 340px; }
-  .rodape .limite { grid-template-columns: minmax(0, 1fr); }
+  .rodape__grade { grid-template-columns: minmax(0, 1fr); }
 }
 
 @media (max-width: 720px) {
+  .prancha--revela .prancha__moldura > :first-child { animation-name: revela-prancha-leve; }
   .hero {
     min-height: auto;
     padding-block: 132px var(--e8);
@@ -873,6 +1015,9 @@ img, svg { display: block; max-width: 100%; }
     row-gap: 0;
   }
   .hero__selo { margin-bottom: var(--e5); }
+  /* "Espécime" é curto: no celular o título pode ocupar a largura quase toda */
+  .hero__titulo { font-size: clamp(3.4rem, 19vw, 6rem); }
+  .hero--erro .hero__grade { grid-template-areas: 'rotulo' 'titulo' 'chamada' 'acao'; }
   .hero__pe, .hero__rolar { padding-top: var(--e7); }
   .hero__rolar { padding-top: var(--e3); }
   .titulo-secao { max-width: none; }

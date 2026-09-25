@@ -1,66 +1,113 @@
-# Sociedade Real
+# Espécime
 
 Quiz de ciência com a biologia no centro. **Dez de biologia contra duas de
 química ou física**, sorteadas de um banco de 60: evolução, fósseis, vacina,
 DNA, bicho e planta, mais a molécula de água, a régua do pH e o porquê do céu
-ser azul. Tem tanto história da ciência inglesa — Darwin, Mary Anning,
-Faraday — quanto a ciência em si.
+ser azul. Tem tanto história da ciência — Darwin, Mary Anning, Faraday — quanto
+a ciência em si.
 
 Uma explicação e uma prancha de museu a cada resposta, e um posto na Royal
-Society no fim — de "visitante de domingo" a "presidente".
+Society no fim — de "visitante de domingo" a "presidente". Leva de três a cinco
+minutos.
 
-Leva de três a cinco minutos. Roda inteiro no navegador: não tem servidor, não
-tem cadastro, não guarda nada de ninguém.
+É um site público, feito pelo Felipe Sites: leva a assinatura no canto e os
+contatos no rodapé, e tem política de privacidade, termos de uso e página de
+créditos das imagens. Não tem servidor, cadastro, cookie nem rastreador.
 
 ---
 
-## Como ver no PC
+## Publicar
 
-O preview do Claude Code já sobe pela entrada `quiz-cientistas-ingleses` do
-`.claude/launch.json` da raiz, na porta **4318**. Na mão:
+**A pasta que vai para a Cloudflare é a `public/`, e só ela.** Tudo o que o
+site precisa está lá dentro — páginas, fontes, imagens e o arquivo `_headers`
+com os cabeçalhos de segurança. O resto do projeto (ferramentas, testes,
+documentação) não sobe.
+
+### Pelo painel da Cloudflare (como o Felipe publica)
+
+1. *Workers & Pages* → *Create* → criar um **Worker** a partir de arquivos
+   estáticos (a opção de enviar/arrastar arquivos).
+2. Nome do Worker: **`especime`**.
+3. Enviar o **conteúdo** da pasta `public/` — o `index.html` tem que ficar na
+   raiz do envio, não dentro de uma subpasta `public`.
+4. Depois que publicar, abrir o endereço e conferir.
+
+**Sobre a página 404:** pela documentação da Cloudflare, o Worker só usa o
+`404.html` quando a opção `not_found_handling = "404-page"` está ligada. Pelo
+comando (abaixo) ela liga sozinha, porque está no `wrangler.jsonc`. Pelo painel,
+não há garantia: para conferir, abra um endereço que não existe, como
+`/qualquer-coisa`. Se aparecer a página "Não catalogado", está funcionando; se
+aparecer um erro seco do navegador, o painel não aplicou — o resto do site não
+muda nada com isso.
+
+### Pelo comando
 
 ```powershell
-python -m http.server 4318 --bind 127.0.0.1 --directory public
-```
-
-E abrir <http://localhost:4318>.
-
-## Como publicar
-
-Vai para um Worker da Cloudflare chamado **`sociedade-real`**, no modo só de
-arquivos estáticos — não existe código de servidor, a Cloudflare serve a pasta
-`public/` direto da borda.
-
-```powershell
+npx wrangler login
 npx wrangler deploy
 ```
 
-Primeira vez: `npx wrangler login` antes. Para conferir a configuração sem
-publicar nada:
+Aqui a 404 funciona garantida. Para conferir sem publicar:
+`npx wrangler deploy --dry-run`.
+
+### Depois de publicar: o endereço
+
+Quando o site estiver no ar, rode uma vez com o endereço dele:
 
 ```powershell
-npx wrangler deploy --dry-run
+python ferramentas\gerar-paginas.py --endereco https://especime.SEU-SUBDOMINIO.workers.dev
 ```
 
-Depois de publicar, o site fica em `https://sociedade-real.<sua-conta>.workers.dev`.
-Domínio próprio se configura no painel da Cloudflare, em Workers → o worker →
-Settings → Domains & Routes.
+e publique a `public/` de novo. Isso liga a **prévia com imagem** quando alguém
+compartilha o link no WhatsApp ou no Instagram, e cria o `sitemap.xml` para o
+Google. Sem esse passo o site funciona igual — só o link compartilhado sai sem
+a figura.
 
-## Como testar
+---
+
+## Ver no PC
+
+Duas entradas no `.claude/launch.json` da raiz:
+
+| Porta | O que é | Quando usar |
+|---|---|---|
+| **4318** | servidor simples do Python | mexer e olhar |
+| **8789** | o Worker de verdade (`npx wrangler dev`) | conferir antes de publicar: é o único que aplica os cabeçalhos de segurança e a página 404, e comprime como a Cloudflare |
+
+Na mão: `python -m http.server 4318 --directory public` e abrir
+<http://localhost:4318>.
+
+## Testar
 
 ```powershell
 node --test testes/*.test.js
 ```
 
-Dezesseis testes: a lógica da partida (sorteio, mistura de níveis, pontuação,
-fim de jogo) e a integridade dos dados — toda pergunta com quatro alternativas
-diferentes, toda pergunta apontando para uma prancha que existe, e toda prancha
-de foto com arquivo no disco. **Se um teste quebrar depois de mexer no banco de
-perguntas, é o banco que está errado, não o teste.**
+29 testes. Os da partida (`quiz.test.js`) conferem o sorteio, a mistura de
+níveis, o 80/20 de biologia e a pontuação. Os do site (`site.test.js`) conferem
+que todas as páginas têm o rodapé com os contatos e os links legais, que nada é
+buscado em outro servidor, que toda imagem tem crédito publicado, que nenhuma
+prancha sobra sem pergunta e que o nome antigo não voltou. **Se um teste
+quebrar depois de mexer no conteúdo, é o conteúdo que está errado.**
 
 ---
 
 ## Mexer no conteúdo
+
+### Contatos, textos legais e rodapé
+
+Tudo fica no começo de `ferramentas/gerar-paginas.py`: e-mail, WhatsApp,
+Instagram, nome do site e a data de atualização das políticas. Mudou algo lá,
+rode:
+
+```powershell
+python ferramentas\gerar-paginas.py
+```
+
+Ele refaz a política de privacidade, os termos, os créditos, a 404, o
+`robots.txt` e o rodapé de **todas** as páginas, inclusive o da capa. Não
+edite o rodapé à mão em nenhum HTML: da próxima vez que o gerador rodar, a
+edição some.
 
 ### Acrescentar uma pergunta
 
@@ -80,60 +127,75 @@ Abrir `public/js/dados/perguntas.js` e copiar o formato de qualquer uma:
 ```
 
 **Só existem três áreas: `bio`, `quimica` e `fisica`.** Pergunta que não cabe
-em nenhuma das três não entra no quiz, e um teste cobra isso. `bio` é biologia
-em sentido largo: evolução, fósseis, medicina, genética, bicho, planta.
-
-As alternativas são embaralhadas na hora de jogar — a ordem escrita aqui nunca
-aparece na tela. Os números da capa saem dos dados sozinhos.
+em nenhuma das três não entra no quiz. Depois de acrescentar, rode o
+`gerar-paginas.py` — é ele que escreve os números da capa ("60 perguntas ·
+37 pranchas").
 
 ### Mudar a dificuldade ou a dose de biologia
 
-No fim do mesmo arquivo, dois números mandam em tudo:
+No fim de `perguntas.js`:
 
 ```js
 export const MISTURA = { facil: 5, media: 5, dificil: 2 };
 export const EXATAS_POR_PARTIDA = 2;
 ```
 
-O primeiro é a **dificuldade**: cinco fáceis, cinco medianas e duas difíceis =
-doze perguntas. É o que segura o quiz no meio — quem não sabe nada acerta as
-fáceis e aprende o resto nas explicações.
+O primeiro é a **dificuldade**: cinco fáceis, cinco medianas e duas difíceis.
+O segundo é o **tema**: quantas das doze são de química ou física. Com `2` dá
+83% de biologia; `0` faz um quiz só de biologia.
 
-O segundo é o **tema**: quantas das doze são de química ou física. Com `2`, dá
-dez de biologia contra duas de fora — 83%. Pôr `0` faz um quiz só de biologia;
-pôr `6` divide meio a meio.
+### Imagem nova
 
-Os dois testes correspondentes falham na hora se o banco não aguentar o que
-você pediu.
+Acrescentar a busca em `BUSCAS`, no começo de `ferramentas/baixar-pranchas.py`,
+e rodar o script: ele baixa só imagem com licença livre, escreve o crédito no
+`CREDITOS.md` e gera a miniatura. Depois, `gerar-paginas.py` para a página de
+créditos publicada acompanhar. **Imagem sem crédito publicado não pode subir** —
+as da Wellcome são CC BY e a licença exige o crédito visível.
 
 ### Mudar as cores
 
-Tudo está no começo de `public/css/estilo.css`, no bloco `:root`, com o nome em
-português e um comentário dizendo o que cada cor controla. Trocar o valor ali
-muda o site inteiro.
+No começo de `public/css/estilo.css`, no bloco `:root`, cada cor tem nome em
+português e um comentário dizendo o que controla.
 
 ---
 
 ## Como está montado
 
 ```
-public/            o site inteiro (é o que a Cloudflare publica)
-  index.html       as três telas: capa, quiz e resultado
-  404.html         página de erro, no mesmo visual
-  css/estilo.css   uma folha só, com o sistema no topo
-  js/quiz.js       a lógica da partida, sem tocar em tela
-  js/app.js        o que pinta e anima
-  js/dados/        perguntas.js e pranchas.js
-  img/pranchas/    as imagens, em cinza e WebP
-ferramentas/       o script que baixa as pranchas do Wikimedia
-testes/            node --test
-wrangler.jsonc     a configuração do Worker
-CREDITOS.md        autoria e licença de cada imagem (gerado, não editar à mão)
+public/                  o site inteiro — é isto que sobe para a Cloudflare
+  index.html             capa, quiz e resultado
+  privacidade/ termos/   páginas legais (geradas)
+  creditos/              créditos de cada imagem e fonte (gerada)
+  404.html               página de erro (gerada)
+  _headers               cabeçalhos de segurança e de cache
+  robots.txt             (gerado)
+  css/estilo.css         uma folha só, com o sistema no topo
+  js/app.js              o que pinta e anima
+  js/quiz.js             a lógica da partida
+  js/dados/              perguntas.js e pranchas.js
+  img/pranchas/          as imagens das respostas, em cinza
+  img/miniaturas/        as mesmas, pequenas e tingidas, para a fita da capa
+  img/compartilhar.jpg   a figura da prévia de link
+  fontes/                as três fontes e a licença delas
+ferramentas/
+  baixar-pranchas.py     baixa imagens do Wikimedia e faz as miniaturas
+  gerar-paginas.py       páginas legais, 404, rodapé, números da capa, endereço
+testes/                  node --test
+wrangler.jsonc           a configuração do Worker (usada pelo comando)
+CREDITOS.md              registro das imagens (gerado, não editar à mão)
 ```
 
-As 31 pranchas fotográficas vêm do Wikimedia Commons, em domínio público ou sob
-licença livre, baixadas por `ferramentas/baixar-pranchas.py` — que só aceita
-arquivo com licença clara e escreve o `CREDITOS.md` sozinho. As outras dez são
-diagramas em SVG desenhados para o projeto: ou porque não existe retrato livre
-de quem é do século XX, ou porque o conceito (a molécula de água, a régua do
-pH, o carbono em dois arranjos) se explica melhor desenhado que fotografado.
+## Feito para celular fraco em 4G
+
+- **Nada de outro servidor:** as fontes moram no site. Menos conexões para
+  abrir no 4G, e a política de privacidade pode dizer que nada sai daqui.
+- **A capa não espera o quiz:** o banco de perguntas e as pranchas baixam em
+  segundo plano depois que a capa aparece. Na medição, "Começar" abriu a
+  primeira pergunta em 7 ms.
+- **A prancha chega antes da resposta:** a imagem começa a baixar junto com a
+  pergunta, então aparece na hora em que a pessoa responde.
+- **A fita da capa usa miniaturas** de ~9 KB já tingidas, e só baixa as que
+  aparecem. Antes eram quase 2 MB de imagens grandes tingidas pelo navegador.
+- **Nada de efeito caro:** sem desfoque por cima da página, sem modo de mistura
+  em área grande, animação parada quando está fora da tela, e a prancha chega
+  sem desfoque animado no celular.

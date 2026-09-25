@@ -1,4 +1,4 @@
-# CLAUDE.md — Sociedade Real
+# CLAUDE.md — Espécime
 
 Decisões fechadas deste projeto. O `README.md` conta o que ele é e como rodar;
 aqui fica o que **não** se desfaz sem motivo.
@@ -10,8 +10,11 @@ contradito aqui.
 
 ## 1. O que é
 
-Quiz sobre Darwin e outros cientistas da **Inglaterra**, feito para leigo. Vai
-para um Worker da Cloudflare.
+Quiz de ciência feito para leigo, **público**, num Worker da Cloudflare. Nasceu
+como "Sociedade Real", sobre cientistas da Inglaterra; **em 25/09/2026 ele
+escolheu o nome "Espécime"** (a pasta continua `quiz-cientistas-ingleses`, só
+por não valer o custo de renomear). O nome antigo não pode reaparecer em lugar
+nenhum do site, e um teste cobra isso.
 
 **O tema central é biologia**, e isso é decisão dele, de 22/09/2026: "o tema
 central do quiz é a biologia e não a ciência como um todo, você pode incluir
@@ -21,10 +24,15 @@ biologia, química ou física". Quem cumpre isso é a seção 2.
 
 A segunda frase é o que solta o escopo: **não precisa ser sobre cientista
 inglês.** Pode ser a ciência em si — o que a fotossíntese faz, do que é feita a
-água, por que o céu é azul. O que não pode é sair das três áreas. **É projeto pessoal do Felipe e leva a marca do
-Felipe Sites de propósito** — o site é vitrine de trabalho, não só brincadeira.
-Por isso a assinatura no canto e o bloco de oferta no rodapé não são enfeite:
-tirar qualquer um dos dois tira a razão comercial do projeto.
+água, por que o céu é azul. O que não pode é sair das três áreas.
+
+**É projeto pessoal do Felipe e leva a marca do Felipe Sites de propósito** — o
+site é vitrine de trabalho, e ele vai apresentá-lo. Por isso a assinatura no
+canto, o bloco de oferta e os contatos no rodapé não são enfeite. Os contatos
+são os do Felipe Sites (e-mail `felipe.sites0@gmail.com`, WhatsApp
+(31) 98446-5713, Instagram `@felipesites`, os mesmos de
+`felipe-sites/vitrine/js/dados.js`) mais o Instagram pessoal dele,
+`@felipe.wasd`, como autor do quiz.
 
 Mesmo levando a marca, **não é projeto de cliente**: não vive em conta de
 cliente e não segue identidade de terceiro.
@@ -116,6 +124,10 @@ tela, medida por luminância em 22/09/2026:
 | Capa | papel → tinta → papel → tinta (rodapé) |
 | Quiz | papel (o rodapé some durante a partida, de propósito) |
 | Resultado | tinta → papel → tinta (rodapé) |
+| Privacidade, termos, créditos | papel (título e texto num bloco só) → tinta (rodapé) |
+| 404 | papel → tinta (rodapé) |
+
+Medido de novo em 25/09/2026, em 1440 px e em 390 px.
 
 Acrescentar seção obriga a conferir isso de novo, **medindo**, não olhando.
 
@@ -146,9 +158,18 @@ Tudo respeita `prefers-reduced-motion`.
 `ferramentas/baixar-pranchas.py` busca no Wikimedia Commons, **descarta
 qualquer arquivo sem licença livre declarada** e escreve o `CREDITOS.md`
 sozinho — o arquivo é gerado, não se edita à mão. As imagens são guardadas em
-tons de cinza; o tom de tinta sobre papel é do CSS.
+tons de cinza; o tom de tinta sobre papel é do CSS. O mesmo script faz as
+**miniaturas** da fita da capa (`img/miniaturas/`, 240 × 320, já recortadas e
+**já tingidas**, para o navegador não precisar de filtro).
 
-Dez das pranchas são **diagramas em SVG desenhados aqui**. Existem por dois
+**Crédito publicado é obrigatório.** Parte das imagens (as da Wellcome) é
+CC BY 4.0, e a licença exige crédito visível para quem vê o site — o
+`CREDITOS.md` sozinho não basta, porque não é publicado. A página
+`/creditos/` sai do `CREDITOS.md` pelo `gerar-paginas.py`, e um teste reprova
+imagem sem crédito publicado. Prancha que nenhuma pergunta usa também é
+reprovada: ela aparecia na fita e na contagem da capa à toa.
+
+Nove das pranchas são **diagramas em SVG desenhados aqui**. Existem por dois
 motivos: de gente do século XX — Rosalind Franklin, Dorothy Hodgkin, Hawking —
 **não há retrato em domínio público confiável**; e conceito puro (a molécula de
 água, a régua do pH, o carbono em dois arranjos, a bobina de Faraday) fica
@@ -157,13 +178,67 @@ internet: ou é livre e verificada, ou é desenho.
 
 Teto de peso por prancha: 110 KB. O script aperta a qualidade sozinho até caber.
 
-## 6. Armadilhas
+## 6. Site público: páginas legais, rodapé e segurança
+
+`ferramentas/gerar-paginas.py` é a fonte única de: rodapé (em **todas** as
+páginas, inclusive encaixado na capa entre `<!-- rodape:inicio -->` e
+`<!-- rodape:fim -->`), política de privacidade, termos, créditos, 404,
+`robots.txt`, números da capa e, quando houver, endereço público (canonical,
+`og:image`, `sitemap.xml`, guardado em `ferramentas/site.json`). **Nunca editar
+essas partes à mão no HTML**: o gerador sobrescreve.
+
+A política de privacidade diz que **nada sai do navegador de quem visita**.
+Isso só é verdade porque:
+
+- **nenhum recurso vem de outro servidor** — as fontes são servidas do próprio
+  site (`public/fontes/`, com a licença OFL ao lado). Não voltar para o Google
+  Fonts nem pôr script de análise, anúncio ou incorporação sem **reescrever a
+  política antes**. Um teste reprova recurso externo;
+- **não há cookie nem `localStorage`**. Um placar salvo, por exemplo, obriga a
+  mudar a política.
+
+`public/_headers` aplica uma **política de segurança (CSP) que só aceita o que
+vem do próprio site**: nada de `<script>` ou `<style>` embutidos no HTML, nada
+de atributo `style=` no HTML (o JS pode mexer em `elemento.style`, isso é
+permitido). Conferido em 25/09/2026 com uma partida inteira no `wrangler dev`:
+zero bloqueio. Qualquer mudança de front-end se confere na porta **8789**, que
+é a única que aplica o `_headers`.
+
+## 7. Celular fraco em 4G — o que não se desfaz
+
+Pedido dele em 25/09/2026. Medido com celular simulado (390 px, 4G lento,
+processador 4× mais lento):
+
+- **A capa não carrega o quiz.** `app.js` busca `quiz.js` e `pranchas.js` com
+  `import()` depois do `load`, em segundo plano; a fita da capa e o botão
+  "Começar" esperam por essa mesma promessa. Não voltar a importar os dados no
+  topo do `app.js` nem pôr `modulepreload` neles: isso fazia os scripts
+  disputarem banda com o CSS, que é o que libera o primeiro desenho.
+- **O `preload` da fonte do título fica.** Testado sem ele: o CSS chegou
+  igual e a fonte do título atrasou 2,5 s.
+- **A prancha da pergunta é baixada junto com a pergunta** (`adiantarPrancha`).
+  Na medição, 12 de 12 pranchas estavam prontas no instante da resposta.
+- **Nada de efeito caro**: sem `backdrop-filter`, sem `mix-blend-mode` em área
+  grande, animações infinitas pausadas fora da tela, e no celular a prancha
+  chega sem desfoque animado.
+
+**Armadilha de medição:** o Kaspersky do PC dele injeta um script que trava o
+primeiro desenho por ~2 s em qualquer página, até em `127.0.0.1`. Visitante não
+tem isso. Para medir, olhar quando os arquivos do próprio site terminam, não o
+tempo total de primeiro desenho. O Kaspersky também pode sujar o console com
+avisos de segurança por causa da CSP — não é defeito do site.
+
+## 8. Armadilhas
 
 - **Mexeu em `perguntas.js` ou `pranchas.js`, roda o teste.** Ele pega chave de
   prancha inexistente, alternativa repetida e arquivo faltando no disco — que é
   justamente o erro que só apareceria jogando.
 - **Não existe código de servidor.** O `wrangler.jsonc` não tem `main`, só
   `assets`. Se um dia precisar de backend, é decisão nova, não detalhe.
-- **Porta 4318**, registrada no `PORTAS.md` e no `launch.json` da raiz.
-- **Deploy é decisão do Felipe.** Este projeto não está na lista de deploy
-  automático da pasta.
+- **Portas 4318 (estático) e 8789 (`wrangler dev`)**, registradas no
+  `PORTAS.md` e no `launch.json` da raiz.
+- **Deploy é decisão do Felipe, e ele publica pelo painel da Cloudflare**, como
+  Worker chamado `especime`, enviando o conteúdo de `public/`. Pelo painel o
+  `wrangler.jsonc` não é lido, então a página 404 depende de o painel ligar o
+  `not_found_handling` sozinho — ele decidiu (25/09/2026) que, se não ligar,
+  fica sem 404 e tudo bem. Não "consertar" isso com um script de Worker.

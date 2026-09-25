@@ -3,11 +3,22 @@
 // Tudo que é regra do jogo mora em `quiz.js`; aqui só se pinta, se anima e se
 // escuta clique.
 
-import {
-  criarPartida, perguntaAtual, responder, avancar, acabou, acertos, postoPara,
-} from './quiz.js';
-import { PERGUNTAS } from './dados/perguntas.js';
-import { PRANCHAS } from './dados/pranchas.js';
+// O quiz e as pranchas NÃO entram no caminho da abertura. Num celular fraco em
+// 4G, cada kilobyte baixado antes do primeiro desenho atrasa a capa, e a capa
+// não precisa de pergunta nenhuma. Eles chegam em segundo plano logo depois que
+// a capa aparece; se alguém tocar em "Começar" antes disso, espera um instante.
+let Q = null; // as funções de quiz.js
+let PRANCHAS = null;
+let carregando = null;
+
+function carregarQuiz() {
+  carregando ??= Promise.all([import('./quiz.js'), import('./dados/pranchas.js')])
+    .then(([quiz, dados]) => {
+      Q = quiz;
+      PRANCHAS = dados.PRANCHAS;
+    });
+  return carregando;
+}
 
 const $ = (selecao) => document.querySelector(selecao);
 const LETRAS = ['A', 'B', 'C', 'D', 'E', 'F'];
@@ -56,12 +67,27 @@ function mostrarTela(nome) {
 
 /* ── Capa: a fita do acervo ────────────────────────────────────── */
 
-// A fita do acervo tem 22 imagens. Se elas entrarem com `src` desde o começo,
-// a capa abre carregando mais de 1 MB — e `loading="lazy"` não resolve, porque
-// numa fita horizontal o navegador considera tudo "perto da tela". Então o
-// endereço fica guardado e só vira `src` quando a seção chega perto.
-function montarFita() {
+// A fita do acervo usa miniaturas de 240 px já recortadas e tingidas
+// (ferramentas/baixar-pranchas.py): as imagens grandes somavam quase 2 MB, e
+// tingir 60 imagens andando custava caro num celular fraco. Mesmo assim o
+// endereço só vira `src` quando a seção chega perto — `loading="lazy"` não
+// resolve numa fita horizontal, onde tudo conta como "perto da tela".
+function vigiarFita() {
   const fita = $('#galeria-fita');
+  if (!('IntersectionObserver' in window)) {
+    carregarQuiz().then(() => montarFita(fita));
+    return;
+  }
+  const observador = new IntersectionObserver((entradas) => {
+    if (entradas.some((e) => e.isIntersecting)) {
+      observador.disconnect();
+      carregarQuiz().then(() => montarFita(fita));
+    }
+  }, { rootMargin: '400px' });
+  observador.observe(fita);
+}
+
+function montarFita(fita) {
   const fotos = Object.entries(PRANCHAS).filter(([, p]) => p.tipo === 'foto');
   const trilho = document.createElement('div');
   trilho.className = 'galeria__trilho';
@@ -72,7 +98,9 @@ function montarFita() {
       const peca = document.createElement('div');
       peca.className = 'galeria__peca';
       const img = document.createElement('img');
-      img.dataset.src = `img/pranchas/${prancha.arquivo}`;
+      img.src = `/img/miniaturas/${prancha.arquivo}`;
+      img.width = 240;
+      img.height = 320;
       img.alt = volta === 0 ? prancha.nome : '';
       img.loading = 'lazy';
       img.decoding = 'async';
@@ -82,45 +110,37 @@ function montarFita() {
     }
   }
   fita.append(trilho);
-
-  const acender = () => {
-    for (const img of trilho.querySelectorAll('img[data-src]')) {
-      img.src = img.dataset.src;
-      delete img.dataset.src;
-    }
-  };
-
-  if (!('IntersectionObserver' in window)) {
-    acender();
-    return;
-  }
-  const observador = new IntersectionObserver((entradas) => {
-    if (entradas.some((e) => e.isIntersecting)) {
-      acender();
-      observador.disconnect();
-    }
-  }, { rootMargin: '300px' });
-  observador.observe(fita);
+  pausarForaDaTela(fita, trilho);
 }
 
-// Os números de capa saem dos dados, não da cabeça de quem escreveu o HTML:
-// acrescentar pergunta ou prancha atualiza a capa sozinho.
-function preencherNumeros() {
-  const pranchas = Object.keys(PRANCHAS).length;
-  $('.hero__pe').textContent = `${PERGUNTAS.length} perguntas · ${pranchas} pranchas`;
-  $('#conta-pranchas').textContent = String(pranchas);
+// Animação infinita que ninguém está vendo só gasta bateria e processador.
+// O selo gira e a fita desfila apenas enquanto estão na tela.
+function pausarForaDaTela(vigiado, animado = vigiado) {
+  if (!('IntersectionObserver' in window)) return;
+  new IntersectionObserver(([entrada]) => {
+    animado.classList.toggle('pausado', !entrada.isIntersecting);
+  }).observe(vigiado);
 }
 
 /* ── Partida ───────────────────────────────────────────────────── */
 
-function comecar() {
-  partida = criarPartida();
+async function comecar(botao) {
+  if (!Q) {
+    const rotulo = botao?.firstChild;
+    const original = rotulo?.textContent;
+    if (rotulo) rotulo.textContent = 'Carregando… ';
+    botao?.setAttribute('aria-busy', 'true');
+    await carregarQuiz();
+    if (rotulo) rotulo.textContent = original;
+    botao?.removeAttribute('aria-busy');
+  }
+  partida = Q.criarPartida();
   mostrarTela('quiz');
   pintarPergunta();
 }
 
 function pintarPergunta() {
-  const pergunta = perguntaAtual(partida);
+  const pergunta = Q.perguntaAtual(partida);
   if (!pergunta) return;
 
   const total = partida.perguntas.length;
@@ -133,6 +153,7 @@ function pintarPergunta() {
   $('#progresso-tinta').style.width = `${(partida.indice / total) * 100}%`;
 
   $('#pergunta').textContent = pergunta.pergunta;
+  adiantarPrancha(pergunta);
 
   const lista = $('#alternativas');
   lista.replaceChildren();
@@ -163,10 +184,20 @@ function pintarPergunta() {
   carta.classList.add('carta--vira');
 }
 
+// No 4G a prancha levava um tempo para aparecer depois da resposta. Agora ela
+// começa a baixar junto com a pergunta: quando a pessoa responde, já chegou.
+function adiantarPrancha(pergunta) {
+  const prancha = PRANCHAS[pergunta.prancha];
+  if (prancha?.tipo !== 'foto') return;
+  const img = new Image();
+  img.decoding = 'async';
+  img.src = `/img/pranchas/${prancha.arquivo}`;
+}
+
 function escolher(indice, botao, evento) {
-  const pergunta = perguntaAtual(partida);
+  const pergunta = Q.perguntaAtual(partida);
   if (!pergunta) return;
-  const resposta = responder(partida, indice);
+  const resposta = Q.responder(partida, indice);
   if (!resposta) return;
 
   // a mancha de tinta abre a partir do ponto exato do clique
@@ -208,7 +239,7 @@ function mostrarVeredito(pergunta, resposta) {
   if (prancha) {
     if (prancha.tipo === 'foto') {
       const img = document.createElement('img');
-      img.src = `img/pranchas/${prancha.arquivo}`;
+      img.src = `/img/pranchas/${prancha.arquivo}`;
       img.alt = prancha.nome;
       img.decoding = 'async';
       moldura.append(img);
@@ -233,9 +264,9 @@ function mostrarVeredito(pergunta, resposta) {
 }
 
 function proxima() {
-  if (avancar(partida)) {
+  if (Q.avancar(partida)) {
     pintarPergunta();
-  } else if (acabou(partida)) {
+  } else if (Q.acabou(partida)) {
     mostrarResultado();
   }
 }
@@ -243,9 +274,9 @@ function proxima() {
 /* ── Resultado ─────────────────────────────────────────────────── */
 
 function mostrarResultado() {
-  const certas = acertos(partida);
+  const certas = Q.acertos(partida);
   const total = partida.perguntas.length;
-  const posto = postoPara(certas, total);
+  const posto = Q.postoPara(certas, total);
 
   $('#placar-total').textContent = String(total);
   $('#posto-titulo').textContent = posto.titulo;
@@ -308,11 +339,11 @@ function animarPlacar(certas) {
 }
 
 async function copiarResultado() {
-  const certas = acertos(partida);
+  const certas = Q.acertos(partida);
   const total = partida.perguntas.length;
-  const posto = postoPara(certas, total);
+  const posto = Q.postoPara(certas, total);
   const texto =
-    `Sociedade Real — quiz sobre os cientistas da Inglaterra\n` +
+    `Espécime — um quiz de ciência\n` +
     `${certas}/${total} · ${posto.titulo}\n` +
     `${window.location.origin}${window.location.pathname}`;
 
@@ -351,7 +382,7 @@ document.addEventListener('click', (evento) => {
   if (!gatilho) return;
   switch (gatilho.dataset.acao) {
     case 'comecar':
-    case 'denovo': comecar(); break;
+    case 'denovo': comecar(gatilho); break;
     case 'proxima': proxima(); break;
     case 'desistir': mostrarTela('capa'); break;
     case 'copiar': copiarResultado(); break;
@@ -371,6 +402,13 @@ document.addEventListener('keydown', (evento) => {
   }
 });
 
-montarFita();
-preencherNumeros();
+vigiarFita();
 observarRevelacoes();
+
+// Com a capa já na tela, o quiz baixa em segundo plano, sem disputar banda
+// com o que a pessoa está vendo.
+window.addEventListener('load', () => {
+  const quandoLivre = window.requestIdleCallback ?? ((f) => setTimeout(f, 1200));
+  quandoLivre(() => carregarQuiz(), { timeout: 4000 });
+});
+pausarForaDaTela($('.hero__selo'), $('.hero__selo svg'));
