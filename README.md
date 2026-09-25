@@ -31,7 +31,7 @@ documentação) não sobe.
 3. Abrir a pasta `public/`, selecionar **tudo o que está dentro** (Ctrl+A) e
    arrastar. Não arrastar a pasta do projeto inteira: ela leva regras, testes,
    o histórico do git e o `wrangler.jsonc`, e o painel reclama que "parece um
-   projeto com arquivo de configuração do wrangler". O envio certo tem uns 85
+   projeto com arquivo de configuração do wrangler". O envio certo tem menos de 80
    arquivos, com o `index.html` na raiz.
 4. Depois que publicar, abrir o endereço e conferir.
 
