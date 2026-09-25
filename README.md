@@ -28,8 +28,11 @@ documentação) não sobe.
 1. *Workers & Pages* → *Create* → criar um **Worker** a partir de arquivos
    estáticos (a opção de enviar/arrastar arquivos).
 2. Nome do Worker: **`especime`**.
-3. Enviar o **conteúdo** da pasta `public/` — o `index.html` tem que ficar na
-   raiz do envio, não dentro de uma subpasta `public`.
+3. Abrir a pasta `public/`, selecionar **tudo o que está dentro** (Ctrl+A) e
+   arrastar. Não arrastar a pasta do projeto inteira: ela leva regras, testes,
+   o histórico do git e o `wrangler.jsonc`, e o painel reclama que "parece um
+   projeto com arquivo de configuração do wrangler". O envio certo tem uns 85
+   arquivos, com o `index.html` na raiz.
 4. Depois que publicar, abrir o endereço e conferir.
 
 **Sobre a página 404:** pela documentação da Cloudflare, o Worker só usa o
@@ -50,18 +53,20 @@ npx wrangler deploy
 Aqui a 404 funciona garantida. Para conferir sem publicar:
 `npx wrangler deploy --dry-run`.
 
-### Depois de publicar: o endereço
+### O endereço
 
-Quando o site estiver no ar, rode uma vez com o endereço dele:
+O site vai ficar em **<https://especime.felipe-sites0.workers.dev>** — e esse
+endereço já está escrito nas páginas (prévia com imagem no WhatsApp, `sitemap.xml`
+e `robots.txt`). Por isso o Worker **tem que se chamar `especime`**: com outro
+nome, o endereço muda e a prévia do link aponta para o lugar errado.
+
+Se um dia o endereço mudar (outro nome, domínio próprio), rode
 
 ```powershell
-python ferramentas\gerar-paginas.py --endereco https://especime.SEU-SUBDOMINIO.workers.dev
+python ferramentas\gerar-paginas.py --endereco https://o-endereco-novo
 ```
 
-e publique a `public/` de novo. Isso liga a **prévia com imagem** quando alguém
-compartilha o link no WhatsApp ou no Instagram, e cria o `sitemap.xml` para o
-Google. Sem esse passo o site funciona igual — só o link compartilhado sai sem
-a figura.
+e publique a `public/` de novo.
 
 ---
 

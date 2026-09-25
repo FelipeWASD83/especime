@@ -12,8 +12,8 @@ contradito aqui.
 
 Quiz de ciência feito para leigo, **público**, num Worker da Cloudflare. Nasceu
 como "Sociedade Real", sobre cientistas da Inglaterra; **em 25/09/2026 ele
-escolheu o nome "Espécime"** (a pasta continua `quiz-cientistas-ingleses`, só
-por não valer o custo de renomear). O nome antigo não pode reaparecer em lugar
+escolheu o nome "Espécime"** (a pasta, que se chamava
+`quiz-cientistas-ingleses`, virou `especime` no mesmo dia). O nome antigo não pode reaparecer em lugar
 nenhum do site, e um teste cobra isso.
 
 **O tema central é biologia**, e isso é decisão dele, de 22/09/2026: "o tema

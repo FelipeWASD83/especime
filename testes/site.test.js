@@ -58,8 +58,10 @@ test('nenhuma página busca nada em outro servidor', () => {
   for (const caminho of arquivos(PUBLICO)) {
     if (!/\.(html|css|js)$/.test(caminho)) continue;
     const texto = readFileSync(caminho, 'utf-8');
+    // <link rel="canonical"> só declara o endereço oficial do site: não baixa nada
+    const semCanonico = texto.replace(/<link rel="canonical"[^>]*>/g, '');
     const externos = [
-      ...texto.matchAll(/<(?:script|link|img)[^>]+(?:src|href)="(https?:\/\/[^"]+)"/g),
+      ...semCanonico.matchAll(/<(?:script|link|img)[^>]+(?:src|href)="(https?:\/\/[^"]+)"/g),
       ...texto.matchAll(/url\(['"]?(https?:\/\/[^'")]+)/g),
     ].map((m) => m[1]);
     assert.deepEqual(externos, [], `${relative(PUBLICO, caminho)} carrega de fora: ${externos.join(', ')}`);
