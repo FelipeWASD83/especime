@@ -910,6 +910,338 @@ export const PERGUNTAS = [
     prancha: 'newton',
   },
 
+  // ——— Mais perguntas (banco ampliado em 25/09/2026, para várias pessoas
+  // jogarem ao mesmo tempo sem cair sempre nas mesmas 12) ———
+  {
+    id: 'darwin-beagle-idade',
+    area: 'bio',
+    nivel: 'facil',
+    pergunta: 'Quantos anos Darwin tinha quando embarcou no HMS Beagle?',
+    alternativas: ['22 anos', '35 anos', '18 anos', '40 anos'],
+    correta: 0,
+    explicacao:
+      'Ele nasceu em fevereiro de 1809 e embarcou em dezembro de 1831, com 22 anos — mais jovem do que a maioria imagina para uma viagem que mudaria a biologia.',
+    prancha: 'beagle',
+  },
+  {
+    id: 'anning-plesiossauro',
+    area: 'bio',
+    nivel: 'media',
+    pergunta: 'Além do ictiossauro, que outro réptil marinho gigante Mary Anning foi a primeira a desenterrar completo, em 1823?',
+    alternativas: ['O plesiossauro', 'O pterossauro', 'O tricerátops', 'O tiranossauro'],
+    correta: 0,
+    explicacao:
+      'O pescoço era tão comprido e esquisito que o próprio Georges Cuvier, o maior anatomista da época, primeiro achou que fosse uma farsa — pediu mais desenhos e só então aceitou que o bicho era real.',
+    prancha: 'anning',
+  },
+  {
+    id: 'harvey-experimento',
+    area: 'bio',
+    nivel: 'dificil',
+    pergunta: 'William Harvey provou a circulação do sangue amarrando o quê no braço de um paciente vivo?',
+    alternativas: [
+      'Um torniquete, para ver o sangue se acumular só de um lado',
+      'Um estetoscópio, para ouvir o coração',
+      'Uma sanguessuga, para tirar sangue ruim',
+      'Um termômetro, para medir a febre',
+    ],
+    correta: 0,
+    explicacao:
+      'Apertando o braço, ele mostrou que o sangue incha do lado do coração nas veias, sempre na mesma direção — prova de que corre em circuito fechado, com válvulas de mão única.',
+    prancha: 'harvey',
+  },
+  {
+    id: 'jenner-variolizacao',
+    area: 'bio',
+    nivel: 'dificil',
+    pergunta: 'Antes da vacina de Jenner, já existia um método mais arriscado para se proteger da varíola. Qual?',
+    alternativas: [
+      'Inocular material tirado direto de um doente de varíola humana',
+      'Isolamento em quarentena por um ano inteiro',
+      'Beber água de nascente todos os dias',
+      'Sangria semanal preventiva',
+    ],
+    correta: 0,
+    explicacao:
+      'Chamava-se variolização, praticada há séculos na Ásia e trazida para a Inglaterra em 1721. Funcionava, mas também matava gente — a sacada de Jenner foi trocar o material perigoso pela varíola bovina, bem mais branda.',
+    prancha: 'jenner',
+  },
+  {
+    id: 'goodall-leakey',
+    area: 'bio',
+    nivel: 'media',
+    pergunta: 'Quem enviou Jane Goodall à Tanzânia para estudar chimpanzés, mesmo ela não tendo diploma universitário na época?',
+    alternativas: [
+      'O paleoantropólogo Louis Leakey',
+      'Charles Darwin',
+      'O governo britânico',
+      'A universidade de Cambridge, sozinha',
+    ],
+    correta: 0,
+    explicacao:
+      'Leakey achava que quem não tinha formação acadêmica prévia observava os bichos com menos preconceito. Apostou nela sem experiência nenhuma — e a aposta rendeu uma das pesquisas mais longas da história da ciência.',
+    prancha: 'chimpanze',
+  },
+  {
+    id: 'fleming-fungo',
+    area: 'bio',
+    nivel: 'media',
+    pergunta: 'De que gênero de fungo saiu o mofo que virou penicilina, na placa esquecida de Fleming?',
+    alternativas: ['Penicillium', 'Levedura de pão', 'Cogumelo-de-paris', 'Trufa'],
+    correta: 0,
+    explicacao:
+      'O nome do remédio vem direto do fungo: Penicillium notatum. Fleming batizou a substância que ele soltava de "penicilina" ainda em 1928, mas levou mais de dez anos até virar remédio de verdade.',
+    prancha: 'penicilina',
+  },
+  {
+    id: 'sistema-imune-anticorpos',
+    area: 'bio',
+    nivel: 'facil',
+    pergunta: 'O que os anticorpos fazem no corpo?',
+    alternativas: [
+      'Reconhecem e se prendem a invasores específicos, como vírus e bactérias',
+      'Fabricam glóbulos vermelhos novos',
+      'Regulam a temperatura do corpo',
+      'Digerem alimentos no estômago',
+    ],
+    correta: 0,
+    explicacao:
+      'Cada anticorpo tem um formato que encaixa só num alvo, como chave em fechadura. O corpo guarda "memória" desse encaixe depois de uma infecção — é por isso que vacina funciona.',
+    prancha: 'jenner',
+  },
+  {
+    id: 'dna-bases',
+    area: 'bio',
+    nivel: 'facil',
+    pergunta: 'Quantas "letras" químicas diferentes (bases) formam o código do DNA?',
+    alternativas: ['Quatro', 'Duas', 'Vinte', 'Cem'],
+    correta: 0,
+    explicacao:
+      'A, T, C e G. É um alfabeto minúsculo, mas a ordem delas ao longo dos cromossomos é o que diferencia uma bactéria de uma baleia.',
+    prancha: 'foto51',
+  },
+  {
+    id: 'mitocondria',
+    area: 'bio',
+    nivel: 'media',
+    pergunta: 'Qual estrutura da célula é conhecida como a "usina de energia" por fabricar ATP?',
+    alternativas: ['A mitocôndria', 'O núcleo', 'O ribossomo', 'A membrana'],
+    correta: 0,
+    explicacao:
+      'A célula que Hooke batizou em 1665 sem saber o que tinha lá dentro esconde compartimentos como esse, especializados em transformar comida e oxigênio em energia utilizável.',
+    prancha: 'micrographia',
+  },
+  {
+    id: 'fungo-decompositor',
+    area: 'bio',
+    nivel: 'media',
+    pergunta: 'Que papel fungos e bactérias decompositores têm num ecossistema?',
+    alternativas: [
+      'Quebram matéria morta e devolvem nutrientes ao solo',
+      'Produzem oxigênio como as plantas',
+      'Convertem luz solar em açúcar',
+      'Fixam nitrogênio do ar direto no sangue dos animais',
+    ],
+    correta: 0,
+    explicacao:
+      'Sem decompositor, folha caída e bicho morto nunca virariam terra de novo — o ciclo dos nutrientes trava. É um trabalho tão essencial quanto o da planta que fotossintetiza.',
+    prancha: 'drosera',
+  },
+  {
+    id: 'digestao-enzimas',
+    area: 'bio',
+    nivel: 'facil',
+    pergunta: 'O que uma enzima digestiva faz com o alimento?',
+    alternativas: [
+      'Quebra moléculas grandes em pedaços menores, mais fáceis de absorver',
+      'Cola pedaços de comida para virar energia',
+      'Produz calor para cozinhar o alimento por dentro',
+      'Fabrica vitaminas do nada',
+    ],
+    correta: 0,
+    explicacao:
+      'Amido vira açúcar, proteína vira aminoácido — cada enzima corta um tipo de molécula, como uma tesoura especializada. Sem esse corte, o intestino não conseguiria absorver nada.',
+    prancha: 'coracao',
+  },
+  {
+    id: 'sangue-tipos',
+    area: 'bio',
+    nivel: 'facil',
+    pergunta: 'Quantos tipos sanguíneos principais existem no sistema ABO?',
+    alternativas: ['Quatro: A, B, AB e O', 'Dois: positivo e negativo', 'Oito', 'Três: alto, médio e baixo'],
+    correta: 0,
+    explicacao:
+      'A descoberta é do início do século XX. Antes dela, transfusão de sangue era loteria: ninguém sabia por que algumas davam certo e outras matavam o paciente na hora.',
+    prancha: 'coracao',
+  },
+  {
+    id: 'adaptacao-camuflagem',
+    area: 'bio',
+    nivel: 'facil',
+    pergunta: 'Por que muitos animais desenvolvem cores parecidas com o ambiente ao redor?',
+    alternativas: [
+      'Porque os que se escondem melhor sobrevivem e deixam mais filhos',
+      'Porque escolhem a cor que preferem',
+      'Porque a cor muda sozinha com a idade, sempre',
+      'Porque comem plantas da mesma cor',
+    ],
+    correta: 0,
+    explicacao:
+      'Ninguém "decide" a própria camuflagem — é seleção natural pura: quem nasce com a cor errada vira almoço antes de se reproduzir, e a cor certa vai se acumulando geração após geração.',
+    prancha: 'tentilhoes',
+  },
+  {
+    id: 'extincao-em-massa',
+    area: 'bio',
+    nivel: 'media',
+    pergunta: 'O que provavelmente causou a extinção dos dinossauros não-aviários, há 66 milhões de anos?',
+    alternativas: [
+      'O impacto de um grande asteroide',
+      'Uma pandemia global',
+      'O aquecimento do Sol',
+      'Uma guerra entre espécies',
+    ],
+    correta: 0,
+    explicacao:
+      'A cratera do impacto, em Chicxulub, no México, tem mais de 150 km de diâmetro. Richard Owen, que batizou a palavra "dinossauro", nunca soube como a história deles acabava.',
+    prancha: 'owen',
+  },
+  {
+    id: 'davy-gas-hilariante',
+    area: 'quimica',
+    nivel: 'facil',
+    pergunta: 'Humphry Davy ficou conhecido por descrever os efeitos de qual gás, cheirado em festas de sociedade da época?',
+    alternativas: ['Óxido nitroso ("gás hilariante")', 'Gás carbônico', 'Hidrogênio', 'Cloro'],
+    correta: 0,
+    explicacao:
+      'Davy testou o gás em si mesmo e em amigos, incluindo poetas, e escreveu sobre a euforia que ele causava. Só décadas depois alguém pensou em usá-lo para anestesia de verdade.',
+    prancha: 'davy',
+  },
+  {
+    id: 'priestley-soda',
+    area: 'quimica',
+    nivel: 'facil',
+    pergunta: 'Além do oxigênio, o que mais Joseph Priestley é creditado por inventar, hoje presente em qualquer refrigerante?',
+    alternativas: ['A água com gás (carbonatada)', 'O açúcar refinado', 'O vidro temperado', 'A garrafa de vidro'],
+    correta: 0,
+    explicacao:
+      'Ele descobriu como infundir água com gás carbônico em 1767, pendurada sobre a cuba de uma cervejaria. Hoje ele é lembrado como uma espécie de padrinho da indústria de refrigerante.',
+    prancha: 'priestley',
+  },
+  {
+    id: 'dalton-clima',
+    area: 'quimica',
+    nivel: 'media',
+    pergunta: 'Além da teoria atômica, o que John Dalton fez todos os dias, por 57 anos seguidos, quase sem faltar?',
+    alternativas: [
+      'Anotou a temperatura e o tempo, num diário meteorológico',
+      'Pesou a própria comida',
+      'Mediu a própria altura',
+      'Contou o número de passos que dava',
+    ],
+    correta: 0,
+    explicacao:
+      'Começou em 1787, aos 21 anos, e não parou mais: mais de 200 mil anotações ao todo. A última entrada é de poucas horas antes de morrer, em 1844.',
+    prancha: 'dalton',
+  },
+  {
+    id: 'hodgkin-insulina',
+    area: 'quimica',
+    nivel: 'dificil',
+    pergunta: 'Além de penicilina e vitamina B12, que outra molécula importante para diabéticos Dorothy Hodgkin decifrou, num projeto de 35 anos?',
+    alternativas: ['A insulina', 'A hemoglobina', 'O colesterol', 'A adrenalina'],
+    correta: 0,
+    explicacao:
+      'A estrutura da insulina só saiu em 1969, depois de décadas de raios X e cristais teimosos. Foi a molécula mais complicada que ela já tinha enfrentado.',
+    prancha: 'hodgkin',
+  },
+  {
+    id: 'reacao-quimica',
+    area: 'quimica',
+    nivel: 'media',
+    pergunta: 'O que caracteriza uma reação química, diferente de uma simples mistura?',
+    alternativas: [
+      'Os átomos se rearranjam e formam substâncias novas, com propriedades diferentes',
+      'As substâncias só trocam de cor, sem mudar por dentro',
+      'A temperatura sempre sobe',
+      'Nada muda de verdade, só o cheiro',
+    ],
+    correta: 0,
+    explicacao:
+      'Ferro que enferruja, madeira que queima, massa de pão que cresce — em todos os casos os átomos originais se recombinam em substâncias diferentes das que existiam antes.',
+    prancha: 'carbono',
+  },
+  {
+    id: 'estados-materia',
+    area: 'fisica',
+    nivel: 'facil',
+    pergunta: 'Quais são os três estados físicos mais comuns da matéria no dia a dia?',
+    alternativas: ['Sólido, líquido e gasoso', 'Quente, morno e frio', 'Ácido, neutro e básico', 'Leve, médio e pesado'],
+    correta: 0,
+    explicacao:
+      'A água mostra os três sem sair da cozinha: gelo (sólido), água da torneira (líquido) e vapor da panela (gasoso) — a mesma molécula, só com as partículas mais ou menos livres para se mexer.',
+    prancha: 'agua',
+  },
+  {
+    id: 'faraday-gaiola',
+    area: 'fisica',
+    nivel: 'media',
+    pergunta: 'O que a "gaiola de Faraday" faz?',
+    alternativas: [
+      'Bloqueia campos elétricos externos, protegendo o que está dentro',
+      'Gera eletricidade sozinha, sem bateria',
+      'Aumenta o campo magnético de um ímã',
+      'Serve para guardar gás hidrogênio',
+    ],
+    correta: 0,
+    explicacao:
+      'Uma malha ou casca metálica fechada distribui a carga por fora e cancela o campo elétrico por dentro. É o mesmo princípio que protege quem está num carro atingido por um raio.',
+    prancha: 'faraday',
+  },
+  {
+    id: 'hooke-lei-elastica',
+    area: 'fisica',
+    nivel: 'media',
+    pergunta: 'O que a lei de Hooke descreve, sobre uma mola esticada?',
+    alternativas: [
+      'Que a força para esticar a mola é proporcional a quanto ela estica',
+      'Que toda mola quebra depois de dez usos',
+      'Que molas de metal não obedecem a nenhuma regra fixa',
+      'Que a mola esquenta ao ser esticada, sempre',
+    ],
+    correta: 0,
+    explicacao:
+      'O mesmo Hooke que batizou a "célula" também descreveu essa regra, em 1660 — a base de qualquer balança de mola e de boa parte da engenharia de estruturas até hoje.',
+    prancha: 'micrographia',
+  },
+  {
+    id: 'hawking-als',
+    area: 'fisica',
+    nivel: 'media',
+    pergunta: 'Que doença neurológica progressiva Hawking teve a partir dos 21 anos, e que o levou a se comunicar por um sintetizador de voz?',
+    alternativas: ['ELA (esclerose lateral amiotrófica)', 'Parkinson', 'Esclerose múltipla', 'Distrofia muscular'],
+    correta: 0,
+    explicacao:
+      'Os médicos deram a ele poucos anos de vida quando descobriram, em 1963. Ele viveu mais 55 anos, boa parte deles produzindo a física que o tornaria famoso.',
+    prancha: 'buraco-negro',
+  },
+  {
+    id: 'newton-telescopio',
+    area: 'fisica',
+    nivel: 'media',
+    pergunta: 'Newton construiu um tipo de telescópio que resolvia um problema dos telescópios de lente da época. Qual foi?',
+    alternativas: [
+      'O telescópio refletor, com espelho no lugar de lente',
+      'O periscópio',
+      'O microscópio composto',
+      'O telescópio de raios X',
+    ],
+    correta: 0,
+    explicacao:
+      'Lentes espalham as cores da luz nas bordas da imagem (a mesma coisa que ele tinha acabado de estudar com o prisma). Um espelho não tem esse problema — e o telescópio refletor de 1668 ainda é o modelo mais usado em observatórios grandes.',
+    prancha: 'newton',
+  },
+
 ];
 
 // Quantas perguntas de cada nível entram numa partida.
