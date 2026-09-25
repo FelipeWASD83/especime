@@ -35,13 +35,9 @@ documentação) não sobe.
    arquivos, com o `index.html` na raiz.
 4. Depois que publicar, abrir o endereço e conferir.
 
-**Sobre a página 404:** pela documentação da Cloudflare, o Worker só usa o
-`404.html` quando a opção `not_found_handling = "404-page"` está ligada. Pelo
-comando (abaixo) ela liga sozinha, porque está no `wrangler.jsonc`. Pelo painel,
-não há garantia: para conferir, abra um endereço que não existe, como
-`/qualquer-coisa`. Se aparecer a página "Não catalogado", está funcionando; se
-aparecer um erro seco do navegador, o painel não aplicou — o resto do site não
-muda nada com isso.
+**A página 404 funciona pelo painel.** Conferido em 25/09/2026, com o site no
+ar: `/qualquer-coisa` devolve a página "Não catalogado" com o código 404 certo,
+e os cabeçalhos de segurança do `_headers` também foram aplicados.
 
 ### Pelo comando
 
@@ -69,6 +65,27 @@ python ferramentas\gerar-paginas.py --endereco https://o-endereco-novo
 e publique a `public/` de novo.
 
 ---
+
+## Folha para imprimir
+
+Em `impressao/` fica a folha A4 de divulgação, com o QR code e o endereço:
+
+- `especime-qrcode-a4.pdf` — **use este para imprimir**: é A4 exato e vetorial;
+- `especime-qrcode-a4.png` — a mesma folha em imagem, 2480 × 3508 px (300 DPI).
+
+O fundo é branco puro. O QR foi lido de volta por um leitor de verdade — na
+folha original, numa foto pequena e borrada e numa impressão fraca, em que o
+preto sai cinza — e nos três casos abriu o endereço certo. Ele tem correção de
+erro de 25%, então aguenta papel dobrado ou um pouco sujo.
+
+Para refazer (se o endereço mudar, por exemplo), com o servidor da 4318 no ar:
+
+```powershell
+python -m pip install --user segno
+python ferramentas\gerar-qrcode.py
+```
+
+Os dois arquivos são substituídos no mesmo lugar.
 
 ## Ver no PC
 
@@ -185,6 +202,8 @@ public/                  o site inteiro — é isto que sobe para a Cloudflare
 ferramentas/
   baixar-pranchas.py     baixa imagens do Wikimedia e faz as miniaturas
   gerar-paginas.py       páginas legais, 404, rodapé, números da capa, endereço
+  gerar-qrcode.py        a folha A4 com o QR code
+impressao/               a folha A4 pronta, em PDF e PNG (não vai para o site)
 testes/                  node --test
 wrangler.jsonc           a configuração do Worker (usada pelo comando)
 CREDITOS.md              registro das imagens (gerado, não editar à mão)

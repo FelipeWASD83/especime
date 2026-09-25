@@ -238,7 +238,16 @@ avisos de segurança por causa da CSP — não é defeito do site.
 - **Portas 4318 (estático) e 8789 (`wrangler dev`)**, registradas no
   `PORTAS.md` e no `launch.json` da raiz.
 - **Deploy é decisão do Felipe, e ele publica pelo painel da Cloudflare**, como
-  Worker chamado `especime`, enviando o conteúdo de `public/`. Pelo painel o
-  `wrangler.jsonc` não é lido, então a página 404 depende de o painel ligar o
-  `not_found_handling` sozinho — ele decidiu (25/09/2026) que, se não ligar,
-  fica sem 404 e tudo bem. Não "consertar" isso com um script de Worker.
+  Worker chamado `especime`, enviando o **conteúdo** de `public/` — nunca a
+  pasta do projeto (da primeira vez ele arrastou a pasta inteira, 304 arquivos
+  com `.git` e regras, e o painel reclamou do `wrangler.jsonc`). Pelo painel o
+  `wrangler.jsonc` não é lido, mas a 404 funcionou mesmo assim: conferido no ar
+  em 25/09/2026, junto com os cabeçalhos do `_headers`.
+- **O endereço público é `https://especime.felipe-sites0.workers.dev`**, e está
+  escrito nas páginas (`ferramentas/site.json`). Se o nome do Worker mudar, o
+  endereço muda: rodar `gerar-paginas.py --endereco` e `gerar-qrcode.py`.
+- **`impressao/`** guarda a folha A4 de divulgação com o QR (PDF e PNG),
+  refeita por `ferramentas/gerar-qrcode.py` no mesmo lugar. Fundo branco puro,
+  QR preto puro, correção de erro Q — é impresso e escaneado de longe; não
+  trocar o preto do QR pela tinta do site nem tirar a margem branca dele. A
+  folha não vai para o site.
