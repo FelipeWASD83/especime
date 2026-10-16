@@ -223,3 +223,9 @@ CREDITOS.md              registro das imagens (gerado, não editar à mão)
 - **Nada de efeito caro:** sem desfoque por cima da página, sem modo de mistura
   em área grande, animação parada quando está fora da tela, e a prancha chega
   sem desfoque animado no celular.
+
+## Licença
+
+Código sob a licença MIT (arquivo `LICENSE`).
+
+As imagens e as fontes têm licença própria: ver `CREDITOS.md` e a página de créditos do site.
